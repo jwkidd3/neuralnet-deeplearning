@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Content 3: Shallow Neural Networks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css">
+    <style>
+        .reveal {
+            font-family: "Source Sans Pro", Helvetica, sans-serif;
+            font-size: 32px;
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            text-transform: none;
+            line-height: 1.2;
+        }
+        
+        .reveal h1 {
+            font-size: 2.2em;
+            margin-bottom: 0.5em;
+        }
+        
+        .reveal h2 {
+            font-size: 1.8em;
+            margin-bottom: 0.4em;
+        }
+        
+        .reveal h3 {
+            font-size: 1.4em;
+            margin-bottom: 0.3em;
+        }
+        
+        .reveal .slides section {
+            text-align: left;
+            padding: 0 2em;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        .reveal .title-slide {
+            text-align: center;
+            justify-content: center;
+        }
+        
+        .main-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2em;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin: 1em;
+        }
+        
+        .session-header {
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 1em 2em;
+            border-left: 8px solid #3498db;
+            margin: 0.5em 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        .lab-callout {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5em;
+            border-radius: 15px;
+            margin: 1em 0;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 5px 25px rgba(102,126,234,0.4); }
+            100% { box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border: 2px solid #3498db;
+            padding: 1.5em;
+            border-radius: 10px;
+            margin: 1em 0;
+        }
+        
+        .key-point {
+            background: #e8f5e8;
+            border-left: 5px solid #27ae60;
+            padding: 1em 1.5em;
+            margin: 1em 0;
+            font-weight: bold;
+        }
+        
+        .warning-box {
+            background: #fdf2e9;
+            border-left: 5px solid #e67e22;
+            padding: 1em 1.5em;
+            margin: 1em 0;
+        }
+        
+        .two-column {
+            display: flex;
+            gap: 2em;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        .reveal ul, .reveal ol {
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        
+        .reveal li {
+            margin: 0.3em 0;
+        }
+        
+        .reveal pre {
+            font-size: 0.7em;
+            margin: 1em 0;
+        }
+        
+        .reveal code {
+            background: #f8f9fa;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            color: #e74c3c;
+        }
+        
+        .architecture-diagram {
+            text-align: center;
+            margin: 1em 0;
+        }
+        
+        .layer-box {
+            display: inline-block;
+            padding: 1em;
+            margin: 0.5em;
+            background: #3498db;
+            color: white;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #2c3e50;
+            margin: 0 0.5em;
+        }
+        
+        .formula-box {
+            background: #f0f8ff;
+            border: 2px dashed #3498db;
+            padding: 1.5em;
+            text-align: center;
+            margin: 1em 0;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            color: #856404;
+            font-weight: bold;
+        }
+        
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 0.5em 1em;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+        
+        .reveal .slides {
+            zoom: 0.85;
+        }
+        
+        @media (max-width: 768px) {
+            .reveal .slides {
+                zoom: 0.7;
+            }
+        }
+        
+        .reveal .slides section[data-background-color] {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section class="title-slide" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <div class="main-title">
+                    <h1>Content 3: Shallow Neural Networks</h1>
+                    <h3>Building Your First Complete Neural Network</h3>
+                    <p style="margin-top: 2em; font-size: 0.8em;">
+                        From Architecture Design to Real-World Applications
+                    </p>
+                </div>
+            </section>
+
+            <!-- Session Overview -->
+            <section>
+                <div class="session-header">
+                    Session Overview: What We'll Learn Today
+                </div>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🎯 Learning Objectives</h3>
+                        <ul>
+                            <li>Design neural network architectures</li>
+                            <li>Implement forward propagation</li>
+                            <li>Master backward propagation</li>
+                            <li>Build multi-class classifiers</li>
+                            <li>Apply optimization techniques</li>
+                            <li>Create complete applications</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>📚 Session Structure</h3>
+                        <ul>
+                            <li><strong>6 Hands-on Labs</strong></li>
+                            <li><strong>Progressive Complexity</strong></li>
+                            <li><strong>Real-world Applications</strong></li>
+                            <li><strong>Complete Implementation</strong></li>
+                            <li><strong>Professional Techniques</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="key-point">
+                    By the end of today, you'll build a complete neural network system from scratch!
+                </div>
+            </section>
+
+            <!-- What Are Shallow Networks -->
+            <section>
+                <div class="session-header">
+                    Understanding Shallow Neural Networks
+                </div>
+                <div class="concept-box">
+                    <h3>What Makes a Network "Shallow"?</h3>
+                    <p><strong>Shallow Networks</strong> = Networks with 1-3 hidden layers</p>
+                </div>
+                
+                <div class="architecture-diagram">
+                    <div class="layer-box">Input<br/>Layer</div>
+                    <span class="arrow">→</span>
+                    <div class="layer-box">Hidden<br/>Layer 1</div>
+                    <span class="arrow">→</span>
+                    <div class="layer-box">Hidden<br/>Layer 2</div>
+                    <span class="arrow">→</span>
+                    <div class="layer-box">Output<br/>Layer</div>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>✅ Perfect For:</h3>
+                        <ul>
+                            <li>Learning fundamentals</li>
+                            <li>Simple classification tasks</li>
+                            <li>Understanding concepts</li>
+                            <li>Quick prototyping</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>🎯 Real-World Uses:</h3>
+                        <ul>
+                            <li>Medical diagnosis</li>
+                            <li>Financial predictions</li>
+                            <li>Quality control</li>
+                            <li>Customer classification</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab 1 Introduction -->
+            <section data-background-color="#2c3e50">
+                <div class="lab-callout">
+                    🧠 LAB 3.1: Network Architecture Design
+                    <br><br>
+                    <span style="font-size: 0.8em;">Duration: 45 minutes</span>
+                    <br>
+                    <span style="font-size: 0.7em;">Design and visualize neural network architectures</span>
+                </div>
+            </section>
+
+            <!-- Network Architecture Fundamentals -->
+            <section>
+                <div class="session-header">
+                    Network Architecture: The Blueprint
+                </div>
+                <div class="concept-box">
+                    <h3>Think of Architecture Like Building a House</h3>
+                    <p>Just like a house needs a blueprint, neural networks need an architecture plan!</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🏗️ Key Decisions:</h3>
+                        <ul>
+                            <li><strong>How many layers?</strong></li>
+                            <li><strong>How many neurons per layer?</strong></li>
+                            <li><strong>What activation functions?</strong></li>
+                            <li><strong>How do layers connect?</strong></li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>📏 Design Principles:</h3>
+                        <ul>
+                            <li>Start simple, then grow</li>
+                            <li>Match complexity to problem</li>
+                            <li>Consider computational cost</li>
+                            <li>Plan for debugging</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    Good architecture = 50% of your success!
+                </div>
+            </section>
+
+            <!-- Architecture Components -->
+            <section>
+                <div class="session-header">
+                    Architecture Components: The Building Blocks
+                </div>
+                
+                <div class="concept-box">
+                    <h3>1. Input Layer</h3>
+                    <ul>
+                        <li>Size = number of features in your data</li>
+                        <li>No activation function needed</li>
+                        <li>Just passes data forward</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>2. Hidden Layers</h3>
+                    <ul>
+                        <li>Do the actual "learning" and processing</li>
+                        <li>Use activation functions (usually ReLU)</li>
+                        <li>Size depends on problem complexity</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>3. Output Layer</h3>
+                    <ul>
+                        <li>Size = number of classes (classification) or 1 (regression)</li>
+                        <li>Uses specific activation: Sigmoid, Softmax, or Linear</li>
+                        <li>Produces final predictions</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Choosing Layer Sizes -->
+            <section>
+                <div class="session-header">
+                    How to Choose Layer Sizes (Simple Rules)
+                </div>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <div class="concept-box">
+                            <h3>📏 Hidden Layer Size</h3>
+                            <p><strong>Rule of Thumb:</strong></p>
+                            <div class="formula-box">
+                                Hidden Size = <br/>
+                                (Input Size + Output Size) × 2/3
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="concept-box">
+                            <h3>🎯 Practical Guidelines</h3>
+                            <ul>
+                                <li><strong>Start small</strong> (8-16 neurons)</li>
+                                <li><strong>Double if needed</strong></li>
+                                <li><strong>More data = bigger networks</strong></li>
+                                <li><strong>Complex problems = more layers</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    💡 In Lab 3.1, you'll practice these design decisions with real examples!
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Common Mistake:</strong> Making networks too big too fast. Start simple!
+                </div>
+            </section>
+
+            <!-- Forward Propagation Introduction -->
+            <section>
+                <div class="session-header">
+                    Forward Propagation: How Data Flows Through
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Think of Forward Propagation Like an Assembly Line</h3>
+                    <p>Data enters at one end and gets transformed at each station (layer)</p>
+                </div>
+
+                <div class="architecture-diagram">
+                    <div style="background: #e74c3c;" class="layer-box">Raw<br/>Data</div>
+                    <span class="arrow">→</span>
+                    <div style="background: #f39c12;" class="layer-box">Process<br/>Layer 1</div>
+                    <span class="arrow">→</span>
+                    <div style="background: #27ae60;" class="layer-box">Process<br/>Layer 2</div>
+                    <span class="arrow">→</span>
+                    <div style="background: #8e44ad;" class="layer-box">Final<br/>Answer</div>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🔄 At Each Layer:</h3>
+                        <ol>
+                            <li>Multiply by weights</li>
+                            <li>Add bias values</li>
+                            <li>Apply activation function</li>
+                            <li>Pass result to next layer</li>
+                        </ol>
+                    </div>
+                    <div class="column">
+                        <h3>🎯 Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Weights:</strong> How important each connection is</li>
+                            <li><strong>Bias:</strong> Adjusts the "trigger point"</li>
+                            <li><strong>Activation:</strong> Decides if neuron "fires"</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab 2 Introduction -->
+            <section data-background-color="#2c3e50">
+                <div class="lab-callout">
+                    ⚡ LAB 3.2: Forward Propagation Vectorization
+                    <br><br>
+                    <span style="font-size: 0.8em;">Duration: 45 minutes</span>
+                    <br>
+                    <span style="font-size: 0.7em;">Implement efficient forward propagation with vectorization</span>
+                </div>
+            </section>
+
+            <!-- Vectorization Concept -->
+            <section>
+                <div class="session-header">
+                    Vectorization: Making It Fast and Efficient
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Why Vectorization Matters</h3>
+                    <p>Instead of processing one example at a time, process ALL examples together!</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>❌ Slow Way (Loops)</h3>
+                        <pre><code>
+for each training example:
+    for each layer:
+        for each neuron:
+            calculate output
+                        </code></pre>
+                        <p style="color: #e74c3c;">⏱️ Very slow for large datasets</p>
+                    </div>
+                    <div class="column">
+                        <h3>✅ Fast Way (Vectorized)</h3>
+                        <pre><code>
+# Process ALL examples at once
+Z = W @ X + b  # Matrix multiplication
+A = activation(Z)
+                        </code></pre>
+                        <p style="color: #27ae60;">⚡ 100x faster or more!</p>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    🚀 In Lab 3.2, you'll see vectorization speed up your code by 100x!
+                </div>
+            </section>
+
+            <!-- Activation Functions -->
+            <section>
+                <div class="session-header">
+                    Activation Functions: The "Decision Makers"
+                </div>
+                
+                <div class="concept-box">
+                    <h3>What Do Activation Functions Do?</h3>
+                    <p>They decide whether a neuron should "fire" (be active) or not</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
+                    <div class="concept-box">
+                        <h3>🔥 ReLU (Most Popular)</h3>
+                        <p><strong>Rule:</strong> If input > 0, keep it. Otherwise, make it 0</p>
+                        <p><strong>Use:</strong> Hidden layers</p>
+                        <p style="color: #27ae60;">✅ Fast and works well</p>
+                    </div>
+                    
+                    <div class="concept-box">
+                        <h3>📊 Sigmoid</h3>
+                        <p><strong>Rule:</strong> Squashes input between 0 and 1</p>
+                        <p><strong>Use:</strong> Binary classification output</p>
+                        <p style="color: #f39c12;">⚠️ Can be slow to train</p>
+                    </div>
+                    
+                    <div class="concept-box">
+                        <h3>🎯 Softmax</h3>
+                        <p><strong>Rule:</strong> Makes outputs sum to 1 (probabilities)</p>
+                        <p><strong>Use:</strong> Multi-class classification output</p>
+                        <p style="color: #3498db;">💡 Perfect for "pick one" problems</p>
+                    </div>
+                    
+                    <div class="concept-box">
+                        <h3>📈 Linear</h3>
+                        <p><strong>Rule:</strong> No change to input</p>
+                        <p><strong>Use:</strong> Regression problems</p>
+                        <p style="color: #9b59b6;">🔢 When you need any number</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Backward Propagation Introduction -->
+            <section>
+                <div class="session-header">
+                    Backward Propagation: How Networks Learn
+                </div>
+                
+                <div class="concept-box">
+                    <h3>The Learning Process (Simple Explanation)</h3>
+                    <ol>
+                        <li><strong>Make a prediction</strong> (forward propagation)</li>
+                        <li><strong>See how wrong we were</strong> (calculate error)</li>
+                        <li><strong>Figure out who to blame</strong> (backward propagation)</li>
+                        <li><strong>Make adjustments</strong> (update weights)</li>
+                        <li><strong>Repeat until good enough</strong></li>
+                    </ol>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🔄 The Process:</h3>
+                        <ul>
+                            <li>Start from the end (output)</li>
+                            <li>Calculate how much each weight contributed to error</li>
+                            <li>Work backwards through all layers</li>
+                            <li>Adjust weights to reduce error</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>🎯 Key Insight:</h3>
+                        <div class="key-point">
+                            Every weight gets a "blame score" for the mistake, and we adjust weights based on their blame!
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab 3 Introduction -->
+            <section data-background-color="#2c3e50">
+                <div class="lab-callout">
+                    🔄 LAB 3.3: Backward Propagation Implementation
+                    <br><br>
+                    <span style="font-size: 0.8em;">Duration: 45 minutes</span>
+                    <br>
+                    <span style="font-size: 0.7em;">Master the learning algorithm with gradient computation</span>
+                </div>
+            </section>
+
+            <!-- Gradients Simplified -->
+            <section>
+                <div class="session-header">
+                    Gradients: The "Blame Scores" (Simplified)
+                </div>
+                
+                <div class="concept-box">
+                    <h3>What Are Gradients?</h3>
+                    <p>Gradients tell us <strong>how much</strong> and <strong>in what direction</strong> to change each weight</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <div class="concept-box">
+                            <h3>🎯 Think of It Like GPS</h3>
+                            <ul>
+                                <li><strong>GPS:</strong> "Turn left 50 meters"</li>
+                                <li><strong>Gradient:</strong> "Increase weight by 0.01"</li>
+                                <li><strong>Goal:</strong> Get to minimum error</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="concept-box">
+                            <h3>📊 The Math (Simplified)</h3>
+                            <div class="formula-box">
+                                New Weight = Old Weight - Learning Rate × Gradient
+                            </div>
+                            <p>Learning Rate = How big steps to take</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    🧠 In Lab 3.3, you'll implement this "blame calculation" process step by step!
+                </div>
+            </section>
+
+            <!-- Chain Rule Simplified -->
+            <section>
+                <div class="session-header">
+                    Chain Rule: Passing Blame Backwards
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Chain Rule in Plain English</h3>
+                    <p>When something goes wrong at the end, we need to figure out what caused it at the beginning</p>
+                </div>
+
+                <div class="architecture-diagram">
+                    <div style="background: #e74c3c;" class="layer-box">Error at<br/>Output</div>
+                    <span class="arrow">←</span>
+                    <div style="background: #f39c12;" class="layer-box">Blame<br/>Layer 2</div>
+                    <span class="arrow">←</span>
+                    <div style="background: #27ae60;" class="layer-box">Blame<br/>Layer 1</div>
+                    <span class="arrow">←</span>
+                    <div style="background: #3498db;" class="layer-box">Adjust<br/>Weights</div>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🔗 Real-World Analogy:</h3>
+                        <ul>
+                            <li><strong>Restaurant:</strong> Customer complaint</li>
+                            <li><strong>Manager:</strong> Traces back to chef</li>
+                            <li><strong>Chef:</strong> Traces back to ingredients</li>
+                            <li><strong>Fix:</strong> Better ingredients next time</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>🧠 Neural Network:</h3>
+                        <ul>
+                            <li><strong>Output:</strong> Wrong prediction</li>
+                            <li><strong>Layer 2:</strong> Which neurons caused it?</li>
+                            <li><strong>Layer 1:</strong> Which weights in layer 1?</li>
+                            <li><strong>Fix:</strong> Adjust those weights</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Multi-class Classification -->
+            <section>
+                <div class="session-header">
+                    Multi-class Classification: Choosing from Many Options
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Binary vs Multi-class</h3>
+                    <ul>
+                        <li><strong>Binary:</strong> Yes/No, Dog/Cat, Spam/Not Spam</li>
+                        <li><strong>Multi-class:</strong> Dog/Cat/Bird, Red/Green/Blue, A/B/C/D/F</li>
+                    </ul>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🎯 Key Differences:</h3>
+                        <ul>
+                            <li><strong>Output neurons:</strong> 1 vs Many</li>
+                            <li><strong>Activation:</strong> Sigmoid vs Softmax</li>
+                            <li><strong>Loss function:</strong> Binary vs Categorical</li>
+                            <li><strong>Label format:</strong> 0/1 vs One-hot</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>📊 Example:</h3>
+                        <div class="concept-box">
+                            <h4>Predicting Animal Type:</h4>
+                            <ul>
+                                <li>Dog: [1, 0, 0]</li>
+                                <li>Cat: [0, 1, 0]</li>
+                                <li>Bird: [0, 0, 1]</li>
+                            </ul>
+                            <p style="font-size: 0.8em;">This is called "one-hot encoding"</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab 4 Introduction -->
+            <section data-background-color="#2c3e50">
+                <div class="lab-callout">
+                    🎯 LAB 3.4: Multi-class Classification Setup
+                    <br><br>
+                    <span style="font-size: 0.8em;">Duration: 45 minutes</span>
+                    <br>
+                    <span style="font-size: 0.7em;">Build networks that choose from multiple options</span>
+                </div>
+            </section>
+
+            <!-- Softmax Explained -->
+            <section>
+                <div class="session-header">
+                    Softmax: Turning Scores into Probabilities
+                </div>
+                
+                <div class="concept-box">
+                    <h3>What Softmax Does (Simple Explanation)</h3>
+                    <p>Takes any numbers and converts them to probabilities that add up to 1.0</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🔢 Example:</h3>
+                        <div class="formula-box">
+                            <strong>Raw Scores:</strong><br/>
+                            Dog: 2.1<br/>
+                            Cat: 0.5<br/>
+                            Bird: 1.3<br/>
+                            <br/>
+                            <strong>After Softmax:</strong><br/>
+                            Dog: 0.65 (65%)<br/>
+                            Cat: 0.13 (13%)<br/>
+                            Bird: 0.22 (22%)<br/>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3>✨ Magic of Softmax:</h3>
+                        <ul>
+                            <li>All outputs are positive</li>
+                            <li>All outputs sum to 1.0</li>
+                            <li>Higher scores get higher probabilities</li>
+                            <li>Perfect for classification!</li>
+                        </ul>
+                        <div class="key-point">
+                            Pick the class with highest probability!
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Performance Optimization -->
+            <section>
+                <div class="session-header">
+                    Making Networks Better: Optimization Techniques
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Why Do We Need Optimization?</h3>
+                    <p>Basic neural networks are like a car with only 1st gear - they work, but they could be SO much better!</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
+                    <div class="concept-box">
+                        <h3>🚀 Better Optimizers</h3>
+                        <ul>
+                            <li><strong>SGD:</strong> Basic, slow but reliable</li>
+                            <li><strong>Momentum:</strong> Builds up speed</li>
+                            <li><strong>Adam:</strong> Smart and adaptive</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="concept-box">
+                        <h3>🛡️ Regularization</h3>
+                        <ul>
+                            <li><strong>L2:</strong> Keeps weights small</li>
+                            <li><strong>Dropout:</strong> Randomly ignores neurons</li>
+                            <li><strong>Early Stopping:</strong> Stops before overfitting</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    These techniques can improve your accuracy from 80% to 95%!
+                </div>
+            </section>
+
+            <!-- Lab 5 Introduction -->
+            <section data-background-color="#2c3e50">
+                <div class="lab-callout">
+                    ⚡ LAB 3.5: Performance Optimization Techniques
+                    <br><br>
+                    <span style="font-size: 0.8em;">Duration: 45 minutes</span>
+                    <br>
+                    <span style="font-size: 0.7em;">Supercharge your networks with advanced techniques</span>
+                </div>
+            </section>
+
+            <!-- Adam Optimizer Explained -->
+            <section>
+                <div class="session-header">
+                    Adam Optimizer: The "Smart" Learning Algorithm
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Why Adam is Special</h3>
+                    <p>Adam adapts the learning speed for each weight individually - like having a personal trainer for each neuron!</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🧠 How Adam Works:</h3>
+                        <ul>
+                            <li><strong>Momentum:</strong> Remembers recent changes</li>
+                            <li><strong>Adaptive:</strong> Adjusts speed per weight</li>
+                            <li><strong>Bias Correction:</strong> Starts properly</li>
+                            <li><strong>Works Great:</strong> Out of the box</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>🎯 Real-World Analogy:</h3>
+                        <div class="concept-box">
+                            <strong>Basic SGD:</strong> Everyone walks at same speed<br/>
+                            <strong>Adam:</strong> Each person adjusts their speed based on the terrain they're walking on
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    💡 Adam often works great with default settings - perfect for beginners!
+                </div>
+            </section>
+
+            <!-- Regularization Techniques -->
+            <section>
+                <div class="session-header">
+                    Regularization: Preventing "Memorization"
+                </div>
+                
+                <div class="concept-box">
+                    <h3>The Problem: Overfitting</h3>
+                    <p>Your network becomes like a student who memorizes answers instead of understanding concepts</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🚫 Dropout (Simple)</h3>
+                        <ul>
+                            <li>Randomly "turn off" some neurons during training</li>
+                            <li>Forces network to not rely on any single neuron</li>
+                            <li>Like studying with random pages missing</li>
+                        </ul>
+                        <div class="formula-box">
+                            Dropout Rate = 20% means<br/>
+                            20% of neurons ignored each time
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3>⚖️ L2 Regularization</h3>
+                        <ul>
+                            <li>Penalizes large weights</li>
+                            <li>Encourages "modest" solutions</li>
+                            <li>Like preferring simple explanations</li>
+                        </ul>
+                        <div class="formula-box">
+                            Total Cost = Prediction Error<br/>
+                            + Penalty for Large Weights
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Remember:</strong> Only apply regularization during training, not testing!
+                </div>
+            </section>
+
+            <!-- Real-World Application -->
+            <section>
+                <div class="session-header">
+                    Putting It All Together: Real-World Applications
+                </div>
+                
+                <div class="concept-box">
+                    <h3>What Makes a Successful ML Project?</h3>
+                    <ol>
+                        <li><strong>Good Data:</strong> Clean, relevant, sufficient</li>
+                        <li><strong>Right Architecture:</strong> Matches problem complexity</li>
+                        <li><strong>Proper Training:</strong> Optimization + regularization</li>
+                        <li><strong>Validation:</strong> Test on unseen data</li>
+                        <li><strong>Interpretation:</strong> Understand what it learned</li>
+                    </ol>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🏥 Medical Diagnosis Example:</h3>
+                        <ul>
+                            <li>Input: Patient symptoms, test results</li>
+                            <li>Architecture: 13 features → 16 → 8 → 1</li>
+                            <li>Output: Disease probability</li>
+                            <li>Validation: Compare with doctor diagnoses</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>🎯 Success Metrics:</h3>
+                        <ul>
+                            <li><strong>Accuracy:</strong> Overall correctness</li>
+                            <li><strong>Precision:</strong> Avoid false alarms</li>
+                            <li><strong>Recall:</strong> Don't miss real cases</li>
+                            <li><strong>Interpretability:</strong> Understand decisions</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab 6 Introduction -->
+            <section data-background-color="#2c3e50">
+                <div class="lab-callout">
+                    🚀 LAB 3.6: Shallow Network Application Project
+                    <br><br>
+                    <span style="font-size: 0.8em;">Duration: 45 minutes</span>
+                    <br>
+                    <span style="font-size: 0.7em;">Build a complete end-to-end ML solution</span>
+                </div>
+            </section>
+
+            <!-- Project-Based Learning -->
+            <section>
+                <div class="session-header">
+                    Project-Based Learning: Building Real Solutions
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Your Final Challenge: Heart Disease Prediction</h3>
+                    <p>Build a complete system that doctors could actually use!</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>📊 What You'll Do:</h3>
+                        <ul>
+                            <li>Load and explore real medical data</li>
+                            <li>Engineer meaningful features</li>
+                            <li>Design optimal architecture</li>
+                            <li>Train with best practices</li>
+                            <li>Evaluate clinically</li>
+                            <li>Create deployment-ready model</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>🎯 Success Criteria:</h3>
+                        <ul>
+                            <li><strong>Accuracy:</strong> >85% (clinical standard)</li>
+                            <li><strong>Generalization:</strong> Works on new patients</li>
+                            <li><strong>Interpretability:</strong> Understand key factors</li>
+                            <li><strong>Deployment:</strong> Ready for real use</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    🏆 This project showcases everything you've learned in a professional context!
+                </div>
+            </section>
+
+            <!-- Best Practices Summary -->
+            <section>
+                <div class="session-header">
+                    Best Practices: Lessons from the Trenches
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
+                    <div class="concept-box">
+                        <h3>✅ Do's</h3>
+                        <ul>
+                            <li>Start simple, then add complexity</li>
+                            <li>Always validate on unseen data</li>
+                            <li>Use proper train/val/test splits</li>
+                            <li>Monitor both training and validation</li>
+                            <li>Save your best models</li>
+                            <li>Document your decisions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="concept-box">
+                        <h3>❌ Don'ts</h3>
+                        <ul>
+                            <li>Don't make networks too complex too early</li>
+                            <li>Don't ignore data preprocessing</li>
+                            <li>Don't overtrain on validation set</li>
+                            <li>Don't trust single metrics</li>
+                            <li>Don't skip interpretability</li>
+                            <li>Don't forget about deployment</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    🎯 Remember: Good machine learning is 80% process, 20% algorithms!
+                </div>
+            </section>
+
+            <!-- Common Pitfalls -->
+            <section>
+                <div class="session-header">
+                    Common Pitfalls (And How to Avoid Them)
+                </div>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <div class="warning-box">
+                            <h3>🚫 Data Leakage</h3>
+                            <p><strong>Problem:</strong> Future information sneaks into training</p>
+                            <p><strong>Solution:</strong> Strict temporal splits</p>
+                        </div>
+                        
+                        <div class="warning-box">
+                            <h3>📊 Poor Validation</h3>
+                            <p><strong>Problem:</strong> Testing on training data</p>
+                            <p><strong>Solution:</strong> Always use separate test set</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="warning-box">
+                            <h3>⚖️ Imbalanced Classes</h3>
+                            <p><strong>Problem:</strong> 99% class A, 1% class B</p>
+                            <p><strong>Solution:</strong> Proper metrics, sampling, or weighting</p>
+                        </div>
+                        
+                        <div class="warning-box">
+                            <h3>🎯 Wrong Metrics</h3>
+                            <p><strong>Problem:</strong> Optimizing for wrong thing</p>
+                            <p><strong>Solution:</strong> Choose metrics that match business needs</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    💡 Every "failure" is a learning opportunity - embrace the debugging process!
+                </div>
+            </section>
+
+            <!-- Session Summary -->
+            <section>
+                <div class="session-header">
+                    Session Summary: Your Journey Today
+                </div>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🎓 What You've Learned:</h3>
+                        <ul>
+                            <li><strong>Architecture Design:</strong> Building network blueprints</li>
+                            <li><strong>Forward Propagation:</strong> How data flows through</li>
+                            <li><strong>Backward Propagation:</strong> How networks learn</li>
+                            <li><strong>Multi-class Classification:</strong> Choosing from many options</li>
+                            <li><strong>Optimization:</strong> Making networks better</li>
+                            <li><strong>Real Applications:</strong> End-to-end solutions</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>💪 Skills You've Gained:</h3>
+                        <ul>
+                            <li>Design appropriate architectures</li>
+                            <li>Implement efficient algorithms</li>
+                            <li>Apply optimization techniques</li>
+                            <li>Handle real-world datasets</li>
+                            <li>Evaluate model performance</li>
+                            <li>Create deployment-ready solutions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    🚀 You now have the foundation to build professional neural network solutions!
+                </div>
+            </section>
+
+            <!-- Next Steps -->
+            <section>
+                <div class="session-header">
+                    Next Steps: Your Neural Network Journey Continues
+                </div>
+                
+                <div class="concept-box">
+                    <h3>🌟 What's Coming Next:</h3>
+                    <ul>
+                        <li><strong>Deep Networks:</strong> Going beyond shallow networks</li>
+                        <li><strong>Convolutional Networks:</strong> For images and visual data</li>
+                        <li><strong>Recurrent Networks:</strong> For sequences and time series</li>
+                        <li><strong>Advanced Techniques:</strong> State-of-the-art methods</li>
+                    </ul>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🎯 Immediate Practice:</h3>
+                        <ul>
+                            <li>Try the labs on your own datasets</li>
+                            <li>Experiment with different architectures</li>
+                            <li>Join online ML communities</li>
+                            <li>Work on Kaggle competitions</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>📚 Continued Learning:</h3>
+                        <ul>
+                            <li>Deep learning specialization courses</li>
+                            <li>Research papers (start with surveys)</li>
+                            <li>Open source contributions</li>
+                            <li>Industry conferences and talks</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    🎊 Congratulations on mastering shallow neural networks!
+                </div>
+            </section>
+
+            <!-- Final Slide -->
+            <section class="title-slide" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <div class="main-title">
+                    <h1>Thank You!</h1>
+                    <h3>You're Now Ready to Build Professional Neural Networks</h3>
+                    <div style="margin-top: 2em;">
+                        <p style="font-size: 0.8em;">
+                            🧠 <strong>6 Labs Completed</strong><br>
+                            ⚡ <strong>Complete Neural Network Mastery</strong><br>
+                            🚀 <strong>Ready for Deep Learning</strong>
+                        </p>
+                    </div>
+                    <div style="margin-top: 1.5em; font-size: 0.7em;">
+                        Questions? Ready for the next challenge?
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            controls: true,
+            progress: true,
+            center: false,
+            touch: true,
+            hideAddressBar: true,
+            preloadIframes: false,
+            autoSlide: 0,
+            autoSlideStoppable: true,
+            mouseWheel: false,
+            rollingLinks: false,
+            keyboard: true,
+            overview: true,
+            disableLayout: false,
+            rtl: false,
+            navigationMode: 'default',
+            shuffle: false,
+            fragments: true,
+            fragmentInURL: true,
+            embedded: false,
+            help: true,
+            pause: true,
+            showSlideNumber: 'all',
+            previewLinks: false,
+            viewDistance: 3,
+            mobileViewDistance: 2,
+            display: 'block',
+            hideInactiveCursor: true,
+            hideCursorTime: 5000,
+        });
+    </script>
+</body>
+</html>

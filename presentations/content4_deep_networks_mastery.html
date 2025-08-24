@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.css">
+    <style>
+        .reveal {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            font-weight: bold;
+            text-transform: none;
+        }
+        
+        .reveal h1 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+        }
+        
+        .reveal h2 {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+        }
+        
+        .reveal h3 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+        
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+        
+        .reveal .title-slide {
+            text-align: center;
+        }
+        
+        .reveal .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .reveal .lab-callout {
+            background: #e8f5e8;
+            border: 3px solid #4CAF50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .reveal .lab-callout h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        
+        .reveal .concept-box {
+            background: #f8f9fa;
+            border-left: 5px solid #007bff;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .reveal .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .reveal .success-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .reveal ul, .reveal ol {
+            margin-left: 20px;
+        }
+        
+        .reveal li {
+            margin: 8px 0;
+        }
+        
+        .reveal .two-column {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .reveal .two-column > div {
+            flex: 1;
+        }
+        
+        .reveal .highlight {
+            background-color: #ffeb3b;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        .reveal .emoji {
+            font-size: 1.2em;
+        }
+        
+        .reveal code {
+            background: #f4f4f4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .reveal pre code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 0.75em;
+            line-height: 1.3;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+        
+        .reveal .architecture-diagram {
+            text-align: center;
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 0.75em;
+        }
+        
+        .reveal .progress-indicator {
+            background: #e9ecef;
+            height: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .reveal .progress-bar {
+            background: #007bff;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .reveal .slides section {
+                font-size: 0.75em;
+            }
+            
+            .reveal .two-column {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section class="title-slide">
+                <div class="section-header">
+                    <h1>Deep Networks Mastery</h1>
+                    <h2>Advanced Techniques & Production Systems</h2>
+                    <p><strong>Content 4: Neural Networks & Deep Learning</strong></p>
+                </div>
+                <p><em>Building production-ready deep learning systems with state-of-the-art techniques</em></p>
+            </section>
+
+            <!-- Course Overview -->
+            <section>
+                <h2><span class="emoji">🎯</span> Today's Learning Journey</h2>
+                <div class="concept-box">
+                    <h3>What We'll Master Today</h3>
+                    <ul>
+                        <li><strong>Deep Network Architecture</strong> - Building sophisticated neural networks</li>
+                        <li><strong>Gradient Flow Management</strong> - Solving vanishing/exploding gradient problems</li>
+                        <li><strong>Smart Initialization</strong> - Proper weight initialization strategies</li>
+                        <li><strong>Advanced Optimization</strong> - Modern training techniques and algorithms</li>
+                        <li><strong>Complete Project</strong> - End-to-end deep learning system</li>
+                    </ul>
+                </div>
+                <div class="success-box">
+                    <strong>Goal:</strong> Build a production-ready image classification system using advanced deep learning techniques
+                </div>
+            </section>
+
+            <!-- Section 1 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">🏗️</span> Section 1</h1>
+                    <h2>Deep Network Architecture Design</h2>
+                    <p>Building sophisticated neural network architectures</p>
+                </div>
+            </section>
+
+            <!-- Deep Networks Introduction -->
+            <section>
+                <h2>What Makes a Network "Deep"?</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="concept-box">
+                            <h3>Traditional "Shallow" Networks</h3>
+                            <ul>
+                                <li>1-3 hidden layers</li>
+                                <li>Simple patterns</li>
+                                <li>Limited representation</li>
+                                <li>Good for basic tasks</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="concept-box">
+                            <h3>"Deep" Networks</h3>
+                            <ul>
+                                <li>4+ hidden layers</li>
+                                <li>Complex hierarchical patterns</li>
+                                <li>Rich representations</li>
+                                <li>Powerful for complex tasks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="success-box">
+                    <strong>Key Insight:</strong> Deep networks can learn hierarchical features automatically - from edges to shapes to complex objects!
+                </div>
+            </section>
+
+            <!-- Why Deep Networks Work -->
+            <section>
+                <h2><span class="emoji">🧠</span> Why Deep Networks Are Powerful</h2>
+                <div class="concept-box">
+                    <h3>Hierarchical Feature Learning</h3>
+                    <div class="architecture-diagram">
+                        <pre>
+Input Layer     →  Raw pixels (edges, colors)
+Hidden Layer 1  →  Simple features (lines, curves)
+Hidden Layer 2  →  Shapes (circles, rectangles)
+Hidden Layer 3  →  Parts (wheels, windows)
+Hidden Layer 4  →  Objects (cars, houses)
+Output Layer    →  Final classification
+                        </pre>
+                    </div>
+                </div>
+                <ul>
+                    <li><strong>Automatic Feature Discovery:</strong> No need to hand-craft features</li>
+                    <li><strong>Increasing Complexity:</strong> Each layer builds on previous layers</li>
+                    <li><strong>Better Generalization:</strong> Learn robust patterns from data</li>
+                    <li><strong>Superior Performance:</strong> State-of-the-art results on complex tasks</li>
+                </ul>
+            </section>
+
+            <!-- Deep Network Challenges -->
+            <section>
+                <h2><span class="emoji">⚠️</span> Challenges with Deep Networks</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="warning-box">
+                            <h3>Training Difficulties</h3>
+                            <ul>
+                                <li>Vanishing gradients</li>
+                                <li>Exploding gradients</li>
+                                <li>Slow convergence</li>
+                                <li>Poor initialization</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="warning-box">
+                            <h3>Overfitting Issues</h3>
+                            <ul>
+                                <li>Too many parameters</li>
+                                <li>Memorizing training data</li>
+                                <li>Poor generalization</li>
+                                <li>Complex optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="concept-box">
+                    <h3>The Solution: Advanced Techniques</h3>
+                    <p>Today we'll learn proven techniques to overcome these challenges and build robust deep networks!</p>
+                </div>
+            </section>
+
+            <!-- Modern Deep Network Components -->
+            <section>
+                <h2><span class="emoji">🔧</span> Modern Deep Network Components</h2>
+                <div class="concept-box">
+                    <h3>Essential Building Blocks</h3>
+                    <ul>
+                        <li><strong>Smart Activation Functions:</strong> ReLU, Leaky ReLU, Swish</li>
+                        <li><strong>Batch Normalization:</strong> Stabilizes training</li>
+                        <li><strong>Dropout Layers:</strong> Prevents overfitting</li>
+                        <li><strong>Residual Connections:</strong> Helps gradient flow</li>
+                        <li><strong>Proper Initialization:</strong> Good starting weights</li>
+                    </ul>
+                </div>
+                <div class="success-box">
+                    <strong>Modern Approach:</strong> Combine these techniques strategically for optimal performance
+                </div>
+            </section>
+
+            <!-- Lab 4.1 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">🚀</span> Time for Hands-On Practice!</h2>
+                    <h3>Lab 4.1: Deep Network Architecture Design</h3>
+                    <p><strong>What you'll build:</strong> Multi-layer neural network with modern components</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> Architecture design, layer composition, forward propagation</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Design deep network architectures
+                        <br>• Implement modern activation functions  
+                        <br>• Build modular network components
+                        <br>• Test different architectural choices
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">⚡</span> Section 2</h1>
+                    <h2>Deep Propagation Algorithms</h2>
+                    <p>Advanced forward and backward propagation for deep networks</p>
+                </div>
+            </section>
+
+            <!-- Forward Propagation in Deep Networks -->
+            <section>
+                <h2><span class="emoji">➡️</span> Forward Propagation in Deep Networks</h2>
+                <div class="concept-box">
+                    <h3>The Challenge</h3>
+                    <p>As networks get deeper, we need to carefully manage how information flows through many layers.</p>
+                </div>
+                
+                <div class="two-column">
+                    <div>
+                        <h3>Key Considerations:</h3>
+                        <ul>
+                            <li>Activation values can become very small or very large</li>
+                            <li>Numerical stability becomes critical</li>
+                            <li>Each layer transformation affects all subsequent layers</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Best Practices:</h3>
+                        <ul>
+                            <li>Normalize inputs between layers</li>
+                            <li>Use stable activation functions</li>
+                            <li>Monitor activation statistics</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Backward Propagation Complexities -->
+            <section>
+                <h2><span class="emoji">⬅️</span> Backward Propagation Complexities</h2>
+                <div class="concept-box">
+                    <h3>The Chain Rule in Deep Networks</h3>
+                    <p>Gradients must flow backward through many layers, and each layer can amplify or diminish the signal.</p>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>Common Problems:</h3>
+                    <ul>
+                        <li><strong>Vanishing Gradients:</strong> Signal becomes too weak in early layers</li>
+                        <li><strong>Exploding Gradients:</strong> Signal becomes too strong and unstable</li>
+                        <li><strong>Slow Learning:</strong> Deep layers learn much slower than shallow ones</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <strong>Solution Preview:</strong> We'll learn specific techniques to maintain healthy gradient flow!
+                </div>
+            </section>
+
+            <!-- Efficient Computation -->
+            <section>
+                <h2><span class="emoji">💻</span> Efficient Computation Strategies</h2>
+                <div class="concept-box">
+                    <h3>Memory Management</h3>
+                    <ul>
+                        <li><strong>Gradient Checkpointing:</strong> Trade computation for memory</li>
+                        <li><strong>In-place Operations:</strong> Reduce memory footprint</li>
+                        <li><strong>Batch Processing:</strong> Efficient parallel computation</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Numerical Stability</h3>
+                    <ul>
+                        <li><strong>Careful Implementation:</strong> Avoid overflow/underflow</li>
+                        <li><strong>Stable Algorithms:</strong> Use numerically stable formulations</li>
+                        <li><strong>Monitoring:</strong> Track activation and gradient statistics</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Lab 4.2 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">🧪</span> Time for Deep Implementation!</h2>
+                    <h3>Lab 4.2: Deep Propagation Algorithms</h3>
+                    <p><strong>What you'll implement:</strong> Advanced forward and backward propagation</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> Deep backpropagation, numerical stability, efficient computation</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Implement efficient forward propagation
+                        <br>• Build robust backward propagation
+                        <br>• Handle numerical stability issues
+                        <br>• Optimize computation and memory usage
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">🌊</span> Section 3</h1>
+                    <h2>Vanishing & Exploding Gradients</h2>
+                    <p>Understanding and solving gradient flow problems</p>
+                </div>
+            </section>
+
+            <!-- Understanding Vanishing Gradients -->
+            <section>
+                <h2><span class="emoji">🔍</span> The Vanishing Gradient Problem</h2>
+                <div class="warning-box">
+                    <h3>What Happens?</h3>
+                    <p>Gradients become exponentially smaller as they flow backward through layers</p>
+                </div>
+                
+                <div class="two-column">
+                    <div>
+                        <h3>Why It Occurs:</h3>
+                        <ul>
+                            <li>Chain rule multiplies many small values</li>
+                            <li>Sigmoid/tanh derivatives are small</li>
+                            <li>Poor weight initialization</li>
+                            <li>Deep network architectures</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Consequences:</h3>
+                        <ul>
+                            <li>Early layers learn very slowly</li>
+                            <li>Network doesn't utilize full depth</li>
+                            <li>Poor feature learning</li>
+                            <li>Training stagnation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Simple Analogy</h3>
+                    <p>Imagine shouting a message through a long hallway - by the time it reaches the end, it's barely a whisper!</p>
+                </div>
+            </section>
+
+            <!-- Understanding Exploding Gradients -->
+            <section>
+                <h2><span class="emoji">💥</span> The Exploding Gradient Problem</h2>
+                <div class="warning-box">
+                    <h3>What Happens?</h3>
+                    <p>Gradients become exponentially larger as they flow backward through layers</p>
+                </div>
+                
+                <div class="two-column">
+                    <div>
+                        <h3>Why It Occurs:</h3>
+                        <ul>
+                            <li>Chain rule multiplies many large values</li>
+                            <li>Large weight initialization</li>
+                            <li>Deep network architectures</li>
+                            <li>Unstable optimization landscape</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Consequences:</h3>
+                        <ul>
+                            <li>Training becomes unstable</li>
+                            <li>Weights oscillate wildly</li>
+                            <li>Loss function may not converge</li>
+                            <li>Numerical overflow errors</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Simple Analogy</h3>
+                    <p>Like an avalanche - a small change at the top creates massive destruction at the bottom!</p>
+                </div>
+            </section>
+
+            <!-- Diagnosing Gradient Problems -->
+            <section>
+                <h2><span class="emoji">🩺</span> Diagnosing Gradient Problems</h2>
+                <div class="concept-box">
+                    <h3>Warning Signs to Watch For</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Vanishing Gradients:</h4>
+                            <ul>
+                                <li>Very slow learning</li>
+                                <li>Early layers don't improve</li>
+                                <li>Gradient norms → 0</li>
+                                <li>Activations saturate</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Exploding Gradients:</h4>
+                            <ul>
+                                <li>Training loss oscillates</li>
+                                <li>Very large parameter updates</li>
+                                <li>Gradient norms → ∞</li>
+                                <li>NaN values appear</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <strong>Monitoring Tip:</strong> Always track gradient norms during training - they tell you a lot about training health!
+                </div>
+            </section>
+
+            <!-- Solutions Overview -->
+            <section>
+                <h2><span class="emoji">🛠️</span> Solutions for Gradient Problems</h2>
+                <div class="concept-box">
+                    <h3>For Vanishing Gradients:</h3>
+                    <ul>
+                        <li><strong>Better Activation Functions:</strong> ReLU instead of sigmoid/tanh</li>
+                        <li><strong>Batch Normalization:</strong> Normalize inputs to each layer</li>
+                        <li><strong>Residual Connections:</strong> Skip connections for gradient flow</li>
+                        <li><strong>Proper Initialization:</strong> He or Xavier initialization</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>For Exploding Gradients:</h3>
+                    <ul>
+                        <li><strong>Gradient Clipping:</strong> Limit gradient magnitude</li>
+                        <li><strong>Lower Learning Rates:</strong> Smaller update steps</li>
+                        <li><strong>Better Initialization:</strong> Smaller initial weights</li>
+                        <li><strong>Regularization:</strong> L2 penalty on weights</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Gradient Clipping Details -->
+            <section>
+                <h2><span class="emoji">✂️</span> Gradient Clipping Techniques</h2>
+                <div class="concept-box">
+                    <h3>Two Main Approaches</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Value Clipping:</h4>
+                            <pre><code>
+# Clip individual gradient values
+if gradient > max_value:
+    gradient = max_value
+if gradient < min_value:
+    gradient = min_value
+                            </code></pre>
+                            <p><em>Simple but can change gradient direction</em></p>
+                        </div>
+                        <div>
+                            <h4>Norm Clipping:</h4>
+                            <pre><code>
+# Scale entire gradient vector
+gradient_norm = ||gradient||
+if gradient_norm > max_norm:
+    gradient = gradient * (max_norm / gradient_norm)
+                            </code></pre>
+                            <p><em>Preserves direction, preferred approach</em></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab 4.3 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">🔧</span> Time to Fix Gradient Problems!</h2>
+                    <h3>Lab 4.3: Vanishing & Exploding Gradients</h3>
+                    <p><strong>What you'll solve:</strong> Gradient flow problems in deep networks</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> Gradient diagnosis, clipping techniques, normalization strategies</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Identify gradient flow problems
+                        <br>• Implement gradient clipping
+                        <br>• Apply batch normalization
+                        <br>• Compare solution effectiveness
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">🎯</span> Section 4</h1>
+                    <h2>Weight Initialization Strategies</h2>
+                    <p>Smart ways to start training your deep networks</p>
+                </div>
+            </section>
+
+            <!-- Why Initialization Matters -->
+            <section>
+                <h2><span class="emoji">🌱</span> Why Weight Initialization Matters</h2>
+                <div class="concept-box">
+                    <h3>The Starting Point Problem</h3>
+                    <p>Your network's initial weights determine whether it can learn effectively or get stuck from the beginning!</p>
+                </div>
+
+                <div class="two-column">
+                    <div>
+                        <div class="warning-box">
+                            <h3>Bad Initialization</h3>
+                            <ul>
+                                <li>All weights = 0 → No learning</li>
+                                <li>Too large → Exploding gradients</li>
+                                <li>Too small → Vanishing gradients</li>
+                                <li>All same value → Symmetric problem</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="success-box">
+                            <h3>Good Initialization</h3>
+                            <ul>
+                                <li>Balanced variance across layers</li>
+                                <li>Breaks symmetry</li>
+                                <li>Enables stable gradients</li>
+                                <li>Faster convergence</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Popular Initialization Methods -->
+            <section>
+                <h2><span class="emoji">🎲</span> Popular Initialization Methods</h2>
+                <div class="concept-box">
+                    <h3>1. Xavier/Glorot Initialization</h3>
+                    <p><strong>Best for:</strong> Sigmoid and Tanh activation functions</p>
+                    <p><strong>Idea:</strong> Keep variance consistent across layers</p>
+                    <div class="architecture-diagram">
+                        <pre>
+Normal version: weights ~ Normal(0, sqrt(2/(fan_in + fan_out)))
+Uniform version: weights ~ Uniform(-limit, +limit)
+where limit = sqrt(6/(fan_in + fan_out))
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>2. He Initialization</h3>
+                    <p><strong>Best for:</strong> ReLU activation functions</p>
+                    <p><strong>Idea:</strong> Account for ReLU killing half the neurons</p>
+                    <div class="architecture-diagram">
+                        <pre>
+Normal version: weights ~ Normal(0, sqrt(2/fan_in))
+Uniform version: weights ~ Uniform(-limit, +limit)
+where limit = sqrt(6/fan_in)
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Initialization Decision Guide -->
+            <section>
+                <h2><span class="emoji">🧭</span> Choosing the Right Initialization</h2>
+                <div class="concept-box">
+                    <h3>Simple Decision Tree</h3>
+                    <div class="architecture-diagram">
+                        <pre>
+What activation function are you using?
+├── ReLU family (ReLU, Leaky ReLU, ELU)
+│   └── ✅ Use He Initialization
+├── Sigmoid or Tanh
+│   └── ✅ Use Xavier/Glorot Initialization
+├── SELU (Self-normalizing)
+│   └── ✅ Use LeCun Initialization
+└── Other/Custom
+    └── 🔬 Experiment with variance scaling
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <strong>Rule of Thumb:</strong> When in doubt, start with He initialization for modern networks (most use ReLU variants)
+                </div>
+            </section>
+
+            <!-- Advanced Initialization -->
+            <section>
+                <h2><span class="emoji">🚀</span> Advanced Initialization Techniques</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="concept-box">
+                            <h3>Layer-Specific Initialization</h3>
+                            <ul>
+                                <li>Different strategies per layer</li>
+                                <li>Consider layer depth</li>
+                                <li>Adjust for layer width</li>
+                                <li>Account for skip connections</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="concept-box">
+                            <h3>Adaptive Initialization</h3>
+                            <ul>
+                                <li>Analyze network architecture</li>
+                                <li>Consider activation statistics</li>
+                                <li>Adjust based on gradients</li>
+                                <li>Fine-tune during training</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Pre-training Strategies</h3>
+                    <ul>
+                        <li><strong>Transfer Learning:</strong> Start with pre-trained weights</li>
+                        <li><strong>Layer-wise Training:</strong> Train one layer at a time</li>
+                        <li><strong>Progressive Growing:</strong> Start small, add layers gradually</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Lab 4.4 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">🎯</span> Time to Initialize Smart!</h2>
+                    <h3>Lab 4.4: Weight Initialization Strategies</h3>
+                    <p><strong>What you'll master:</strong> Proper weight initialization for different scenarios</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> Initialization methods, decision frameworks, custom strategies</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Implement Xavier, He, and LeCun initialization
+                        <br>• Build initialization decision systems
+                        <br>• Test impact on training performance
+                        <br>• Create custom initialization strategies
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">⚡</span> Section 5</h1>
+                    <h2>Advanced Optimization Techniques</h2>
+                    <p>Modern algorithms and strategies for training deep networks</p>
+                </div>
+            </section>
+
+            <!-- Beyond Basic SGD -->
+            <section>
+                <h2><span class="emoji">🏃‍♂️</span> Beyond Basic Gradient Descent</h2>
+                <div class="concept-box">
+                    <h3>Why We Need Better Optimizers</h3>
+                    <ul>
+                        <li><strong>Different learning rates per parameter:</strong> Some need big steps, others small</li>
+                        <li><strong>Momentum effects:</strong> Don't get stuck in local minima</li>
+                        <li><strong>Adaptive learning:</strong> Automatically adjust learning rates</li>
+                        <li><strong>Noise handling:</strong> Deal with mini-batch noise effectively</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>Problems with Basic SGD</h3>
+                    <ul>
+                        <li>Same learning rate for all parameters</li>
+                        <li>Can get stuck in valleys</li>
+                        <li>Sensitive to learning rate choice</li>
+                        <li>Slow convergence</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Modern Optimizers -->
+            <section>
+                <h2><span class="emoji">🚀</span> Modern Optimization Algorithms</h2>
+                <div class="concept-box">
+                    <h3>1. Adam Optimizer (Most Popular)</h3>
+                    <p><strong>Key Idea:</strong> Combine momentum with adaptive learning rates</p>
+                    <ul>
+                        <li>Maintains moving averages of gradients</li>
+                        <li>Adapts learning rate per parameter</li>
+                        <li>Works well out-of-the-box</li>
+                        <li>Good default choice for most problems</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>2. RMSprop</h3>
+                    <p><strong>Key Idea:</strong> Scale learning rates by recent gradient magnitudes</p>
+                    <ul>
+                        <li>Good for recurrent neural networks</li>
+                        <li>Handles non-stationary objectives</li>
+                        <li>Less memory usage than Adam</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Learning Rate Scheduling -->
+            <section>
+                <h2><span class="emoji">📈</span> Learning Rate Scheduling</h2>
+                <div class="concept-box">
+                    <h3>Why Schedule Learning Rates?</h3>
+                    <ul>
+                        <li><strong>Start High:</strong> Make rapid progress initially</li>
+                        <li><strong>Reduce Gradually:</strong> Fine-tune as you get closer to optimum</li>
+                        <li><strong>Avoid Oscillation:</strong> Prevent bouncing around minimum</li>
+                    </ul>
+                </div>
+
+                <div class="two-column">
+                    <div>
+                        <div class="concept-box">
+                            <h3>Popular Schedules</h3>
+                            <ul>
+                                <li><strong>Step Decay:</strong> Reduce by factor every N epochs</li>
+                                <li><strong>Exponential Decay:</strong> Smooth exponential reduction</li>
+                                <li><strong>Cosine Annealing:</strong> Smooth cosine curve</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="concept-box">
+                            <h3>Advanced Techniques</h3>
+                            <ul>
+                                <li><strong>Warm Restarts:</strong> Periodically reset learning rate</li>
+                                <li><strong>Cyclical Rates:</strong> Oscillate between high/low</li>
+                                <li><strong>Adaptive Reduction:</strong> Reduce when loss plateaus</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Regularization Techniques -->
+            <section>
+                <h2><span class="emoji">🛡️</span> Regularization Strategies</h2>
+                <div class="concept-box">
+                    <h3>Preventing Overfitting</h3>
+                    <p>Deep networks are powerful but can memorize training data instead of learning patterns.</p>
+                </div>
+
+                <div class="two-column">
+                    <div>
+                        <div class="concept-box">
+                            <h3>Weight Regularization</h3>
+                            <ul>
+                                <li><strong>L2 (Ridge):</strong> Penalize large weights</li>
+                                <li><strong>L1 (Lasso):</strong> Encourage sparse weights</li>
+                                <li><strong>Elastic Net:</strong> Combine L1 and L2</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="concept-box">
+                            <h3>Structural Regularization</h3>
+                            <ul>
+                                <li><strong>Dropout:</strong> Randomly turn off neurons</li>
+                                <li><strong>Batch Normalization:</strong> Normalize layer inputs</li>
+                                <li><strong>Early Stopping:</strong> Stop when validation improves</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Batch Normalization Deep Dive -->
+            <section>
+                <h2><span class="emoji">⚖️</span> Batch Normalization Explained</h2>
+                <div class="concept-box">
+                    <h3>What Is Batch Normalization?</h3>
+                    <p>Normalize the inputs to each layer to have zero mean and unit variance.</p>
+                </div>
+
+                <div class="success-box">
+                    <h3>Why It's Amazing</h3>
+                    <ul>
+                        <li><strong>Stable Training:</strong> Reduces internal covariate shift</li>
+                        <li><strong>Higher Learning Rates:</strong> Can train faster</li>
+                        <li><strong>Less Sensitive to Initialization:</strong> More forgiving</li>
+                        <li><strong>Regularization Effect:</strong> Slight noise helps generalization</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Where to Apply</h3>
+                    <ul>
+                        <li>Between linear transformation and activation</li>
+                        <li>In every hidden layer (usually)</li>
+                        <li>Not typically in output layer</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Lab 4.5 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">⚡</span> Time to Optimize Like a Pro!</h2>
+                    <h3>Lab 4.5: Advanced Optimization Techniques</h3>
+                    <p><strong>What you'll build:</strong> Complete optimization pipeline with modern techniques</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> Adam optimizer, LR scheduling, regularization, batch normalization</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Implement Adam and RMSprop optimizers
+                        <br>• Build learning rate scheduling systems
+                        <br>• Apply comprehensive regularization
+                        <br>• Compare optimization strategies
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">🏗️</span> Section 6</h1>
+                    <h2>Complete Deep Network Project</h2>
+                    <p>Building a production-ready image classification system</p>
+                </div>
+            </section>
+
+            <!-- Project Overview -->
+            <section>
+                <h2><span class="emoji">🎯</span> Capstone Project Overview</h2>
+                <div class="concept-box">
+                    <h3>What We're Building</h3>
+                    <p><strong>Goal:</strong> Complete image classification system using CIFAR-10 dataset</p>
+                    <ul>
+                        <li><strong>Dataset:</strong> 10 classes of 32x32 color images</li>
+                        <li><strong>Architecture:</strong> Deep neural network with modern techniques</li>
+                        <li><strong>Features:</strong> All advanced techniques we've learned</li>
+                        <li><strong>Output:</strong> Production-ready deployment system</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>This Project Demonstrates</h3>
+                    <ul>
+                        <li>Professional-level deep learning implementation</li>
+                        <li>Integration of all modern techniques</li>
+                        <li>Production deployment readiness</li>
+                        <li>Comprehensive performance analysis</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Project Architecture -->
+            <section>
+                <h2><span class="emoji">🏛️</span> Project Architecture Design</h2>
+                <div class="concept-box">
+                    <h3>Network Architecture</h3>
+                    <div class="architecture-diagram">
+                        <pre>
+Input Layer (3072)    →  Raw 32×32×3 RGB images
+Hidden Layer 1 (512)  →  ReLU + BatchNorm + Dropout(0.1)
+Hidden Layer 2 (512)  →  ReLU + BatchNorm + Dropout(0.1) + Residual
+Hidden Layer 3 (256)  →  ReLU + BatchNorm + Dropout(0.2)
+Hidden Layer 4 (256)  →  ReLU + BatchNorm + Dropout(0.2) + Residual
+Hidden Layer 5 (128)  →  Swish + BatchNorm + Dropout(0.3)
+Hidden Layer 6 (128)  →  Swish + BatchNorm + Dropout(0.3) + Residual
+Hidden Layer 7 (64)   →  ReLU + BatchNorm + Dropout(0.4)
+Hidden Layer 8 (32)   →  ReLU + BatchNorm + Dropout(0.4)
+Output Layer (10)     →  Softmax for classification
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Components -->
+            <section>
+                <h2><span class="emoji">🧩</span> Project Components</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="concept-box">
+                            <h3>Core Architecture</h3>
+                            <ul>
+                                <li>Deep feedforward network</li>
+                                <li>Modern activation functions</li>
+                                <li>Batch normalization layers</li>
+                                <li>Residual connections</li>
+                                <li>Progressive dropout rates</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="concept-box">
+                            <h3>Advanced Features</h3>
+                            <ul>
+                                <li>Adam optimization</li>
+                                <li>Cosine annealing LR schedule</li>
+                                <li>Early stopping with best weights</li>
+                                <li>L2 regularization</li>
+                                <li>Comprehensive monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>Production Features</h3>
+                    <ul>
+                        <li><strong>Model Serialization:</strong> Save and load trained models</li>
+                        <li><strong>Inference API:</strong> Clean prediction interface</li>
+                        <li><strong>Performance Monitoring:</strong> Detailed metrics and analysis</li>
+                        <li><strong>Error Handling:</strong> Robust production-ready code</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Expected Results -->
+            <section>
+                <h2><span class="emoji">📊</span> Expected Results & Learning Outcomes</h2>
+                <div class="concept-box">
+                    <h3>Performance Expectations</h3>
+                    <ul>
+                        <li><strong>Accuracy:</strong> 80-90% on test set</li>
+                        <li><strong>Training:</strong> Stable convergence without overfitting</li>
+                        <li><strong>Efficiency:</strong> Reasonable training time</li>
+                        <li><strong>Robustness:</strong> Consistent performance across runs</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>Skills You'll Demonstrate</h3>
+                    <ul>
+                        <li>Complete deep learning system design</li>
+                        <li>Integration of advanced techniques</li>
+                        <li>Performance optimization and analysis</li>
+                        <li>Production deployment preparation</li>
+                        <li>Professional code quality and documentation</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Lab 4.6 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">🚀</span> Time for Your Capstone Project!</h2>
+                    <h3>Lab 4.6: Complete Deep Network Project</h3>
+                    <p><strong>What you'll create:</strong> Production-ready image classification system</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> End-to-end system development, integration, deployment</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Build complete deep learning system
+                        <br>• Integrate all advanced techniques
+                        <br>• Create production deployment pipeline
+                        <br>• Perform comprehensive analysis
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day Summary -->
+            <section>
+                <h2><span class="emoji">🎯</span> Day 4 Summary: Your Deep Learning Mastery</h2>
+                <div class="concept-box">
+                    <h3>What You've Accomplished Today</h3>
+                    <ul>
+                        <li><strong>Architectural Design:</strong> Built sophisticated deep network architectures</li>
+                        <li><strong>Gradient Management:</strong> Solved vanishing and exploding gradient problems</li>
+                        <li><strong>Smart Initialization:</strong> Implemented proper weight initialization strategies</li>
+                        <li><strong>Advanced Optimization:</strong> Used modern optimizers and training techniques</li>
+                        <li><strong>Complete System:</strong> Created production-ready deep learning pipeline</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>Professional Skills Gained</h3>
+                    <ul>
+                        <li>Deep understanding of neural network internals</li>
+                        <li>Ability to diagnose and solve training problems</li>
+                        <li>Knowledge of state-of-the-art techniques</li>
+                        <li>Production deployment capabilities</li>
+                        <li>Comprehensive system design skills</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Key Takeaways -->
+            <section>
+                <h2><span class="emoji">💡</span> Key Takeaways & Best Practices</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="concept-box">
+                            <h3>Technical Best Practices</h3>
+                            <ul>
+                                <li>Always use proper initialization</li>
+                                <li>Monitor gradient norms during training</li>
+                                <li>Apply batch normalization for stability</li>
+                                <li>Use Adam optimizer as default choice</li>
+                                <li>Implement learning rate scheduling</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="concept-box">
+                            <h3>System Design Principles</h3>
+                            <ul>
+                                <li>Build modular, reusable components</li>
+                                <li>Include comprehensive monitoring</li>
+                                <li>Plan for production deployment</li>
+                                <li>Document everything thoroughly</li>
+                                <li>Test all components systematically</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Next Steps -->
+            <section>
+                <h2><span class="emoji">🚀</span> Your Deep Learning Journey Continues</h2>
+                <div class="concept-box">
+                    <h3>Immediate Next Steps</h3>
+                    <ul>
+                        <li><strong>Practice on Real Data:</strong> Apply these techniques to actual datasets</li>
+                        <li><strong>Explore Specialized Architectures:</strong> CNNs, RNNs, Transformers</li>
+                        <li><strong>Learn Transfer Learning:</strong> Use pre-trained models</li>
+                        <li><strong>Deploy to Production:</strong> Cloud deployment and APIs</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>You're Now Ready For</h3>
+                    <ul>
+                        <li>Real-world machine learning projects</li>
+                        <li>Advanced deep learning research</li>
+                        <li>Production AI system development</li>
+                        <li>Technical leadership in ML teams</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Final Slide -->
+            <section class="title-slide">
+                <div class="section-header">
+                    <h1><span class="emoji">🎉</span> Congratulations!</h1>
+                    <h2>You've Mastered Deep Networks</h2>
+                    <p>From theory to production-ready systems</p>
+                </div>
+                
+                <div class="success-box">
+                    <h3>Your Achievement</h3>
+                    <p>You've built a complete, production-ready deep learning system using state-of-the-art techniques. You understand both the theory and practice of modern deep learning.</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Keep Building, Keep Learning! 🚀</h3>
+                    <p><em>The future of AI is in your hands</em></p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+            width: 1200,
+            height: 800,
+            margin: 0.05,
+            minScale: 0.2,
+            maxScale: 2.0,
+            plugins: [ RevealHighlight ]
+        });
+    </script>
+</body>
+</html>

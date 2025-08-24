@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.css">
+    <style>
+        .reveal h1, .reveal h2, .reveal h3 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #333;
+        }
+        
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.85em;
+        }
+        
+        .reveal {
+            font-size: 32px;
+        }
+        
+        .reveal .slides section[data-background-color="#f8f9fa"] {
+            background-color: #f8f9fa !important;
+        }
+        
+        .main-title {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .session-header {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .lab-callout {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ff9800;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .lab-callout h3 {
+            color: #ff6f00 !important;
+            margin-bottom: 10px;
+            background: none !important;
+            -webkit-text-fill-color: #ff6f00 !important;
+        }
+        
+        .concept-box {
+            background: #f3e5f5;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #9c27b0;
+        }
+        
+        .code-concept {
+            background: #e8f5e8;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .reveal .slides section .fragment.highlight-current-blue.current-fragment {
+            color: #2196f3;
+            font-weight: bold;
+        }
+        
+        .reveal pre {
+            width: 100%;
+            font-size: 0.8em;
+        }
+        
+        .reveal code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d32f2f;
+        }
+        
+        .visual-concept {
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .key-point {
+            background: #fff9c4;
+            padding: 8px;
+            border-radius: 6px;
+            margin: 8px 0;
+            border-left: 3px solid #fbc02d;
+        }
+        
+        ul.checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        ul.checklist li::before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.85em;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        .reveal .slides section.title-slide {
+            text-align: center;
+        }
+        
+        .small-text {
+            font-size: 0.7em;
+        }
+        
+        .medium-text {
+            font-size: 0.8em;
+        }
+        
+        .reveal h2 {
+            font-size: 1.3em !important;
+            margin-bottom: 0.5em;
+        }
+        
+        .reveal h3 {
+            font-size: 1.1em !important;
+            margin-bottom: 0.4em;
+        }
+        
+        .reveal h4 {
+            font-size: 1em !important;
+            margin-bottom: 0.3em;
+        }
+        
+        .reveal p, .reveal li {
+            font-size: 0.9em;
+            line-height: 1.3;
+            margin-bottom: 0.3em;
+        }
+        
+        .reveal ul {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        .reveal ol {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        /* Better text wrapping and spacing */
+        .reveal .slides section {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        /* Grid adjustments for smaller text */
+        .reveal .slides section div[style*="display: grid"] {
+            gap: 15px !important;
+        }
+        
+        /* Flex adjustments */
+        .reveal .slides section div[style*="display: flex"] {
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        /* Smaller padding for tight spaces */
+        .compact {
+            padding: 8px !important;
+            margin: 5px 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Title Slide -->
+            <section class="title-slide" data-background-color="#f8f9fa">
+                <div class="main-title">
+                    <h1>Neural Networks & Deep Learning</h1>
+                    <h2>Content 2: Binary Classification & Neural Network Foundations</h2>
+                    <p><strong>Building Your First Neural Networks</strong></p>
+                </div>
+                <p class="medium-text">From Logistic Regression to Neural Networks</p>
+            </section>
+
+            <!-- Course Overview -->
+            <section data-background-color="#f8f9fa">
+                <div class="main-title">
+                    <h2>Content 2 Overview</h2>
+                </div>
+                <div class="fragment">
+                    <h3>What We'll Learn Today</h3>
+                    <ul>
+                        <li class="fragment"><strong>Binary Classification</strong> - Making yes/no decisions</li>
+                        <li class="fragment"><strong>Logistic Regression</strong> - Your first classification algorithm</li>
+                        <li class="fragment"><strong>Data Preparation</strong> - Getting data ready for machine learning</li>
+                        <li class="fragment"><strong>Gradient Descent</strong> - How machines learn from mistakes</li>
+                        <li class="fragment"><strong>Neural Networks</strong> - Combining simple concepts for complex tasks</li>
+                        <li class="fragment"><strong>Training & Evaluation</strong> - Making sure our models work</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Learning Journey -->
+            <section>
+                <div class="session-header">
+                    <h2>Today's Learning Journey</h2>
+                </div>
+                <div class="visual-concept">
+                    <h3>From Simple to Complex</h3>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin: 30px 0;">
+                        <div style="text-align: center; flex: 1;">
+                            <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin: 10px;">
+                                <strong>Logistic Regression</strong><br>
+                                <small>Single Decision</small>
+                            </div>
+                        </div>
+                        <div style="font-size: 2em; flex: 0;">→</div>
+                        <div style="text-align: center; flex: 1;">
+                            <div style="background: #f3e5f5; padding: 15px; border-radius: 10px; margin: 10px;">
+                                <strong>Neural Networks</strong><br>
+                                <small>Multiple Connected Decisions</small>
+                            </div>
+                        </div>
+                        <div style="font-size: 2em; flex: 0;">→</div>
+                        <div style="text-align: center; flex: 1;">
+                            <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin: 10px;">
+                                <strong>Deep Learning</strong><br>
+                                <small>Many Layers of Decisions</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 1: Introduction to Binary Classification -->
+            <section>
+                <div class="session-header">
+                    <h2>Section 1: Understanding Binary Classification</h2>
+                </div>
+            </section>
+
+            <section>
+                <h3>What is Binary Classification?</h3>
+                <div class="concept-box">
+                    <p><strong>Binary Classification</strong> means making a choice between two options:</p>
+                    <ul class="fragment">
+                        <li>Yes or No</li>
+                        <li>True or False</li>
+                        <li>Pass or Fail</li>
+                        <li>Spam or Not Spam</li>
+                        <li>Healthy or Sick</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Key Insight:</strong> Every binary classification problem can be thought of as finding the best way to separate two groups.
+                </div>
+            </section>
+
+            <section>
+                <h3>Real-World Examples</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+                    <div class="concept-box fragment">
+                        <h4>Email Classification</h4>
+                        <p><strong>Input:</strong> Email content</p>
+                        <p><strong>Output:</strong> Spam or Not Spam</p>
+                        <p><strong>Decision:</strong> Should this go to inbox or spam folder?</p>
+                    </div>
+                    
+                    <div class="concept-box fragment">
+                        <h4>Medical Diagnosis</h4>
+                        <p><strong>Input:</strong> Test results</p>
+                        <p><strong>Output:</strong> Disease present or absent</p>
+                        <p><strong>Decision:</strong> Does the patient need treatment?</p>
+                    </div>
+                    
+                    <div class="concept-box fragment">
+                        <h4>Credit Approval</h4>
+                        <p><strong>Input:</strong> Financial information</p>
+                        <p><strong>Output:</strong> Approve or Deny</p>
+                        <p><strong>Decision:</strong> Is this person likely to repay?</p>
+                    </div>
+                    
+                    <div class="concept-box fragment">
+                        <h4>Image Recognition</h4>
+                        <p><strong>Input:</strong> Picture</p>
+                        <p><strong>Output:</strong> Cat or Dog</p>
+                        <p><strong>Decision:</strong> What animal is in this image?</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>The Challenge: Finding the Line</h3>
+                <div class="visual-concept">
+                    <p class="fragment">Imagine you have data points on a graph:</p>
+                    <ul class="fragment">
+                        <li>Red dots represent "No" (Class 0)</li>
+                        <li>Blue dots represent "Yes" (Class 1)</li>
+                        <li>We need to draw a line that separates them</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>The Goal:</strong> Find the best line (or boundary) that separates the two classes with the fewest mistakes.
+                </div>
+                
+                <div class="concept-box fragment">
+                    <h4>What makes a "good" separation?</h4>
+                    <ul>
+                        <li>Correctly classifies most training examples</li>
+                        <li>Generalizes well to new, unseen data</li>
+                        <li>Is simple and interpretable</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 2: Logistic Regression -->
+            <section>
+                <div class="session-header">
+                    <h2>Section 2: Logistic Regression - Your First Classifier</h2>
+                </div>
+            </section>
+
+            <section>
+                <h3>Why Not Linear Regression?</h3>
+                <div class="concept-box">
+                    <p><strong>Linear Regression</strong> predicts any number (house prices, temperatures, etc.)</p>
+                    <p class="fragment"><strong>Problem:</strong> For classification, we only want outputs between 0 and 1 (probabilities)</p>
+                </div>
+                
+                <div class="comparison-table fragment">
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Linear Regression</th>
+                            <th>Logistic Regression</th>
+                        </tr>
+                        <tr>
+                            <td>Outputs: Any number (-∞ to +∞)</td>
+                            <td>Outputs: Probability (0 to 1)</td>
+                        </tr>
+                        <tr>
+                            <td>Use: Predicting continuous values</td>
+                            <td>Use: Classification problems</td>
+                        </tr>
+                        <tr>
+                            <td>Example: "House costs $250,000"</td>
+                            <td>Example: "70% chance it's spam"</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h3>The Sigmoid Function: The Magic Curve</h3>
+                <div class="concept-box">
+                    <p>The <strong>sigmoid function</strong> is like a smooth switch that converts any number into a probability:</p>
+                    <ul class="fragment">
+                        <li>Takes any input (positive or negative)</li>
+                        <li>Outputs a value between 0 and 1</li>
+                        <li>Creates an S-shaped curve</li>
+                    </ul>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>How Sigmoid Works</h4>
+                    <ul>
+                        <li><strong>Large positive input</strong> → Output close to 1</li>
+                        <li><strong>Input of 0</strong> → Output of 0.5 (50/50 chance)</li>
+                        <li><strong>Large negative input</strong> → Output close to 0</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Think of it as:</strong> A smooth way to convert "how confident we are" into "what's the probability?"
+                </div>
+            </section>
+
+            <section>
+                <h3>How Logistic Regression Works</h3>
+                <div class="code-concept">
+                    <h4>Step-by-Step Process</h4>
+                    <ol>
+                        <li class="fragment"><strong>Calculate weighted sum:</strong> Combine all input features with their importance (weights)</li>
+                        <li class="fragment"><strong>Apply sigmoid:</strong> Convert the sum into a probability between 0 and 1</li>
+                        <li class="fragment"><strong>Make decision:</strong> If probability > 0.5, predict "Yes"; otherwise predict "No"</li>
+                    </ol>
+                </div>
+                
+                <div class="concept-box fragment">
+                    <h4>Simple Example: Email Spam Detection</h4>
+                    <ul>
+                        <li><strong>Features:</strong> Number of exclamation marks, word count, sender reputation</li>
+                        <li><strong>Weights:</strong> How much each feature matters for spam detection</li>
+                        <li><strong>Result:</strong> Probability that the email is spam</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Making Predictions with Probabilities</h3>
+                <div class="visual-concept">
+                    <h4>Interpretation Examples</h4>
+                    <div style="margin: 20px 0;">
+                        <div class="key-point fragment">
+                            <strong>Probability = 0.9</strong> → 90% confident it's "Yes" → Predict "Yes"
+                        </div>
+                        <div class="key-point fragment">
+                            <strong>Probability = 0.3</strong> → 30% confident it's "Yes" → Predict "No"
+                        </div>
+                        <div class="key-point fragment">
+                            <strong>Probability = 0.5</strong> → 50/50 → On the fence (decision boundary)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="concept-box fragment">
+                    <h4>Why Probabilities Matter</h4>
+                    <ul>
+                        <li><strong>Confidence levels:</strong> High probability = more confident prediction</li>
+                        <li><strong>Risk assessment:</strong> Can set different thresholds based on consequences</li>
+                        <li><strong>Decision making:</strong> Can weigh multiple factors appropriately</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Lab Callout 1 -->
+            <section>
+                <div class="lab-callout">
+                    <h3>🧪 Lab Time: Logistic Regression Implementation</h3>
+                    <p><strong>Lab 2.1: Logistic Regression Implementation</strong></p>
+                    <p>You'll implement logistic regression from scratch and see how the sigmoid function works in practice. You'll create your first binary classifier and understand how it makes decisions.</p>
+                    <p><em>Let's build your first machine learning algorithm!</em></p>
+                </div>
+            </section>
+
+            <!-- Section 3: Data Preparation -->
+            <section>
+                <div class="session-header">
+                    <h2>Section 3: Data Preparation - Getting Ready for Machine Learning</h2>
+                </div>
+            </section>
+
+            <section>
+                <h3>Why Data Preparation Matters</h3>
+                <div class="concept-box">
+                    <p><strong>Reality Check:</strong> Raw data is messy, incomplete, and often unusable for machine learning.</p>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>The 80/20 Rule:</strong> Data scientists spend 80% of their time preparing data, only 20% building models.
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                    <div class="concept-box fragment">
+                        <h4>Common Data Problems</h4>
+                        <ul>
+                            <li>Missing values</li>
+                            <li>Outliers (extreme values)</li>
+                            <li>Different scales</li>
+                            <li>Inconsistent formats</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="concept-box fragment">
+                        <h4>What Good Data Looks Like</h4>
+                        <ul>
+                            <li>Complete (no missing values)</li>
+                            <li>Consistent scale</li>
+                            <li>Clean (no obvious errors)</li>
+                            <li>Relevant features</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Handling Missing Values</h3>
+                <div class="concept-box">
+                    <h4>What are Missing Values?</h4>
+                    <p>Data points where information is absent - like blank cells in a spreadsheet.</p>
+                </div>
+                
+                <div class="code-concept">
+                    <h4>Common Solutions</h4>
+                    <ul class="fragment">
+                        <li><strong>Mean Imputation:</strong> Replace with average value</li>
+                        <li><strong>Median Imputation:</strong> Replace with middle value</li>
+                        <li><strong>Mode Imputation:</strong> Replace with most common value</li>
+                        <li><strong>Forward Fill:</strong> Use the last known value</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Simple Example:</strong> If age is missing, replace with the average age of all other people in the dataset.
+                </div>
+            </section>
+
+            <section>
+                <h3>Dealing with Outliers</h3>
+                <div class="concept-box">
+                    <h4>What are Outliers?</h4>
+                    <p>Data points that are very different from the rest - like a person who is 8 feet tall in a height dataset.</p>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>Why Outliers Matter</h4>
+                    <ul>
+                        <li><strong>Can skew results:</strong> One extreme value affects the whole model</li>
+                        <li><strong>May be errors:</strong> Typos or measurement mistakes</li>
+                        <li><strong>Or important:</strong> Sometimes outliers are the most interesting cases</li>
+                    </ul>
+                </div>
+                
+                <div class="code-concept fragment">
+                    <h4>Outlier Detection Methods</h4>
+                    <ul>
+                        <li><strong>IQR Method:</strong> Values far from the middle 50% of data</li>
+                        <li><strong>Z-Score:</strong> Values that are many standard deviations away</li>
+                        <li><strong>Visual Inspection:</strong> Look at plots and graphs</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Feature Scaling: Making Everything Comparable</h3>
+                <div class="concept-box">
+                    <h4>The Problem</h4>
+                    <p>Different features have different scales:</p>
+                    <ul class="fragment">
+                        <li>Age: 25 years</li>
+                        <li>Income: $50,000</li>
+                        <li>Height: 5.8 feet</li>
+                    </ul>
+                    <p class="fragment">Machine learning algorithms can get confused by these different ranges!</p>
+                </div>
+                
+                <div class="code-concept fragment">
+                    <h4>Scaling Solutions</h4>
+                    <ul>
+                        <li><strong>Standard Scaling:</strong> Make all features have average of 0 and standard deviation of 1</li>
+                        <li><strong>Min-Max Scaling:</strong> Squeeze all values between 0 and 1</li>
+                        <li><strong>Robust Scaling:</strong> Like standard scaling but handles outliers better</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Think of it as:</strong> Converting all measurements to the same "units" so the algorithm can compare them fairly.
+                </div>
+            </section>
+
+            <section>
+                <h3>Train-Test Split: Honest Evaluation</h3>
+                <div class="concept-box">
+                    <h4>Why Split Data?</h4>
+                    <p>We need to test our model on data it has never seen before to know how well it really works.</p>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; flex: 2; text-align: center;">
+                            <strong>Training Data (80%)</strong><br>
+                            <small>Used to teach the model</small>
+                        </div>
+                        <div style="flex: 0; margin: 0 20px; font-size: 1.5em;">+</div>
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 8px; flex: 1; text-align: center;">
+                            <strong>Test Data (20%)</strong><br>
+                            <small>Used to evaluate the model</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Golden Rule:</strong> Never let the model see the test data during training - that's cheating!
+                </div>
+            </section>
+
+            <!-- Lab Callout 2 -->
+            <section>
+                <div class="lab-callout">
+                    <h3>🧪 Lab Time: Dataset Preparation</h3>
+                    <p><strong>Lab 2.2: Binary Classification Dataset Preparation</strong></p>
+                    <p>You'll work with real-world messy data and clean it up for machine learning. You'll handle missing values, outliers, and scale features properly.</p>
+                    <p><em>Experience the real work of a data scientist!</em></p>
+                </div>
+            </section>
+
+            <!-- Section 4: Gradient Descent -->
+            <section>
+                <div class="session-header">
+                    <h2>Section 4: Gradient Descent - How Machines Learn</h2>
+                </div>
+            </section>
+
+            <section>
+                <h3>What is Gradient Descent?</h3>
+                <div class="concept-box">
+                    <p><strong>Gradient Descent</strong> is how machine learning algorithms learn from their mistakes and get better over time.</p>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>The Mountain Climbing Analogy</h4>
+                    <p>Imagine you're blindfolded on a mountain and want to reach the bottom (lowest point):</p>
+                    <ul class="fragment">
+                        <li><strong>Feel the slope:</strong> Which direction goes downward?</li>
+                        <li><strong>Take a step:</strong> Move in the steepest downward direction</li>
+                        <li><strong>Repeat:</strong> Keep feeling and stepping until you reach the bottom</li>
+                    </ul>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>In Machine Learning:</strong> The "mountain" is the error/cost function, and we want to find the lowest error.
+                </div>
+            </section>
+
+            <section>
+                <h3>How Learning Happens</h3>
+                <div class="code-concept">
+                    <h4>The Learning Process</h4>
+                    <ol>
+                        <li class="fragment"><strong>Make a prediction</strong> with current model</li>
+                        <li class="fragment"><strong>Calculate the error</strong> (how wrong were we?)</li>
+                        <li class="fragment"><strong>Determine direction</strong> to reduce error</li>
+                        <li class="fragment"><strong>Update the model</strong> slightly in that direction</li>
+                        <li class="fragment"><strong>Repeat thousands of times</strong></li>
+                    </ol>
+                </div>
+                
+                <div class="concept-box fragment">
+                    <h4>Real-World Example: Learning to Play Darts</h4>
+                    <ul>
+                        <li><strong>Throw dart</strong> (make prediction)</li>
+                        <li><strong>See where it lands</strong> (calculate error)</li>
+                        <li><strong>Adjust aim</strong> (update model)</li>
+                        <li><strong>Throw again</strong> (repeat process)</li>
+                        <li>Get better with practice!</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Learning Rate: How Big Steps to Take</h3>
+                <div class="concept-box">
+                    <p>The <strong>learning rate</strong> controls how big steps we take when learning:</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 20px 0;">
+                    <div class="key-point fragment">
+                        <strong>Too Small</strong><br>
+                        <small>Very slow learning<br>
+                        Takes forever to improve<br>
+                        Safe but inefficient</small>
+                    </div>
+                    
+                    <div class="key-point fragment" style="background: #e8f5e8;">
+                        <strong>Just Right</strong><br>
+                        <small>Steady improvement<br>
+                        Reaches good solution<br>
+                        Fast and stable</small>
+                    </div>
+                    
+                    <div class="key-point fragment">
+                        <strong>Too Large</strong><br>
+                        <small>Chaotic learning<br>
+                        Jumps around wildly<br>
+                        May never converge</small>
+                    </div>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <p><strong>Back to Mountain Analogy:</strong></p>
+                    <ul>
+                        <li>Small steps: Careful but slow descent</li>
+                        <li>Medium steps: Efficient path to bottom</li>
+                        <li>Large steps: Might jump over the bottom or fall off a cliff!</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Types of Gradient Descent</h3>
+                <div class="comparison-table">
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Type</th>
+                            <th>How It Works</th>
+                            <th>Pros</th>
+                            <th>Cons</th>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Batch</strong></td>
+                            <td>Uses all data for each update</td>
+                            <td>Stable, smooth learning</td>
+                            <td>Slow for large datasets</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Stochastic</strong></td>
+                            <td>Uses one data point at a time</td>
+                            <td>Fast, works with large data</td>
+                            <td>Noisy, jumpy updates</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Mini-batch</strong></td>
+                            <td>Uses small groups of data</td>
+                            <td>Balance of speed and stability</td>
+                            <td>Need to choose batch size</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Most Popular:</strong> Mini-batch gradient descent - gets the best of both worlds!
+                </div>
+            </section>
+
+            <!-- Lab Callout 3 -->
+            <section>
+                <div class="lab-callout">
+                    <h3>🧪 Lab Time: Gradient Descent Implementation</h3>
+                    <p><strong>Lab 2.3: Gradient Descent from Scratch</strong></p>
+                    <p>You'll implement gradient descent and watch it learn! See how different learning rates affect training and understand how machines actually improve over time.</p>
+                    <p><em>Watch AI learn before your eyes!</em></p>
+                </div>
+            </section>
+
+            <!-- Section 5: Neural Networks -->
+            <section>
+                <div class="session-header">
+                    <h2>Section 5: Neural Networks - Combining Simple Ideas</h2>
+                </div>
+            </section>
+
+            <section>
+                <h3>From Logistic Regression to Neural Networks</h3>
+                <div class="concept-box">
+                    <p><strong>Key Insight:</strong> A neural network is just many logistic regression units working together!</p>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>Building Up Complexity</h4>
+                    <div style="margin: 20px 0;">
+                        <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                            <strong>Single Neuron</strong> = One logistic regression unit<br>
+                            <small>Makes one simple decision</small>
+                        </div>
+                        <div style="text-align: center; margin: 10px;">↓</div>
+                        <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                            <strong>Layer of Neurons</strong> = Multiple units working in parallel<br>
+                            <small>Each learns different patterns</small>
+                        </div>
+                        <div style="text-align: center; margin: 10px;">↓</div>
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                            <strong>Neural Network</strong> = Multiple layers connected together<br>
+                            <small>Combines simple patterns into complex decisions</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Neural Network Architecture</h3>
+                <div class="concept-box">
+                    <h4>The Three Types of Layers</h4>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 20px 0;">
+                    <div class="key-point fragment">
+                        <strong>Input Layer</strong><br>
+                        <small>• Receives the data<br>
+                        • One neuron per feature<br>
+                        • Just passes information forward</small>
+                    </div>
+                    
+                    <div class="key-point fragment">
+                        <strong>Hidden Layer(s)</strong><br>
+                        <small>• Does the actual learning<br>
+                        • Can have many neurons<br>
+                        • Finds patterns in the data</small>
+                    </div>
+                    
+                    <div class="key-point fragment">
+                        <strong>Output Layer</strong><br>
+                        <small>• Makes the final decision<br>
+                        • One neuron for binary classification<br>
+                        • Produces the prediction</small>
+                    </div>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>Think of it Like a Factory Assembly Line</h4>
+                    <p>Each layer does some processing and passes the result to the next layer, gradually transforming raw inputs into final decisions.</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>What Each Neuron Does</h3>
+                <div class="code-concept">
+                    <h4>Every Neuron Performs These Steps:</h4>
+                    <ol>
+                        <li class="fragment"><strong>Receive inputs</strong> from previous layer</li>
+                        <li class="fragment"><strong>Multiply by weights</strong> (importance factors)</li>
+                        <li class="fragment"><strong>Add them up</strong> (weighted sum)</li>
+                        <li class="fragment"><strong>Add bias</strong> (adjustment factor)</li>
+                        <li class="fragment"><strong>Apply activation function</strong> (like sigmoid)</li>
+                        <li class="fragment"><strong>Send output</strong> to next layer</li>
+                    </ol>
+                </div>
+                
+                <div class="concept-box fragment">
+                    <h4>Real-World Analogy: Restaurant Kitchen</h4>
+                    <ul>
+                        <li><strong>Inputs:</strong> Ingredients from different stations</li>
+                        <li><strong>Weights:</strong> How much of each ingredient to use</li>
+                        <li><strong>Weighted sum:</strong> Mix all ingredients together</li>
+                        <li><strong>Activation:</strong> Cook the mixture (transform it)</li>
+                        <li><strong>Output:</strong> Pass dish to next station</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Forward Propagation: Making Predictions</h3>
+                <div class="concept-box">
+                    <p><strong>Forward Propagation</strong> is the process of making a prediction by passing data through the network from input to output.</p>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>The Information Flow</h4>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <div style="display: flex; align-items: center; justify-content: center;">
+                            <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin: 5px;">Input Data</div>
+                            <span style="margin: 0 10px;">→</span>
+                            <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; margin: 5px;">Hidden Layer 1</div>
+                            <span style="margin: 0 10px;">→</span>
+                            <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; margin: 5px;">Hidden Layer 2</div>
+                            <span style="margin: 0 10px;">→</span>
+                            <div style="background: #e8f5e8; padding: 10px; border-radius: 8px; margin: 5px;">Output</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="code-concept fragment">
+                    <h4>Step by Step Process</h4>
+                    <ul>
+                        <li><strong>Layer 1:</strong> Takes raw input, processes it, outputs intermediate result</li>
+                        <li><strong>Layer 2:</strong> Takes intermediate result, processes it further</li>
+                        <li><strong>Output Layer:</strong> Takes processed information, makes final prediction</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Backward Propagation: Learning from Mistakes</h3>
+                <div class="concept-box">
+                    <p><strong>Backward Propagation</strong> is how the network learns by figuring out which weights to adjust based on prediction errors.</p>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>The Learning Flow (Reverse Direction)</h4>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <div style="display: flex; align-items: center; justify-content: center;">
+                            <div style="background: #ffebee; padding: 10px; border-radius: 8px; margin: 5px;">Error</div>
+                            <span style="margin: 0 10px;">←</span>
+                            <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; margin: 5px;">Adjust Layer 2</div>
+                            <span style="margin: 0 10px;">←</span>
+                            <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; margin: 5px;">Adjust Layer 1</div>
+                            <span style="margin: 0 10px;">←</span>
+                            <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin: 5px;">Update Complete</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Key Idea:</strong> We work backwards from the error, figuring out how much each weight contributed to the mistake, then adjust accordingly.
+                </div>
+            </section>
+
+            <!-- Lab Callout 4 -->
+            <section>
+                <div class="lab-callout">
+                    <h3>🧪 Lab Time: Neural Network Design</h3>
+                    <p><strong>Lab 2.4: Neural Network Class Design</strong></p>
+                    <p>You'll build your first neural network from scratch! Design the architecture, implement forward propagation, and see how multiple layers work together.</p>
+                    <p><em>Create your first artificial brain!</em></p>
+                </div>
+            </section>
+
+            <!-- Section 6: Training Process -->
+            <section>
+                <div class="session-header">
+                    <h2>Section 6: Training Neural Networks</h2>
+                </div>
+            </section>
+
+            <section>
+                <h3>The Training Loop</h3>
+                <div class="concept-box">
+                    <p><strong>Training</strong> is the process of showing the neural network many examples so it can learn to make accurate predictions.</p>
+                </div>
+                
+                <div class="code-concept">
+                    <h4>The Complete Training Process</h4>
+                    <ol>
+                        <li class="fragment"><strong>Initialize:</strong> Start with random weights</li>
+                        <li class="fragment"><strong>Forward pass:</strong> Make predictions on training data</li>
+                        <li class="fragment"><strong>Calculate loss:</strong> Measure how wrong the predictions are</li>
+                        <li class="fragment"><strong>Backward pass:</strong> Calculate gradients (which weights to adjust)</li>
+                        <li class="fragment"><strong>Update weights:</strong> Adjust weights using gradient descent</li>
+                        <li class="fragment"><strong>Repeat:</strong> Do this for many iterations until performance is good</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section>
+                <h3>Epochs, Batches, and Iterations</h3>
+                <div class="comparison-table">
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Iteration</strong></td>
+                            <td>One weight update step</td>
+                            <td>Process one batch of data</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Batch</strong></td>
+                            <td>Group of training examples processed together</td>
+                            <td>32 examples at once</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Epoch</strong></td>
+                            <td>One complete pass through all training data</td>
+                            <td>Seen every training example once</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>Training Timeline Example</h4>
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <p><strong>Dataset:</strong> 1000 training examples, Batch size: 100</p>
+                        <ul>
+                            <li>1 Epoch = 10 iterations (1000 ÷ 100)</li>
+                            <li>Training for 50 epochs = 500 total iterations</li>
+                            <li>Network sees each example 50 times</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Monitoring Training Progress</h3>
+                <div class="concept-box">
+                    <h4>What to Watch During Training</h4>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="key-point fragment">
+                        <strong>Training Loss</strong><br>
+                        <small>• Should decrease over time<br>
+                        • Shows model is learning<br>
+                        • If it goes up, something's wrong</small>
+                    </div>
+                    
+                    <div class="key-point fragment">
+                        <strong>Validation Accuracy</strong><br>
+                        <small>• How well model performs on unseen data<br>
+                        • Should improve with training<br>
+                        • More important than training loss</small>
+                    </div>
+                </div>
+                
+                <div class="code-concept fragment">
+                    <h4>Signs of Good Training</h4>
+                    <ul>
+                        <li><strong>Smooth decrease:</strong> Loss goes down steadily</li>
+                        <li><strong>Convergence:</strong> Loss levels off at a low value</li>
+                        <li><strong>Generalization:</strong> Validation performance keeps improving</li>
+                    </ul>
+                </div>
+                
+                <div class="code-concept fragment">
+                    <h4>Warning Signs</h4>
+                    <ul>
+                        <li><strong>Divergence:</strong> Loss increases or explodes</li>
+                        <li><strong>Overfitting:</strong> Training improves but validation gets worse</li>
+                        <li><strong>No learning:</strong> Loss stays flat</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Lab Callout 5 -->
+            <section>
+                <div class="lab-callout">
+                    <h3>🧪 Lab Time: Training Implementation</h3>
+                    <p><strong>Lab 2.5: Training Loop Implementation</strong></p>
+                    <p>You'll implement the complete training process! Set up training loops, monitor progress, and watch your neural network learn from data.</p>
+                    <p><em>Train your first neural network!</em></p>
+                </div>
+            </section>
+
+            <!-- Section 7: Model Evaluation -->
+            <section>
+                <div class="session-header">
+                    <h2>Section 7: Evaluating Model Performance</h2>
+                </div>
+            </section>
+
+            <section>
+                <h3>Why Model Evaluation Matters</h3>
+                <div class="concept-box">
+                    <p><strong>Question:</strong> How do we know if our model is actually good?</p>
+                    <p class="fragment"><strong>Answer:</strong> We need to measure its performance on new, unseen data.</p>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Golden Rule:</strong> A model that performs well on training data but poorly on new data is not useful!
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>Real-World Analogy</h4>
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px;">
+                        <p><strong>Like studying for an exam:</strong></p>
+                        <ul>
+                            <li>Memorizing practice questions = Good training performance</li>
+                            <li>But can you solve new problems? = Good test performance</li>
+                            <li>We want models that truly understand, not just memorize</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Classification Metrics Made Simple</h3>
+                <div class="concept-box">
+                    <h4>The Confusion Matrix: A Clear Picture</h4>
+                    <p>Shows exactly where our model gets confused.</p>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <table style="margin: 20px auto; border-collapse: collapse; border: 2px solid #333;">
+                        <tr>
+                            <td style="border: 1px solid #333; padding: 10px; background: #f0f0f0;"></td>
+                            <td style="border: 1px solid #333; padding: 10px; background: #f0f0f0; text-align: center;"><strong>Predicted No</strong></td>
+                            <td style="border: 1px solid #333; padding: 10px; background: #f0f0f0; text-align: center;"><strong>Predicted Yes</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #333; padding: 10px; background: #f0f0f0;"><strong>Actual No</strong></td>
+                            <td style="border: 1px solid #333; padding: 10px; background: #e8f5e8; text-align: center;"><strong>True Negative</strong><br>(Correct!)</td>
+                            <td style="border: 1px solid #333; padding: 10px; background: #ffebee; text-align: center;"><strong>False Positive</strong><br>(Oops!)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #333; padding: 10px; background: #f0f0f0;"><strong>Actual Yes</strong></td>
+                            <td style="border: 1px solid #333; padding: 10px; background: #ffebee; text-align: center;"><strong>False Negative</strong><br>(Missed it!)</td>
+                            <td style="border: 1px solid #333; padding: 10px; background: #e8f5e8; text-align: center;"><strong>True Positive</strong><br>(Correct!)</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Goal:</strong> Maximize the green boxes (correct predictions), minimize the red boxes (errors).
+                </div>
+            </section>
+
+            <section>
+                <h3>Key Performance Metrics</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="concept-box fragment">
+                        <h4>Accuracy</h4>
+                        <p><strong>Question:</strong> What percentage of predictions were correct?</p>
+                        <p><strong>Formula:</strong> Correct predictions ÷ Total predictions</p>
+                        <p><strong>Example:</strong> 85 out of 100 predictions correct = 85% accuracy</p>
+                    </div>
+                    
+                    <div class="concept-box fragment">
+                        <h4>Precision</h4>
+                        <p><strong>Question:</strong> Of all "Yes" predictions, how many were actually correct?</p>
+                        <p><strong>Think:</strong> How precise were our positive predictions?</p>
+                        <p><strong>Example:</strong> Predicted 20 as spam, 15 actually were = 75% precision</p>
+                    </div>
+                    
+                    <div class="concept-box fragment">
+                        <h4>Recall</h4>
+                        <p><strong>Question:</strong> Of all actual "Yes" cases, how many did we find?</p>
+                        <p><strong>Think:</strong> How many did we recall/remember to catch?</p>
+                        <p><strong>Example:</strong> 30 actual spam emails, caught 25 = 83% recall</p>
+                    </div>
+                    
+                    <div class="concept-box fragment">
+                        <h4>F1-Score</h4>
+                        <p><strong>Question:</strong> What's the balance between precision and recall?</p>
+                        <p><strong>Think:</strong> Single number combining both measures</p>
+                        <p><strong>Use:</strong> When you need one score to compare models</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>When to Use Which Metric</h3>
+                <div class="comparison-table">
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Primary Metric</th>
+                            <th>Why</th>
+                        </tr>
+                        <tr class="fragment">
+                            <td>Email spam detection</td>
+                            <td>Precision</td>
+                            <td>Don't want to mark important emails as spam</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td>Medical diagnosis</td>
+                            <td>Recall</td>
+                            <td>Don't want to miss any cases of disease</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td>General classification</td>
+                            <td>Accuracy</td>
+                            <td>Simple overall performance measure</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td>Imbalanced datasets</td>
+                            <td>F1-Score</td>
+                            <td>Balances precision and recall</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Remember:</strong> Choose metrics based on the real-world consequences of different types of errors.
+                </div>
+            </section>
+
+            <section>
+                <h3>Cross-Validation: More Robust Testing</h3>
+                <div class="concept-box">
+                    <h4>The Problem with Single Train-Test Split</h4>
+                    <p>What if our test set happens to be easier or harder than usual?</p>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>5-Fold Cross-Validation</h4>
+                    <p>Split data into 5 parts, train on 4, test on 1. Repeat 5 times.</p>
+                    <div style="margin: 20px 0;">
+                        <div style="display: flex; margin: 10px 0;">
+                            <div style="background: #ffebee; padding: 8px; border: 1px solid #ccc; flex: 1; text-align: center;">Test</div>
+                            <div style="background: #e3f2fd; padding: 8px; border: 1px solid #ccc; flex: 1; text-align: center;">Train</div>
+                            <div style="background: #e3f2fd; padding: 8px; border: 1px solid #ccc; flex: 1; text-align: center;">Train</div>
+                            <div style="background: #e3f2fd; padding: 8px; border: 1px solid #ccc; flex: 1; text-align: center;">Train</div>
+                            <div style="background: #e3f2fd; padding: 8px; border: 1px solid #ccc; flex: 1; text-align: center;">Train</div>
+                        </div>
+                        <div style="text-align: center;">Fold 1</div>
+                    </div>
+                </div>
+                
+                <div class="code-concept fragment">
+                    <h4>Benefits of Cross-Validation</h4>
+                    <ul>
+                        <li><strong>More reliable:</strong> Tests on different data splits</li>
+                        <li><strong>Better estimates:</strong> Averages performance across folds</li>
+                        <li><strong>Detects overfitting:</strong> High variance indicates problems</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Lab Callout 6 -->
+            <section>
+                <div class="lab-callout">
+                    <h3>🧪 Lab Time: Model Evaluation</h3>
+                    <p><strong>Lab 2.6: Model Evaluation and Metrics</strong></p>
+                    <p>You'll learn to properly evaluate your models using various metrics. Calculate accuracy, precision, recall, and create confusion matrices to understand your model's strengths and weaknesses.</p>
+                    <p><em>Master the art of model evaluation!</em></p>
+                </div>
+            </section>
+
+            <!-- Summary and Key Takeaways -->
+            <section>
+                <div class="session-header">
+                    <h2>Summary: What We've Learned</h2>
+                </div>
+            </section>
+
+            <section>
+                <h3>Key Concepts Mastered</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <div class="concept-box fragment">
+                            <h4>Binary Classification</h4>
+                            <ul class="checklist">
+                                <li>Making yes/no decisions</li>
+                                <li>Finding decision boundaries</li>
+                                <li>Real-world applications</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-box fragment">
+                            <h4>Logistic Regression</h4>
+                            <ul class="checklist">
+                                <li>Sigmoid function magic</li>
+                                <li>Probability predictions</li>
+                                <li>Linear to non-linear</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-box fragment">
+                            <h4>Data Preparation</h4>
+                            <ul class="checklist">
+                                <li>Handling missing values</li>
+                                <li>Dealing with outliers</li>
+                                <li>Feature scaling</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="concept-box fragment">
+                            <h4>Gradient Descent</h4>
+                            <ul class="checklist">
+                                <li>How machines learn</li>
+                                <li>Learning rates</li>
+                                <li>Batch vs stochastic</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-box fragment">
+                            <h4>Neural Networks</h4>
+                            <ul class="checklist">
+                                <li>Architecture design</li>
+                                <li>Forward propagation</li>
+                                <li>Backward propagation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-box fragment">
+                            <h4>Model Evaluation</h4>
+                            <ul class="checklist">
+                                <li>Performance metrics</li>
+                                <li>Confusion matrices</li>
+                                <li>Cross-validation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Your Learning Journey</h3>
+                <div class="visual-concept">
+                    <h4>From Simple to Sophisticated</h4>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="text-align: center; flex: 1;">
+                                <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin: 5px;">
+                                    <strong>Started</strong><br>
+                                    <small>Basic classification</small>
+                                </div>
+                            </div>
+                            <div style="font-size: 1.5em;">→</div>
+                            <div style="text-align: center; flex: 1;">
+                                <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; margin: 5px;">
+                                    <strong>Learned</strong><br>
+                                    <small>Data preparation</small>
+                                </div>
+                            </div>
+                            <div style="font-size: 1.5em;">→</div>
+                            <div style="text-align: center; flex: 1;">
+                                <div style="background: #e8f5e8; padding: 10px; border-radius: 8px; margin: 5px;">
+                                    <strong>Built</strong><br>
+                                    <small>Neural networks</small>
+                                </div>
+                            </div>
+                            <div style="font-size: 1.5em;">→</div>
+                            <div style="text-align: center; flex: 1;">
+                                <div style="background: #fff3e0; padding: 10px; border-radius: 8px; margin: 5px;">
+                                    <strong>Mastered</strong><br>
+                                    <small>Evaluation</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="key-point fragment">
+                    <strong>Achievement Unlocked:</strong> You now understand the fundamental building blocks of machine learning and neural networks!
+                </div>
+            </section>
+
+            <section>
+                <h3>Looking Ahead</h3>
+                <div class="concept-box">
+                    <h4>What's Next in Your Deep Learning Journey</h4>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="key-point fragment">
+                        <strong>Content 3: Shallow Neural Networks</strong><br>
+                        <small>• Multiple hidden layers<br>
+                        • Advanced architectures<br>
+                        • Optimization techniques</small>
+                    </div>
+                    
+                    <div class="key-point fragment">
+                        <strong>Content 4: Deep Neural Networks</strong><br>
+                        <small>• Deep architectures<br>
+                        • Regularization<br>
+                        • Real-world applications</small>
+                    </div>
+                </div>
+                
+                <div class="visual-concept fragment">
+                    <h4>Skills You've Built Today</h4>
+                    <ul style="columns: 2; column-gap: 40px;">
+                        <li>Understanding of binary classification</li>
+                        <li>Implementation of logistic regression</li>
+                        <li>Data preprocessing techniques</li>
+                        <li>Gradient descent optimization</li>
+                        <li>Neural network architecture design</li>
+                        <li>Training loop implementation</li>
+                        <li>Model evaluation methods</li>
+                        <li>Performance metric interpretation</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Final Slide -->
+            <section class="title-slide" data-background-color="#f8f9fa">
+                <div class="main-title">
+                    <h2>Congratulations!</h2>
+                    <h3>You've Completed Content 2</h3>
+                </div>
+                
+                <div class="key-point" style="font-size: 1.2em;">
+                    <strong>You now have a solid foundation in:</strong><br>
+                    Binary Classification • Neural Networks • Machine Learning Fundamentals
+                </div>
+                
+                <div class="fragment" style="margin-top: 30px;">
+                    <p><strong>Ready for more advanced topics in Content 3!</strong></p>
+                    <p><em>Keep up the excellent work! 🚀</em></p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+            backgroundTransition: 'fade',
+            width: 1200,
+            height: 800,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0,
+            embedded: false,
+            viewDistance: 3
+        });
+    </script>
+</body>
+</html>

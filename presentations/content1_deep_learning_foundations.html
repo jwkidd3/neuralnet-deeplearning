@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Networks & Deep Learning - Deep Learning Foundations</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css">
+    <style>
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.75em;
+            line-height: 1.4;
+        }
+        .reveal h1 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 0.5em;
+        }
+        .reveal h2 {
+            font-size: 1.4em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 0.5em;
+        }
+        .reveal h3 {
+            font-size: 1.1em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 0.4em;
+        }
+        .reveal .title-block {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .reveal .session-header {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 5px solid #1976d2;
+        }
+        .reveal .lab-callout {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        .reveal .concept-box {
+            background: #e8f5e8;
+            padding: 10px;
+            border-left: 5px solid #4caf50;
+            margin: 8px 0;
+            border-radius: 3px;
+            font-size: 0.95em;
+        }
+        .reveal .example-box {
+            background: #f3e5f5;
+            padding: 10px;
+            border-left: 5px solid #9c27b0;
+            margin: 8px 0;
+            border-radius: 3px;
+            font-size: 0.95em;
+        }
+        .reveal .analogy-box {
+            background: #e1f5fe;
+            padding: 10px;
+            border-left: 5px solid #00bcd4;
+            margin: 8px 0;
+            border-radius: 3px;
+            font-size: 0.95em;
+        }
+        .reveal ul li, .reveal ol li {
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        .reveal .small-text {
+            font-size: 0.7em;
+        }
+        .reveal .large-text {
+            font-size: 1.1em;
+        }
+        .reveal .center {
+            text-align: center;
+        }
+        .reveal .image-container {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .reveal .two-columns {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .reveal .column {
+            flex: 1;
+            margin: 0 5px;
+        }
+        .reveal .progress-indicator {
+            background: #007bff;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.7em;
+            margin-bottom: 15px;
+        }
+        .reveal p {
+            margin-bottom: 0.8em;
+        }
+        .reveal .slides section {
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Title Slide -->
+            <section>
+                <div class="title-block">
+                    <h1>Neural Networks & Deep Learning</h1>
+                    <h2>Deep Learning Foundations</h2>
+                    <h3>Setting the Stage for Intelligent Systems</h3>
+                </div>
+                <div class="center">
+                    <p class="large-text">Welcome to the exciting world of artificial intelligence!</p>
+                    <p>Today we'll discover how computers can learn to recognize patterns, make decisions, and solve complex problems.</p>
+                </div>
+            </section>
+
+            <!-- Course Overview -->
+            <section>
+                <div class="session-header">
+                    <h2>Course Journey Overview</h2>
+                </div>
+                <div class="progress-indicator">Day 1 of 4: Foundations</div>
+                <ul>
+                    <li><strong>Day 1 - Deep Learning Foundations:</strong><br>
+                        Understanding what neural networks are and how they work</li>
+                    <li><strong>Day 2 - Implementation Basics:</strong><br>
+                        Building your first neural networks from scratch</li>
+                    <li><strong>Day 3 - Advanced Networks:</strong><br>
+                        Creating more sophisticated architectures</li>
+                    <li><strong>Day 4 - Professional Applications:</strong><br>
+                        Structuring real-world machine learning projects</li>
+                </ul>
+                <div class="concept-box">
+                    <strong>Our Goal:</strong> By the end of this course, you'll understand how to build, train, and deploy neural networks for real-world problems.
+                </div>
+            </section>
+
+            <!-- What is Artificial Intelligence? -->
+            <section>
+                <div class="session-header">
+                    <h2>What is Artificial Intelligence?</h2>
+                </div>
+                <div class="analogy-box">
+                    <strong>Simple Definition:</strong> AI is creating computer systems that can perform tasks that typically require human intelligence.
+                </div>
+                
+                <div class="two-columns">
+                    <div class="column">
+                        <h3>Human Intelligence:</h3>
+                        <ul>
+                            <li>Recognizing faces</li>
+                            <li>Understanding speech</li>
+                            <li>Making decisions</li>
+                            <li>Learning from experience</li>
+                            <li>Solving problems</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Artificial Intelligence:</h3>
+                        <ul>
+                            <li>Computer vision systems</li>
+                            <li>Voice assistants</li>
+                            <li>Recommendation engines</li>
+                            <li>Machine learning</li>
+                            <li>Automated reasoning</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI in Daily Life -->
+            <section>
+                <div class="session-header">
+                    <h2>AI in Your Daily Life</h2>
+                </div>
+                <p>You interact with AI more than you might realize:</p>
+                
+                <div class="example-box">
+                    <ul>
+                        <li><strong>Smartphone:</strong> Face unlock, voice assistants, photo organization</li>
+                        <li><strong>Social Media:</strong> News feed algorithms, content recommendations</li>
+                        <li><strong>Shopping:</strong> Product recommendations, price optimization</li>
+                        <li><strong>Entertainment:</strong> Netflix suggestions, Spotify playlists</li>
+                        <li><strong>Navigation:</strong> GPS routing, traffic predictions</li>
+                        <li><strong>Email:</strong> Spam filtering, smart replies</li>
+                        <li><strong>Search:</strong> Google results, autocomplete</li>
+                    </ul>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>Key Insight:</strong> AI isn't science fiction - it's already integrated into almost every aspect of modern life!
+                </div>
+            </section>
+
+            <!-- What Makes Neural Networks Special? -->
+            <section>
+                <div class="session-header">
+                    <h2>What Makes Neural Networks Special?</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Think of it this way:</strong> Traditional programming is like giving someone detailed instructions. Neural networks are like teaching someone to recognize patterns through examples.
+                </div>
+                
+                <div class="two-columns">
+                    <div class="column">
+                        <h3>Traditional Programming:</h3>
+                        <ul>
+                            <li>We write specific rules</li>
+                            <li>Computer follows instructions exactly</li>
+                            <li>Hard to handle unexpected situations</li>
+                            <li>Rules become complex quickly</li>
+                        </ul>
+                        <div class="example-box">
+                            <strong>Example:</strong> "If email contains 'FREE MONEY', mark as spam"
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3>Neural Networks:</h3>
+                        <ul>
+                            <li>We show examples of input and output</li>
+                            <li>Computer learns patterns from data</li>
+                            <li>Can handle new, unseen situations</li>
+                            <li>Discovers complex patterns automatically</li>
+                        </ul>
+                        <div class="example-box">
+                            <strong>Example:</strong> Show 10,000 emails (spam/not spam), let computer learn patterns
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- The Brain Analogy -->
+            <section>
+                <div class="session-header">
+                    <h2>Learning from the Human Brain</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>The Inspiration:</strong> Neural networks are very loosely inspired by how our brains work, but they're much simpler!
+                </div>
+                
+                <div class="two-columns">
+                    <div class="column">
+                        <h3>Human Brain:</h3>
+                        <ul>
+                            <li>~86 billion neurons</li>
+                            <li>Neurons connect to each other</li>
+                            <li>Signals pass between neurons</li>
+                            <li>Patterns of activity create thoughts</li>
+                            <li>Learning changes connections</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Artificial Neural Network:</h3>
+                        <ul>
+                            <li>Hundreds to millions of "neurons"</li>
+                            <li>Mathematical connections</li>
+                            <li>Numbers pass between nodes</li>
+                            <li>Patterns of numbers create predictions</li>
+                            <li>Training adjusts connection strengths</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>Important:</strong> Artificial neural networks are mathematical models. They don't think or feel - they're very sophisticated pattern recognition systems!
+                </div>
+            </section>
+
+            <!-- What is an Artificial Neuron? -->
+            <section>
+                <div class="session-header">
+                    <h2>What is an Artificial Neuron?</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Simple Analogy:</strong> Think of a neuron like a decision-making unit that takes in information, processes it, and produces an output.
+                </div>
+                
+                <h3>Basic Components:</h3>
+                <ul>
+                    <li><strong>Inputs:</strong> Information coming in (like sensors)</li>
+                    <li><strong>Weights:</strong> How important each input is</li>
+                    <li><strong>Processing:</strong> Combine all inputs based on importance</li>
+                    <li><strong>Activation:</strong> Decide what output to produce</li>
+                    <li><strong>Output:</strong> Send result to next stage</li>
+                </ul>
+                
+                <div class="example-box">
+                    <strong>Real-World Example:</strong><br>
+                    <strong>Problem:</strong> Should I buy this house?<br>
+                    <strong>Inputs:</strong> Price, size, location, condition<br>
+                    <strong>Weights:</strong> How much each factor matters to me<br>
+                    <strong>Processing:</strong> Combine all factors<br>
+                    <strong>Output:</strong> Yes or No decision
+                </div>
+            </section>
+
+            <!-- How Neurons Work Together -->
+            <section>
+                <div class="session-header">
+                    <h2>How Neurons Work Together</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Team Analogy:</strong> Just like a team where each person has a specialized role, neurons work together to solve complex problems.
+                </div>
+                
+                <h3>Network Structure:</h3>
+                <ul>
+                    <li><strong>Layers:</strong> Groups of neurons working at the same stage</li>
+                    <li><strong>Input Layer:</strong> Receives the original data</li>
+                    <li><strong>Hidden Layers:</strong> Process and transform information</li>
+                    <li><strong>Output Layer:</strong> Produces the final answer</li>
+                </ul>
+                
+                <div class="example-box">
+                    <strong>Photo Recognition Example:</strong><br>
+                    <strong>Input Layer:</strong> Pixel values from photo<br>
+                    <strong>Hidden Layer 1:</strong> Detects edges and lines<br>
+                    <strong>Hidden Layer 2:</strong> Combines edges into shapes<br>
+                    <strong>Hidden Layer 3:</strong> Combines shapes into objects<br>
+                    <strong>Output Layer:</strong> "This is a cat" or "This is a dog"
+                </div>
+            </section>
+
+            <!-- Lab Callout 1 -->
+            <section>
+                <div class="lab-callout">
+                    <h2>🧪 Lab Time!</h2>
+                    <h3>Lab 1.1: Environment Setup</h3>
+                    <p><strong>What you'll do:</strong> Set up your Python environment and install the tools we need for building neural networks.</p>
+                    <p><strong>Why it matters:</strong> A proper development environment is essential for hands-on learning.</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <div class="small-text">
+                        <p>📋 You'll install Python packages, test your setup, and troubleshoot any issues. This ensures everyone can follow along with the coding examples.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- What is Deep Learning? -->
+            <section>
+                <div class="session-header">
+                    <h2>What is Deep Learning?</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Simple Definition:</strong> Deep Learning uses neural networks with many layers (hence "deep") to automatically discover complex patterns in data.
+                </div>
+                
+                <div class="concept-box">
+                    <strong>Why "Deep"?</strong><br>
+                    Traditional neural networks: 1-2 hidden layers<br>
+                    Deep neural networks: 3+ layers (sometimes hundreds!)
+                </div>
+                
+                <h3>What Makes Deep Learning Powerful:</h3>
+                <ul>
+                    <li><strong>Automatic Feature Discovery:</strong> Finds important patterns without human guidance</li>
+                    <li><strong>Hierarchical Learning:</strong> Builds complex understanding from simple concepts</li>
+                    <li><strong>End-to-End Learning:</strong> Learns entire process from raw data to final result</li>
+                    <li><strong>Scalability:</strong> Gets better with more data and computing power</li>
+                </ul>
+            </section>
+
+            <!-- Deep Learning vs Traditional Approaches -->
+            <section>
+                <div class="session-header">
+                    <h2>Deep Learning vs Traditional Approaches</h2>
+                </div>
+                
+                <div class="two-columns">
+                    <div class="column">
+                        <h3>Traditional Machine Learning:</h3>
+                        <ul>
+                            <li>Humans design features</li>
+                            <li>Limited pattern complexity</li>
+                            <li>Lots of domain expertise needed</li>
+                            <li>Good for structured data</li>
+                            <li>Interpretable results</li>
+                        </ul>
+                        <div class="example-box">
+                            <strong>Example:</strong> Email spam detection<br>
+                            Human defines: word counts, sender reputation, subject line patterns
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3>Deep Learning:</h3>
+                        <ul>
+                            <li>Automatically discovers features</li>
+                            <li>Handles complex patterns</li>
+                            <li>Minimal domain expertise needed</li>
+                            <li>Excellent for unstructured data</li>
+                            <li>Less interpretable (black box)</li>
+                        </ul>
+                        <div class="example-box">
+                            <strong>Example:</strong> Image recognition<br>
+                            Network learns: edges, shapes, textures, objects automatically
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activation Functions Basics -->
+            <section>
+                <div class="session-header">
+                    <h2>Activation Functions: The Decision Makers</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Analogy:</strong> Activation functions are like different personalities for making decisions. Some are cautious, some are bold, some are balanced.
+                </div>
+                
+                <h3>Why Do We Need Them?</h3>
+                <div class="concept-box">
+                    Without activation functions, neural networks would just be fancy calculators doing basic addition and multiplication. They add the "intelligence" that allows networks to learn complex patterns.
+                </div>
+                
+                <h3>Common Types (Don't worry about the math!):</h3>
+                <ul>
+                    <li><strong>Sigmoid:</strong> "Maybe" type - gives answers between 0% and 100%</li>
+                    <li><strong>ReLU:</strong> "Optimistic" type - either 0 or positive numbers</li>
+                    <li><strong>Tanh:</strong> "Balanced" type - gives answers from -100% to +100%</li>
+                </ul>
+            </section>
+
+            <!-- Applications Overview -->
+            <section>
+                <div class="session-header">
+                    <h2>Amazing Applications of Deep Learning</h2>
+                </div>
+                
+                <div class="two-columns">
+                    <div class="column">
+                        <h3>Computer Vision:</h3>
+                        <ul>
+                            <li>Medical image diagnosis</li>
+                            <li>Autonomous vehicles</li>
+                            <li>Face recognition</li>
+                            <li>Quality control in manufacturing</li>
+                        </ul>
+                        
+                        <h3>Natural Language:</h3>
+                        <ul>
+                            <li>Language translation</li>
+                            <li>Chatbots and virtual assistants</li>
+                            <li>Document summarization</li>
+                            <li>Sentiment analysis</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Creative Applications:</h3>
+                        <ul>
+                            <li>Art and image generation</li>
+                            <li>Music composition</li>
+                            <li>Style transfer</li>
+                            <li>Creative writing assistance</li>
+                        </ul>
+                        
+                        <h3>Science & Research:</h3>
+                        <ul>
+                            <li>Drug discovery</li>
+                            <li>Climate modeling</li>
+                            <li>Protein folding</li>
+                            <li>Astronomical discoveries</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab Callout 2 -->
+            <section>
+                <div class="lab-callout">
+                    <h2>🧪 Lab Time!</h2>
+                    <h3>Lab 1.2: Mathematical Foundations Review</h3>
+                    <p><strong>What you'll do:</strong> Learn the basic math concepts that power neural networks, explained in simple terms with lots of examples.</p>
+                    <p><strong>Why it matters:</strong> Understanding the building blocks helps you debug and improve your networks.</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <div class="small-text">
+                        <p>📋 Don't worry - we'll keep it practical and focus on intuition rather than complex formulas!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Historical Perspective -->
+            <section>
+                <div class="session-header">
+                    <h2>A Brief History: From Dreams to Reality</h2>
+                </div>
+                
+                <div class="example-box">
+                    <ul>
+                        <li><strong>1940s-1950s:</strong> First ideas about artificial neurons</li>
+                        <li><strong>1960s-1980s:</strong> Early neural networks, limited success</li>
+                        <li><strong>1990s-2000s:</strong> "AI Winter" - interest and funding decline</li>
+                        <li><strong>2006-2012:</strong> Deep learning breakthrough</li>
+                        <li><strong>2012-Present:</strong> Explosive growth and applications</li>
+                    </ul>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>What Changed?</strong><br>
+                    Three key factors enabled the deep learning revolution:
+                    <ul>
+                        <li><strong>Big Data:</strong> Internet created massive datasets</li>
+                        <li><strong>Computing Power:</strong> GPUs made training faster</li>
+                        <li><strong>Better Algorithms:</strong> Improved training techniques</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Why Now? The Perfect Storm -->
+            <section>
+                <div class="session-header">
+                    <h2>Why Now? The Perfect Storm</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Think of it like cooking:</strong> You need the right ingredients, proper tools, and good techniques. Deep learning finally has all three!
+                </div>
+                
+                <div class="two-columns">
+                    <div class="column">
+                        <h3>🗂️ Big Data (Ingredients):</h3>
+                        <ul>
+                            <li>Billions of photos on social media</li>
+                            <li>Millions of hours of video</li>
+                            <li>Text from websites and books</li>
+                            <li>Sensor data from devices</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>⚡ Computing Power (Tools):</h3>
+                        <ul>
+                            <li>Graphics cards (GPUs) for parallel processing</li>
+                            <li>Cloud computing services</li>
+                            <li>Specialized AI chips</li>
+                            <li>Distributed computing</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>🧠 Better Algorithms (Techniques):</strong><br>
+                    Improved ways to train networks, prevent overfitting, and handle different types of data.
+                </div>
+            </section>
+
+            <!-- Lab Callout 3 -->
+            <section>
+                <div class="lab-callout">
+                    <h2>🧪 Lab Time!</h2>
+                    <h3>Lab 1.3: Activation Function Implementation</h3>
+                    <p><strong>What you'll do:</strong> Build different activation functions from scratch and see how they affect network behavior.</p>
+                    <p><strong>Why it matters:</strong> Activation functions are like the "personality" of your neurons - choosing the right one makes a huge difference!</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <div class="small-text">
+                        <p>📋 You'll implement sigmoid, ReLU, and other functions, then visualize how they transform data.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Understanding Neural Network Components -->
+            <section>
+                <div class="session-header">
+                    <h2>Neural Network Components Explained</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Factory Assembly Line Analogy:</strong> Think of a neural network like a factory where raw materials (data) go through multiple stations (layers) to create a finished product (prediction).
+                </div>
+                
+                <h3>Key Components:</h3>
+                <ul>
+                    <li><strong>Weights:</strong> How much each input matters (like volume knobs)</li>
+                    <li><strong>Biases:</strong> Starting point for each neuron (like a default setting)</li>
+                    <li><strong>Layers:</strong> Groups of neurons working together</li>
+                    <li><strong>Connections:</strong> How information flows between layers</li>
+                </ul>
+                
+                <div class="example-box">
+                    <strong>Cooking Recipe Analogy:</strong><br>
+                    Weights = How much of each ingredient<br>
+                    Bias = Base flavor level<br>
+                    Layers = Different cooking stages<br>
+                    Activation = Taste testing at each stage
+                </div>
+            </section>
+
+            <!-- How Networks Learn -->
+            <section>
+                <div class="session-header">
+                    <h2>How Neural Networks Learn</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Learning Like a Human:</strong> Just like you learn to ride a bike by practicing and adjusting, neural networks learn by making predictions, seeing mistakes, and adjusting their "settings."
+                </div>
+                
+                <h3>The Learning Process:</h3>
+                <div class="concept-box">
+                    <ol>
+                        <li><strong>Make a Prediction:</strong> Network guesses the answer</li>
+                        <li><strong>Compare to Truth:</strong> See how wrong the guess was</li>
+                        <li><strong>Calculate Error:</strong> Measure the mistake</li>
+                        <li><strong>Adjust Settings:</strong> Change weights and biases</li>
+                        <li><strong>Repeat:</strong> Try again with new settings</li>
+                    </ol>
+                </div>
+                
+                <div class="example-box">
+                    <strong>Archery Analogy:</strong><br>
+                    Shoot arrow → See where it lands → Adjust aim → Shoot again<br>
+                    Make prediction → Calculate error → Adjust weights → Predict again
+                </div>
+            </section>
+
+            <!-- Lab Callout 4 -->
+            <section>
+                <div class="lab-callout">
+                    <h2>🧪 Lab Time!</h2>
+                    <h3>Lab 1.4: Basic Neuron Implementation</h3>
+                    <p><strong>What you'll do:</strong> Build your first artificial neuron from scratch and watch it make decisions!</p>
+                    <p><strong>Why it matters:</strong> Understanding individual neurons helps you understand entire networks.</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <div class="small-text">
+                        <p>📋 You'll create a Neuron class, test it with different inputs, and visualize its decision boundaries.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Types of Learning Problems -->
+            <section>
+                <div class="session-header">
+                    <h2>Types of Learning Problems</h2>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>Different Problems, Different Approaches:</strong> Just like you use different tools for different jobs, we use different network types for different problems.
+                </div>
+                
+                <div class="two-columns">
+                    <div class="column">
+                        <h3>📊 Classification:</h3>
+                        <p><strong>Goal:</strong> Put things into categories</p>
+                        <div class="example-box">
+                            <strong>Examples:</strong>
+                            <ul>
+                                <li>Spam vs. Not Spam</li>
+                                <li>Cat vs. Dog photos</li>
+                                <li>Medical diagnosis</li>
+                                <li>Voice recognition</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3>📈 Regression:</h3>
+                        <p><strong>Goal:</strong> Predict a number</p>
+                        <div class="example-box">
+                            <strong>Examples:</strong>
+                            <ul>
+                                <li>House prices</li>
+                                <li>Stock prices</li>
+                                <li>Temperature forecast</li>
+                                <li>Sales predictions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Challenges in Deep Learning -->
+            <section>
+                <div class="session-header">
+                    <h2>Common Challenges (And How to Handle Them)</h2>
+                </div>
+                
+                <h3>Every technology has challenges - here are the main ones:</h3>
+                
+                <div class="two-columns">
+                    <div class="column">
+                        <h3>⚠️ Overfitting:</h3>
+                        <div class="analogy-box">
+                            <strong>Like memorizing vs. understanding:</strong> Student who memorizes test answers but can't handle new questions.
+                        </div>
+                        <p><strong>Solution:</strong> Use validation data, regularization techniques</p>
+                        
+                        <h3>🗃️ Data Quality:</h3>
+                        <div class="analogy-box">
+                            <strong>Garbage in, garbage out:</strong> Bad data leads to bad results.
+                        </div>
+                        <p><strong>Solution:</strong> Clean data, diverse datasets, data validation</p>
+                    </div>
+                    <div class="column">
+                        <h3>⚫ Black Box:</h3>
+                        <div class="analogy-box">
+                            <strong>Like a magic trick:</strong> Hard to understand why the network made a specific decision.
+                        </div>
+                        <p><strong>Solution:</strong> Interpretability tools, simpler models when needed</p>
+                        
+                        <h3>⚡ Computational Cost:</h3>
+                        <div class="analogy-box">
+                            <strong>Like training an athlete:</strong> Takes time and resources to get good results.
+                        </div>
+                        <p><strong>Solution:</strong> Efficient architectures, cloud computing, transfer learning</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab Callout 5 -->
+            <section>
+                <div class="lab-callout">
+                    <h2>🧪 Lab Time!</h2>
+                    <h3>Lab 1.5: Neural Network Visualization</h3>
+                    <p><strong>What you'll do:</strong> Create visual representations of neural networks to understand how they process information.</p>
+                    <p><strong>Why it matters:</strong> Visualization helps you debug networks and explain them to others.</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <div class="small-text">
+                        <p>📋 You'll build network diagrams, visualize data flow, and create decision boundary plots.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ethics and Responsibility -->
+            <section>
+                <div class="session-header">
+                    <h2>Ethics and Responsibility in AI</h2>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>With Great Power Comes Great Responsibility:</strong> AI can have significant impacts on people's lives, so we must use it thoughtfully.
+                </div>
+                
+                <h3>Key Ethical Considerations:</h3>
+                <ul>
+                    <li><strong>Bias and Fairness:</strong> Ensuring AI doesn't discriminate</li>
+                    <li><strong>Privacy:</strong> Protecting personal data</li>
+                    <li><strong>Transparency:</strong> Being clear about AI limitations</li>
+                    <li><strong>Safety:</strong> Testing thoroughly before deployment</li>
+                    <li><strong>Human-in-the-loop:</strong> Keeping humans involved in critical decisions</li>
+                </ul>
+                
+                <div class="example-box">
+                    <strong>Real Examples:</strong>
+                    <ul>
+                        <li>Hiring algorithms that might favor certain demographics</li>
+                        <li>Medical AI that works better for some populations</li>
+                        <li>Facial recognition accuracy varying by skin tone</li>
+                        <li>Recommendation systems creating filter bubbles</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Industry Impact -->
+            <section>
+                <div class="session-header">
+                    <h2>Industry Impact: Transforming Every Sector</h2>
+                </div>
+                
+                <div class="two-columns">
+                    <div class="column">
+                        <h3>🏥 Healthcare:</h3>
+                        <ul>
+                            <li>Medical imaging analysis</li>
+                            <li>Drug discovery acceleration</li>
+                            <li>Personalized treatment plans</li>
+                            <li>Early disease detection</li>
+                        </ul>
+                        
+                        <h3>🚗 Transportation:</h3>
+                        <ul>
+                            <li>Autonomous vehicles</li>
+                            <li>Traffic optimization</li>
+                            <li>Predictive maintenance</li>
+                            <li>Route planning</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>💼 Business:</h3>
+                        <ul>
+                            <li>Customer service automation</li>
+                            <li>Fraud detection</li>
+                            <li>Supply chain optimization</li>
+                            <li>Market analysis</li>
+                        </ul>
+                        
+                        <h3>🎓 Education:</h3>
+                        <ul>
+                            <li>Personalized learning</li>
+                            <li>Automated grading</li>
+                            <li>Language learning</li>
+                            <li>Educational content generation</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab Callout 6 -->
+            <section>
+                <div class="lab-callout">
+                    <h2>🧪 Lab Time!</h2>
+                    <h3>Lab 1.6: Real-world Problem Analysis</h3>
+                    <p><strong>What you'll do:</strong> Learn to analyze real business problems and determine if neural networks are the right solution.</p>
+                    <p><strong>Why it matters:</strong> Not every problem needs AI - knowing when and how to apply it is crucial.</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <div class="small-text">
+                        <p>📋 You'll work through case studies and develop frameworks for problem analysis.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Future Trends -->
+            <section>
+                <div class="session-header">
+                    <h2>Future Trends: What's Coming Next?</h2>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>The Field is Moving Fast:</strong> New breakthroughs happen regularly. Here's what to watch for:
+                </div>
+                
+                <h3>Emerging Trends:</h3>
+                <ul>
+                    <li><strong>Multimodal AI:</strong> Systems that understand text, images, and audio together</li>
+                    <li><strong>Few-shot Learning:</strong> Learning from very few examples</li>
+                    <li><strong>Efficient Models:</strong> Powerful networks that use less energy</li>
+                    <li><strong>Explainable AI:</strong> Making AI decisions more understandable</li>
+                    <li><strong>Edge Computing:</strong> Running AI on smartphones and IoT devices</li>
+                    <li><strong>Automated ML:</strong> AI systems that design other AI systems</li>
+                </ul>
+                
+                <div class="example-box">
+                    <strong>What This Means for You:</strong> The fundamentals you learn today will remain relevant, but the tools and techniques will keep improving!
+                </div>
+            </section>
+
+            <!-- Getting Started: Your Learning Path -->
+            <section>
+                <div class="session-header">
+                    <h2>Your Learning Path: From Beginner to Practitioner</h2>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>Learning Deep Learning is Like Learning a Musical Instrument:</strong> Start with basics, practice regularly, and gradually tackle more complex pieces.
+                </div>
+                
+                <h3>Recommended Path:</h3>
+                <div class="example-box">
+                    <ol>
+                        <li><strong>Foundations (This Course):</strong> Understanding how neural networks work</li>
+                        <li><strong>Practice:</strong> Build simple projects with guidance</li>
+                        <li><strong>Specialization:</strong> Choose an area (vision, NLP, etc.)</li>
+                        <li><strong>Real Projects:</strong> Apply to actual business problems</li>
+                        <li><strong>Stay Current:</strong> Follow research and new techniques</li>
+                    </ol>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Remember:</strong> You don't need to understand everything immediately. Focus on building intuition first, then dive deeper into areas that interest you.
+                </div>
+            </section>
+
+            <!-- Lab Callout 7 -->
+            <section>
+                <div class="lab-callout">
+                    <h2>🧪 Lab Time!</h2>
+                    <h3>Lab 1.7: Course Project Planning</h3>
+                    <p><strong>What you'll do:</strong> Plan your own neural network project that you'll build throughout this course.</p>
+                    <p><strong>Why it matters:</strong> Having a concrete goal helps you apply what you learn and build something for your portfolio.</p>
+                    <p><strong>Duration:</strong> 30 minutes</p>
+                    <div class="small-text">
+                        <p>📋 You'll choose a project, set goals, create a timeline, and plan your approach.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day 1 Summary -->
+            <section>
+                <div class="session-header">
+                    <h2>Day 1 Summary: What You've Learned</h2>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>Congratulations!</strong> You've built a solid foundation for understanding neural networks and deep learning.
+                </div>
+                
+                <h3>Today's Key Concepts:</h3>
+                <ul>
+                    <li>✅ <strong>What AI and Deep Learning Are:</strong> Pattern recognition systems inspired by brains</li>
+                    <li>✅ <strong>How Neural Networks Work:</strong> Layers of neurons processing information</li>
+                    <li>✅ <strong>Activation Functions:</strong> The decision-making components</li>
+                    <li>✅ <strong>Learning Process:</strong> How networks improve through practice</li>
+                    <li>✅ <strong>Real-World Applications:</strong> Where and how AI is used today</li>
+                    <li>✅ <strong>Problem-Solving Framework:</strong> When and how to apply neural networks</li>
+                    <li>✅ <strong>Project Planning:</strong> Setting yourself up for success</li>
+                </ul>
+            </section>
+
+            <!-- Hands-On Experience -->
+            <section>
+                <div class="session-header">
+                    <h2>Your Hands-On Experience Today</h2>
+                </div>
+                
+                <div class="progress-indicator">Labs Completed: 7/7</div>
+                
+                <h3>What You Built:</h3>
+                <div class="two-columns">
+                    <div class="column">
+                        <ul>
+                            <li>✅ <strong>Development Environment:</strong> Ready for coding</li>
+                            <li>✅ <strong>Math Tools:</strong> Understanding of neural network mathematics</li>
+                            <li>✅ <strong>Activation Functions:</strong> Built from scratch</li>
+                            <li>✅ <strong>Your First Neuron:</strong> Complete implementation</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <ul>
+                            <li>✅ <strong>Visualization Tools:</strong> For understanding networks</li>
+                            <li>✅ <strong>Analysis Framework:</strong> For real-world problems</li>
+                            <li>✅ <strong>Project Plan:</strong> Your roadmap to success</li>
+                            <li>✅ <strong>Practical Skills:</strong> Ready for tomorrow's challenges</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Looking Ahead -->
+            <section>
+                <div class="session-header">
+                    <h2>Looking Ahead: Tomorrow and Beyond</h2>
+                </div>
+                
+                <div class="analogy-box">
+                    <strong>Building Momentum:</strong> Today you learned to walk. Tomorrow you'll learn to run, and by Day 4, you'll be ready to tackle real-world challenges!
+                </div>
+                
+                <h3>Coming Up:</h3>
+                <div class="example-box">
+                    <ul>
+                        <li><strong>Day 2:</strong> Build complete neural networks for binary classification</li>
+                        <li><strong>Day 3:</strong> Create sophisticated multi-layer networks</li>
+                        <li><strong>Day 4:</strong> Structure professional ML projects</li>
+                    </ul>
+                </div>
+                
+                <div class="concept-box">
+                    <strong>Your Homework:</strong> Review today's concepts, experiment with the lab code, and think about your project. The more you practice, the more confident you'll become!
+                </div>
+            </section>
+
+            <!-- Final Encouragement -->
+            <section>
+                <div class="title-block">
+                    <h1>You're On Your Way!</h1>
+                    <div class="center">
+                        <p class="large-text">🎉 Congratulations on completing Day 1! 🎉</p>
+                        <div class="concept-box">
+                            <p><strong>Remember:</strong> Every expert was once a beginner. You've taken the first important steps into the fascinating world of artificial intelligence.</p>
+                            <p><strong>Keep going:</strong> The concepts you learned today will serve as the foundation for everything that comes next.</p>
+                            <p><strong>You've got this:</strong> With curiosity, practice, and persistence, you'll be building impressive AI systems before you know it!</p>
+                        </div>
+                        <p class="large-text">See you tomorrow for Day 2! 🚀</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            controls: true,
+            progress: true,
+            keyboard: true,
+            overview: true,
+            center: false,
+            mouseWheel: false,
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            minScale: 0.3,
+            maxScale: 1.5,
+            embedded: false,
+            autoSlide: 0,
+            loop: false,
+            rtl: false,
+            shuffle: false,
+            fragments: true,
+            fragmentInURL: false,
+            help: true,
+            showNotes: false,
+            previewLinks: false,
+            postMessage: true,
+            postMessageEvents: false,
+            focusBodyOnPageVisibilityChange: true,
+            viewDistance: 3,
+            mobileViewDistance: 2
+        });
+    </script>
+</body>
+</html>

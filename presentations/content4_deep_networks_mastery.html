@@ -184,17 +184,17 @@
             <section>
                 <h2><span class="emoji">🎯</span> Today's Learning Journey</h2>
                 <div class="concept-box">
-                    <h3>What We'll Master Today</h3>
+                    <h3>What We'll Master Today with TensorFlow</h3>
                     <ul>
-                        <li><strong>Deep Network Architecture</strong> - Building sophisticated neural networks</li>
-                        <li><strong>Gradient Flow Management</strong> - Solving vanishing/exploding gradient problems</li>
-                        <li><strong>Smart Initialization</strong> - Proper weight initialization strategies</li>
-                        <li><strong>Advanced Optimization</strong> - Modern training techniques and algorithms</li>
-                        <li><strong>Complete Project</strong> - End-to-end deep learning system</li>
+                        <li><strong>TensorFlow Architecture</strong> - Building advanced models with tf.keras</li>
+                        <li><strong>Custom Layers</strong> - Creating ResidualBlocks and AttentionBlocks</li>
+                        <li><strong>TensorFlow Training</strong> - GradientTape and advanced callbacks</li>
+                        <li><strong>Production Optimization</strong> - TensorBoard, tf.function, mixed precision</li>
+                        <li><strong>Complete TensorFlow Project</strong> - End-to-end system with TensorFlow Serving</li>
                     </ul>
                 </div>
                 <div class="success-box">
-                    <strong>Goal:</strong> Build a production-ready image classification system using advanced deep learning techniques
+                    <strong>Goal:</strong> Master the complete TensorFlow ecosystem for production deep learning
                 </div>
             </section>
 
@@ -954,111 +954,130 @@ What activation function are you using?
             <section>
                 <h2><span class="emoji">🎯</span> Capstone Project Overview</h2>
                 <div class="concept-box">
-                    <h3>What We're Building</h3>
-                    <p><strong>Goal:</strong> Complete image classification system using CIFAR-10 dataset</p>
+                    <h3>What We're Building with TensorFlow</h3>
+                    <p><strong>Goal:</strong> Production-ready image classification system using TensorFlow/Keras</p>
                     <ul>
-                        <li><strong>Dataset:</strong> 10 classes of 32x32 color images</li>
-                        <li><strong>Architecture:</strong> Deep neural network with modern techniques</li>
-                        <li><strong>Features:</strong> All advanced techniques we've learned</li>
-                        <li><strong>Output:</strong> Production-ready deployment system</li>
+                        <li><strong>Dataset:</strong> CIFAR-10 using tf.data pipelines</li>
+                        <li><strong>Architecture:</strong> Advanced TensorFlow/Keras model with custom layers</li>
+                        <li><strong>Features:</strong> Complete TensorFlow ecosystem integration</li>
+                        <li><strong>Output:</strong> TensorFlow Serving deployment-ready system</li>
                     </ul>
                 </div>
 
                 <div class="success-box">
-                    <h3>This Project Demonstrates</h3>
+                    <h3>TensorFlow Skills You'll Master</h3>
                     <ul>
-                        <li>Professional-level deep learning implementation</li>
-                        <li>Integration of all modern techniques</li>
-                        <li>Production deployment readiness</li>
-                        <li>Comprehensive performance analysis</li>
+                        <li>tf.keras Model subclassing and custom layers</li>
+                        <li>tf.data for efficient data pipelines</li>
+                        <li>tf.GradientTape for custom training loops</li>
+                        <li>TensorBoard integration for monitoring</li>
+                        <li>tf.saved_model for production deployment</li>
+                        <li>TensorFlow Serving preparation</li>
                     </ul>
                 </div>
             </section>
 
             <!-- Project Architecture -->
             <section>
-                <h2><span class="emoji">🏛️</span> Project Architecture Design</h2>
+                <h2><span class="emoji">🏛️</span> TensorFlow Architecture Design</h2>
                 <div class="concept-box">
-                    <h3>Network Architecture</h3>
+                    <h3>Advanced TensorFlow/Keras Architecture</h3>
                     <div class="architecture-diagram">
                         <pre>
-Input Layer (3072)    →  Raw 32×32×3 RGB images
-Hidden Layer 1 (512)  →  ReLU + BatchNorm + Dropout(0.1)
-Hidden Layer 2 (512)  →  ReLU + BatchNorm + Dropout(0.1) + Residual
-Hidden Layer 3 (256)  →  ReLU + BatchNorm + Dropout(0.2)
-Hidden Layer 4 (256)  →  ReLU + BatchNorm + Dropout(0.2) + Residual
-Hidden Layer 5 (128)  →  Swish + BatchNorm + Dropout(0.3)
-Hidden Layer 6 (128)  →  Swish + BatchNorm + Dropout(0.3) + Residual
-Hidden Layer 7 (64)   →  ReLU + BatchNorm + Dropout(0.4)
-Hidden Layer 8 (32)   →  ReLU + BatchNorm + Dropout(0.4)
-Output Layer (10)     →  Softmax for classification
+tf.keras.Input(32, 32, 3)     →  tf.data pipeline with augmentation
+  ↓
+Custom ResidualBlock(64)      →  Conv2D + BatchNorm + ReLU + Skip
+  ↓
+Custom ResidualBlock(128, stride=2)  →  Downsample + Residual
+  ↓
+Custom ResidualBlock(128)     →  Feature extraction
+  ↓
+Custom ResidualBlock(256, stride=2)  →  Deeper features
+  ↓
+Custom ResidualBlock(256)     →  High-level patterns
+  ↓
+Custom AttentionBlock()       →  Spatial attention mechanism
+  ↓
+GlobalAveragePooling2D()      →  Reduce spatial dimensions
+  ↓
+Dense(512) + Dropout(0.3)    →  Feature combination
+  ↓
+Dense(256) + Dropout(0.3)    →  Final features
+  ↓
+Dense(10, activation='softmax')  →  Classification output
                         </pre>
                     </div>
                 </div>
+                <div class="success-box">
+                    <strong>Key TensorFlow Components:</strong> Model subclassing, custom layers, tf.keras.layers integration</div>
             </section>
 
             <!-- Project Components -->
             <section>
-                <h2><span class="emoji">🧩</span> Project Components</h2>
+                <h2><span class="emoji">🧩</span> TensorFlow Project Components</h2>
                 <div class="two-column">
                     <div>
                         <div class="concept-box">
-                            <h3>Core Architecture</h3>
+                            <h3>TensorFlow Architecture</h3>
                             <ul>
-                                <li>Deep feedforward network</li>
-                                <li>Modern activation functions</li>
-                                <li>Batch normalization layers</li>
-                                <li>Residual connections</li>
-                                <li>Progressive dropout rates</li>
+                                <li>tf.keras.Model subclassing</li>
+                                <li>Custom ResidualBlock layers</li>
+                                <li>Custom AttentionBlock layer</li>
+                                <li>tf.keras.layers.BatchNormalization</li>
+                                <li>tf.keras.layers.Dropout</li>
+                                <li>tf.keras.regularizers.l2</li>
                             </ul>
                         </div>
                     </div>
                     <div>
                         <div class="concept-box">
-                            <h3>Advanced Features</h3>
+                            <h3>TensorFlow Training System</h3>
                             <ul>
-                                <li>Adam optimization</li>
-                                <li>Cosine annealing LR schedule</li>
-                                <li>Early stopping with best weights</li>
-                                <li>L2 regularization</li>
-                                <li>Comprehensive monitoring</li>
+                                <li>tf.keras.optimizers.Adam</li>
+                                <li>Custom tf.keras.callbacks</li>
+                                <li>tf.GradientTape for custom loops</li>
+                                <li>TensorBoard integration</li>
+                                <li>tf.data.Dataset pipelines</li>
+                                <li>Mixed precision training support</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="success-box">
-                    <h3>Production Features</h3>
+                    <h3>TensorFlow Production Features</h3>
                     <ul>
-                        <li><strong>Model Serialization:</strong> Save and load trained models</li>
-                        <li><strong>Inference API:</strong> Clean prediction interface</li>
-                        <li><strong>Performance Monitoring:</strong> Detailed metrics and analysis</li>
-                        <li><strong>Error Handling:</strong> Robust production-ready code</li>
+                        <li><strong>tf.saved_model:</strong> TensorFlow Serving deployment format</li>
+                        <li><strong>SavedModel signatures:</strong> REST/gRPC API endpoints</li>
+                        <li><strong>TensorBoard monitoring:</strong> Real-time training visualization</li>
+                        <li><strong>tf.function optimization:</strong> Graph compilation for speed</li>
+                        <li><strong>Model versioning:</strong> A/B testing and rollback support</li>
                     </ul>
                 </div>
             </section>
 
             <!-- Expected Results -->
             <section>
-                <h2><span class="emoji">📊</span> Expected Results & Learning Outcomes</h2>
+                <h2><span class="emoji">📊</span> Expected Results & TensorFlow Mastery</h2>
                 <div class="concept-box">
-                    <h3>Performance Expectations</h3>
+                    <h3>Performance Expectations with TensorFlow</h3>
                     <ul>
-                        <li><strong>Accuracy:</strong> 80-90% on test set</li>
-                        <li><strong>Training:</strong> Stable convergence without overfitting</li>
-                        <li><strong>Efficiency:</strong> Reasonable training time</li>
-                        <li><strong>Robustness:</strong> Consistent performance across runs</li>
+                        <li><strong>Accuracy:</strong> 85-92% using TensorFlow optimizations</li>
+                        <li><strong>Training:</strong> Efficient with tf.data and GPU acceleration</li>
+                        <li><strong>Monitoring:</strong> Real-time visualization with TensorBoard</li>
+                        <li><strong>Deployment:</strong> Production-ready with TensorFlow Serving</li>
                     </ul>
                 </div>
 
                 <div class="success-box">
-                    <h3>Skills You'll Demonstrate</h3>
+                    <h3>TensorFlow Skills You'll Master</h3>
                     <ul>
-                        <li>Complete deep learning system design</li>
-                        <li>Integration of advanced techniques</li>
-                        <li>Performance optimization and analysis</li>
-                        <li>Production deployment preparation</li>
-                        <li>Professional code quality and documentation</li>
+                        <li>Complete TensorFlow/Keras ecosystem proficiency</li>
+                        <li>Custom layer development with tf.keras</li>
+                        <li>Advanced training with tf.GradientTape</li>
+                        <li>Production deployment with tf.saved_model</li>
+                        <li>Performance optimization with tf.function</li>
+                        <li>End-to-end MLOps with TensorFlow tools</li>
                     </ul>
                 </div>
             </section>
@@ -1066,72 +1085,117 @@ Output Layer (10)     →  Softmax for classification
             <!-- Lab 4.6 Callout -->
             <section>
                 <div class="lab-callout">
-                    <h2><span class="emoji">🚀</span> Time for Your Capstone Project!</h2>
-                    <h3>Lab 4.6: Complete Deep Network Project</h3>
-                    <p><strong>What you'll create:</strong> Production-ready image classification system</p>
+                    <h2><span class="emoji">🚀</span> Time for Your TensorFlow Capstone!</h2>
+                    <h3>Lab 4.6: Complete TensorFlow Deep Network Project</h3>
+                    <p><strong>What you'll create:</strong> Production TensorFlow/Keras image classification system</p>
                     <p><strong>Duration:</strong> 45 minutes</p>
-                    <p><strong>Key Skills:</strong> End-to-end system development, integration, deployment</p>
+                    <p><strong>Key Skills:</strong> TensorFlow ecosystem mastery, custom layers, production deployment</p>
                     <div style="margin-top: 20px;">
-                        <strong>🎯 Focus Areas:</strong>
-                        <br>• Build complete deep learning system
-                        <br>• Integrate all advanced techniques
-                        <br>• Create production deployment pipeline
-                        <br>• Perform comprehensive analysis
+                        <strong>🎯 TensorFlow Focus Areas:</strong>
+                        <br>• Build advanced model with tf.keras Model subclassing
+                        <br>• Implement custom ResidualBlock and AttentionBlock layers
+                        <br>• Create efficient tf.data pipelines with augmentation
+                        <br>• Deploy with TensorFlow Serving (SavedModel format)
+                        <br>• Monitor training with TensorBoard integration
+                        <br>• Optimize with tf.function and mixed precision
                     </div>
+                </div>
+            </section>
+
+            <!-- TensorFlow Ecosystem Mastery -->
+            <section>
+                <h2><span class="emoji">🔥</span> TensorFlow Ecosystem Mastery</h2>
+                <div class="concept-box">
+                    <h3>Complete TensorFlow Stack You've Mastered</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Core TensorFlow Components</h4>
+                            <ul>
+                                <li><strong>tf.keras:</strong> High-level model building</li>
+                                <li><strong>tf.data:</strong> Efficient data pipelines</li>
+                                <li><strong>tf.nn:</strong> Neural network operations</li>
+                                <li><strong>tf.GradientTape:</strong> Custom gradients</li>
+                                <li><strong>tf.function:</strong> Graph optimization</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Production Tools</h4>
+                            <ul>
+                                <li><strong>TensorBoard:</strong> Training visualization</li>
+                                <li><strong>tf.saved_model:</strong> Model serialization</li>
+                                <li><strong>TensorFlow Serving:</strong> REST/gRPC APIs</li>
+                                <li><strong>tf.lite:</strong> Mobile deployment</li>
+                                <li><strong>Mixed Precision:</strong> Speed optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>Why TensorFlow Matters</h3>
+                    <ul>
+                        <li><strong>Industry Standard:</strong> Most widely used production ML framework</li>
+                        <li><strong>Complete Ecosystem:</strong> From research to production deployment</li>
+                        <li><strong>Scalability:</strong> Works from mobile devices to distributed clusters</li>
+                        <li><strong>Community:</strong> Massive support and resources available</li>
+                    </ul>
                 </div>
             </section>
 
             <!-- Day Summary -->
             <section>
-                <h2><span class="emoji">🎯</span> Day 4 Summary: Your Deep Learning Mastery</h2>
+                <h2><span class="emoji">🎯</span> Day 4 Summary: TensorFlow Deep Learning Mastery</h2>
                 <div class="concept-box">
-                    <h3>What You've Accomplished Today</h3>
+                    <h3>What You've Accomplished with TensorFlow</h3>
                     <ul>
-                        <li><strong>Architectural Design:</strong> Built sophisticated deep network architectures</li>
-                        <li><strong>Gradient Management:</strong> Solved vanishing and exploding gradient problems</li>
-                        <li><strong>Smart Initialization:</strong> Implemented proper weight initialization strategies</li>
-                        <li><strong>Advanced Optimization:</strong> Used modern optimizers and training techniques</li>
-                        <li><strong>Complete System:</strong> Created production-ready deep learning pipeline</li>
+                        <li><strong>TensorFlow Architecture:</strong> Built advanced models with tf.keras APIs</li>
+                        <li><strong>Custom Components:</strong> Created ResidualBlock and AttentionBlock layers</li>
+                        <li><strong>Gradient Management:</strong> Used TensorFlow's built-in solutions</li>
+                        <li><strong>Advanced Training:</strong> Implemented tf.GradientTape and callbacks</li>
+                        <li><strong>Production System:</strong> Deployed with TensorFlow Serving</li>
                     </ul>
                 </div>
 
                 <div class="success-box">
-                    <h3>Professional Skills Gained</h3>
+                    <h3>TensorFlow Professional Skills Gained</h3>
                     <ul>
-                        <li>Deep understanding of neural network internals</li>
-                        <li>Ability to diagnose and solve training problems</li>
-                        <li>Knowledge of state-of-the-art techniques</li>
-                        <li>Production deployment capabilities</li>
-                        <li>Comprehensive system design skills</li>
+                        <li>Complete TensorFlow/Keras ecosystem mastery</li>
+                        <li>Custom layer and model development expertise</li>
+                        <li>Production deployment with tf.saved_model</li>
+                        <li>Performance optimization with tf.function</li>
+                        <li>Real-time monitoring with TensorBoard</li>
+                        <li>End-to-end MLOps with TensorFlow tools</li>
                     </ul>
                 </div>
             </section>
 
             <!-- Key Takeaways -->
             <section>
-                <h2><span class="emoji">💡</span> Key Takeaways & Best Practices</h2>
+                <h2><span class="emoji">💡</span> TensorFlow Best Practices & Key Takeaways</h2>
                 <div class="two-column">
                     <div>
                         <div class="concept-box">
-                            <h3>Technical Best Practices</h3>
+                            <h3>TensorFlow Best Practices</h3>
                             <ul>
-                                <li>Always use proper initialization</li>
-                                <li>Monitor gradient norms during training</li>
-                                <li>Apply batch normalization for stability</li>
-                                <li>Use Adam optimizer as default choice</li>
-                                <li>Implement learning rate scheduling</li>
+                                <li>Use tf.keras for model building</li>
+                                <li>Leverage tf.data for data pipelines</li>
+                                <li>Apply tf.keras.callbacks for monitoring</li>
+                                <li>Use TensorBoard for visualization</li>
+                                <li>Optimize with tf.function decorators</li>
+                                <li>Deploy with TensorFlow Serving</li>
                             </ul>
                         </div>
                     </div>
                     <div>
                         <div class="concept-box">
-                            <h3>System Design Principles</h3>
+                            <h3>Production TensorFlow Principles</h3>
                             <ul>
-                                <li>Build modular, reusable components</li>
-                                <li>Include comprehensive monitoring</li>
-                                <li>Plan for production deployment</li>
-                                <li>Document everything thoroughly</li>
-                                <li>Test all components systematically</li>
+                                <li>Model subclassing for complex architectures</li>
+                                <li>Custom layers for reusability</li>
+                                <li>SavedModel format for deployment</li>
+                                <li>Version control with model signatures</li>
+                                <li>Monitor with TensorBoard in production</li>
+                                <li>Scale with TensorFlow Extended (TFX)</li>
                             </ul>
                         </div>
                     </div>
@@ -1140,24 +1204,26 @@ Output Layer (10)     →  Softmax for classification
 
             <!-- Next Steps -->
             <section>
-                <h2><span class="emoji">🚀</span> Your Deep Learning Journey Continues</h2>
+                <h2><span class="emoji">🚀</span> Your TensorFlow Journey Continues</h2>
                 <div class="concept-box">
-                    <h3>Immediate Next Steps</h3>
+                    <h3>Next Steps with TensorFlow</h3>
                     <ul>
-                        <li><strong>Practice on Real Data:</strong> Apply these techniques to actual datasets</li>
-                        <li><strong>Explore Specialized Architectures:</strong> CNNs, RNNs, Transformers</li>
-                        <li><strong>Learn Transfer Learning:</strong> Use pre-trained models</li>
-                        <li><strong>Deploy to Production:</strong> Cloud deployment and APIs</li>
+                        <li><strong>TensorFlow Hub:</strong> Use pre-trained models and transfer learning</li>
+                        <li><strong>TensorFlow Extended (TFX):</strong> Production ML pipelines</li>
+                        <li><strong>TensorFlow Lite:</strong> Deploy models on mobile and edge devices</li>
+                        <li><strong>TensorFlow.js:</strong> Run models in the browser</li>
+                        <li><strong>TensorFlow Cloud:</strong> Scale training on Google Cloud</li>
                     </ul>
                 </div>
 
                 <div class="success-box">
                     <h3>You're Now Ready For</h3>
                     <ul>
-                        <li>Real-world machine learning projects</li>
-                        <li>Advanced deep learning research</li>
-                        <li>Production AI system development</li>
-                        <li>Technical leadership in ML teams</li>
+                        <li>Building production TensorFlow systems</li>
+                        <li>Contributing to TensorFlow projects</li>
+                        <li>Implementing state-of-the-art papers with TensorFlow</li>
+                        <li>Leading TensorFlow development teams</li>
+                        <li>Architecting enterprise ML solutions with TensorFlow</li>
                     </ul>
                 </div>
             </section>
@@ -1166,18 +1232,18 @@ Output Layer (10)     →  Softmax for classification
             <section class="title-slide">
                 <div class="section-header">
                     <h1><span class="emoji">🎉</span> Congratulations!</h1>
-                    <h2>You've Mastered Deep Networks</h2>
-                    <p>From theory to production-ready systems</p>
+                    <h2>You've Mastered TensorFlow Deep Learning</h2>
+                    <p>From fundamentals to production TensorFlow systems</p>
                 </div>
                 
                 <div class="success-box">
-                    <h3>Your Achievement</h3>
-                    <p>You've built a complete, production-ready deep learning system using state-of-the-art techniques. You understand both the theory and practice of modern deep learning.</p>
+                    <h3>Your TensorFlow Achievement</h3>
+                    <p>You've built a complete, production-ready deep learning system using TensorFlow/Keras with custom layers, advanced training techniques, and deployment-ready architecture. You've mastered both the theory and the TensorFlow ecosystem for real-world applications.</p>
                 </div>
                 
                 <div class="concept-box">
-                    <h3>Keep Building, Keep Learning! 🚀</h3>
-                    <p><em>The future of AI is in your hands</em></p>
+                    <h3>Build Amazing AI with TensorFlow! 🚀</h3>
+                    <p><em>You're now a TensorFlow Deep Learning Expert!</em></p>
                 </div>
             </section>
 

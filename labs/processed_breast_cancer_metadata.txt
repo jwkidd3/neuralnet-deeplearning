@@ -1,0 +1,39 @@
+Dataset: Breast Cancer Wisconsin (Processed)
+Training samples: 455
+Test samples: 114
+Features: 30
+Classes: 2
+Preprocessing strategy: Basic
+Target names: malignant, benign
+
+Feature names:
+ 0: mean radius
+ 1: mean texture
+ 2: mean perimeter
+ 3: mean area
+ 4: mean smoothness
+ 5: mean compactness
+ 6: mean concavity
+ 7: mean concave points
+ 8: mean symmetry
+ 9: mean fractal dimension
+10: radius error
+11: texture error
+12: perimeter error
+13: area error
+14: smoothness error
+15: compactness error
+16: concavity error
+17: concave points error
+18: symmetry error
+19: fractal dimension error
+20: worst radius
+21: worst texture
+22: worst perimeter
+23: worst area
+24: worst smoothness
+25: worst compactness
+26: worst concavity
+27: worst concave points
+28: worst symmetry
+29: worst fractal dimension

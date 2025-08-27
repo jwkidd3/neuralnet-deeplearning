@@ -9,7 +9,7 @@
     <style>
         .reveal {
             font-family: "Source Sans Pro", Helvetica, sans-serif;
-            font-size: 32px;
+            font-size: 28px;
         }
         
         .reveal h1, .reveal h2, .reveal h3 {
@@ -24,13 +24,13 @@
         }
         
         .reveal h2 {
-            font-size: 1.8em;
-            margin-bottom: 0.4em;
+            font-size: 1.7em;
+            margin-bottom: 0.3em;
         }
         
         .reveal h3 {
-            font-size: 1.4em;
-            margin-bottom: 0.3em;
+            font-size: 1.3em;
+            margin-bottom: 0.25em;
         }
         
         .reveal .slides section {
@@ -89,16 +89,16 @@
         .concept-box {
             background: #f8f9fa;
             border: 2px solid #3498db;
-            padding: 1.5em;
+            padding: 1.2em;
             border-radius: 10px;
-            margin: 1em 0;
+            margin: 0.8em 0;
         }
         
         .key-point {
             background: #e8f5e8;
             border-left: 5px solid #27ae60;
-            padding: 1em 1.5em;
-            margin: 1em 0;
+            padding: 0.8em 1.2em;
+            margin: 0.8em 0;
             font-weight: bold;
         }
         
@@ -119,12 +119,12 @@
         }
         
         .reveal ul, .reveal ol {
-            font-size: 0.9em;
-            line-height: 1.6;
+            font-size: 0.85em;
+            line-height: 1.5;
         }
         
         .reveal li {
-            margin: 0.3em 0;
+            margin: 0.2em 0;
         }
         
         .reveal pre {
@@ -190,17 +190,62 @@
         }
         
         .reveal .slides {
-            zoom: 0.85;
+            zoom: 0.8;
         }
         
         @media (max-width: 768px) {
             .reveal .slides {
-                zoom: 0.7;
+                zoom: 0.65;
             }
         }
         
         .reveal .slides section[data-background-color] {
             color: white;
+        }
+        
+        /* Content overflow handling */
+        .reveal .slides section {
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+        
+        /* Compact styling for content-heavy slides */
+        .compact {
+            font-size: 0.9em;
+        }
+        
+        .compact .concept-box {
+            padding: 1em;
+            margin: 0.6em 0;
+        }
+        
+        .compact .key-point {
+            padding: 0.6em 1em;
+            margin: 0.6em 0;
+        }
+        
+        .compact ul, .compact ol {
+            font-size: 0.8em;
+            line-height: 1.4;
+        }
+        
+        .compact li {
+            margin: 0.1em 0;
+        }
+        
+        /* Better spacing for two-column layouts */
+        .two-column {
+            gap: 1.5em;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-height: 600px) {
+            .reveal {
+                font-size: 24px;
+            }
+            .reveal .slides {
+                zoom: 0.75;
+            }
         }
     </style>
 </head>
@@ -219,7 +264,7 @@
             </section>
 
             <!-- Session Overview -->
-            <section>
+            <section class="compact">
                 <div class="session-header">
                     Session Overview: What We'll Learn Today
                 </div>
@@ -414,7 +459,7 @@
             </section>
 
             <!-- Forward Propagation Introduction -->
-            <section>
+            <section class="compact">
                 <div class="session-header">
                     Forward Propagation: How Data Flows Through
                 </div>
@@ -467,7 +512,7 @@
             </section>
 
             <!-- Vectorization Concept -->
-            <section>
+            <section class="compact">
                 <div class="session-header">
                     Vectorization: Making It Fast and Efficient
                 </div>
@@ -594,7 +639,7 @@ A = activation(Z)
             </section>
 
             <!-- Gradients Simplified -->
-            <section>
+            <section class="compact">
                 <div class="session-header">
                     Gradients: The "Blame Scores" (Simplified)
                 </div>
@@ -632,7 +677,7 @@ A = activation(Z)
             </section>
 
             <!-- Chain Rule Simplified -->
-            <section>
+            <section class="compact">
                 <div class="session-header">
                     Chain Rule: Passing Blame Backwards
                 </div>
@@ -675,7 +720,7 @@ A = activation(Z)
             </section>
 
             <!-- Multi-class Classification -->
-            <section>
+            <section class="compact">
                 <div class="session-header">
                     Multi-class Classification: Choosing from Many Options
                 </div>
@@ -1057,7 +1102,7 @@ A = activation(Z)
             </section>
 
             <!-- Session Summary -->
-            <section>
+            <section class="compact">
                 <div class="session-header">
                     Session Summary: Your Journey Today
                 </div>

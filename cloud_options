@@ -1,0 +1,81 @@
+Amazon Web Services (AWS)
+Notebook Services:
+
+Amazon SageMaker Studio - Fully managed ML IDE with Jupyter notebooks
+Amazon SageMaker Notebook Instances - Managed Jupyter notebook environments
+AWS Glue Studio - Visual ETL tool with notebook interface
+Amazon EMR Notebooks - Jupyter notebooks on EMR clusters
+AWS DeepRacer - Includes notebook environment for reinforcement learning
+
+Compute Services with Notebook Support:
+
+Amazon EC2 - Virtual machines (install Jupyter manually)
+AWS Batch - Batch computing (can run notebook jobs)
+Amazon ECS/EKS - Container services (deploy JupyterHub)
+AWS Lambda - Serverless (limited notebook support via custom runtimes)
+
+Google Cloud Platform (GCP)
+Notebook Services:
+
+Vertex AI Workbench - Managed Jupyter notebook service
+Colab Enterprise - Enterprise version of Google Colab
+Dataproc Hub - JupyterHub on Dataproc clusters
+AI Platform Notebooks (legacy, now part of Vertex AI)
+
+Compute Services with Notebook Support:
+
+Compute Engine - Virtual machines (install Jupyter manually)
+Google Kubernetes Engine (GKE) - Managed Kubernetes (deploy JupyterHub)
+Cloud Run - Serverless containers (can host notebook servers)
+Dataflow - Stream/batch processing (limited notebook integration)
+
+Additional ML Services:
+
+Vertex AI Training - Custom training jobs with notebook integration
+BigQuery ML - SQL-based ML with notebook connectivity
+
+Microsoft Azure
+Notebook Services:
+
+Azure Machine Learning Studio - Comprehensive ML platform with notebooks
+Azure Synapse Analytics - Analytics service with integrated notebooks
+Azure Databricks - Apache Spark-based analytics with notebooks
+Microsoft Fabric - Unified analytics platform with notebook support
+
+Compute Services with Notebook Support:
+
+Azure Virtual Machines - VMs (install Jupyter manually)
+Azure Container Instances - Serverless containers
+Azure Kubernetes Service (AKS) - Managed Kubernetes
+Azure Functions - Serverless (limited support)
+Azure Batch - Large-scale parallel workloads
+
+Development Services:
+
+GitHub Codespaces - Cloud development environments
+Visual Studio Code - Web-based IDE with notebook support
+
+Key Features Comparison
+Best for Beginners:
+
+Google Colab Enterprise (familiar interface)
+Azure ML Studio (comprehensive GUI)
+SageMaker Studio (AWS ecosystem integration)
+
+Best for Production:
+
+Vertex AI Workbench (GCP's unified ML platform)
+Azure ML Studio (enterprise features)
+SageMaker Studio (AWS integration)
+
+Best for Big Data:
+
+Azure Synapse Analytics
+Dataproc Hub (GCP)
+EMR Notebooks (AWS)
+
+Most Cost-Effective:
+
+EC2/Compute Engine/Azure VMs (if you manage yourself)
+Spot instances on any provider
+Serverless options for light workloads

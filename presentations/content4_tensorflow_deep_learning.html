@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.css">
+    <style>
+        .reveal {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            font-weight: bold;
+            text-transform: none;
+        }
+        
+        .reveal h1 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        .reveal h2 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+        
+        .reveal h3 {
+            font-size: 1.2em;
+            margin-bottom: 12px;
+        }
+        
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.75em;
+            line-height: 1.2;
+            padding: 15px;
+        }
+        
+        .reveal .title-slide {
+            text-align: center;
+        }
+        
+        .reveal .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .reveal .lab-callout {
+            background: #e8f5e8;
+            border: 3px solid #4CAF50;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .reveal .lab-callout h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        
+        .reveal .concept-box {
+            background: #f8f9fa;
+            border-left: 5px solid #007bff;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .reveal .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .reveal .success-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .reveal ul, .reveal ol {
+            margin-left: 20px;
+        }
+        
+        .reveal li {
+            margin: 4px 0;
+        }
+        
+        .reveal .two-column {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .reveal .two-column > div {
+            flex: 1;
+        }
+        
+        .reveal .highlight {
+            background-color: #ffeb3b;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        .reveal .emoji {
+            font-size: 1.2em;
+        }
+        
+        .reveal code {
+            background: #f4f4f4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .reveal pre code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.6em;
+            line-height: 1.1;
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+        
+        .reveal .comparison-box {
+            background: #f8f9fa;
+            border: 2px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .reveal .slides section {
+                font-size: 0.65em;
+                padding: 10px;
+            }
+            
+            .reveal .two-column {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .reveal pre code {
+                font-size: 0.55em;
+                max-height: 150px;
+            }
+            
+            .reveal h1 {
+                font-size: 1.6em;
+                margin-bottom: 15px;
+            }
+            
+            .reveal h2 {
+                font-size: 1.3em;
+                margin-bottom: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .reveal .slides section {
+                font-size: 0.6em;
+                padding: 8px;
+            }
+            
+            .reveal pre code {
+                font-size: 0.5em;
+                max-height: 120px;
+            }
+            
+            .reveal h1 {
+                font-size: 1.4em;
+                margin-bottom: 10px;
+            }
+            
+            .reveal h2 {
+                font-size: 1.2em;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section class="title-slide">
+                <div class="section-header">
+                    <h1>TensorFlow & Deep Learning</h1>
+                    <h2>From Frameworks to Production</h2>
+                    <p><strong>Content 4: Advanced Neural Networks</strong></p>
+                </div>
+                <p><em>Master TensorFlow, CNNs, RNNs, Transfer Learning, and Production Deployment</em></p>
+            </section>
+
+            <!-- Course Overview -->
+            <section>
+                <h2><span class="emoji">🎯</span> Today's Learning Journey</h2>
+                <div class="concept-box">
+                    <h3>From Manual NumPy to Production TensorFlow</h3>
+                    <ul>
+                        <li><strong>Why TensorFlow?</strong> - See the clear benefits over NumPy</li>
+                        <li><strong>Deep Networks</strong> - Build sophisticated architectures</li>
+                        <li><strong>CNNs</strong> - Master image processing</li>
+                        <li><strong>RNNs</strong> - Handle sequential data</li>
+                        <li><strong>Transfer Learning</strong> - Leverage pre-trained models</li>
+                        <li><strong>Production</strong> - Deploy real systems</li>
+                    </ul>
+                </div>
+                <div class="success-box">
+                    <strong>Goal:</strong> Transform from NumPy practitioner to TensorFlow expert
+                </div>
+            </section>
+
+            <!-- Section 1 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">🚀</span> Section 1</h1>
+                    <h2>Introduction to TensorFlow</h2>
+                    <p>Why frameworks make deep learning accessible</p>
+                </div>
+            </section>
+
+            <!-- The NumPy Challenge -->
+            <section>
+                <h2><span class="emoji">😰</span> The NumPy Reality Check</h2>
+                <div class="warning-box">
+                    <h3>What We Built in Days 1-3</h3>
+                    <ul>
+                        <li>70+ lines for basic neural network</li>
+                        <li>Manual forward propagation</li>
+                        <li>Manual backpropagation</li>
+                        <li>Manual activation functions</li>
+                        <li>Manual loss functions</li>
+                        <li>Manual parameter updates</li>
+                    </ul>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>The Problems</h3>
+                    <ul>
+                        <li><strong>Error-prone:</strong> Easy to make mathematical mistakes</li>
+                        <li><strong>Time-consuming:</strong> Weeks to implement what should take minutes</li>
+                        <li><strong>No GPU support:</strong> Slow training on large datasets</li>
+                        <li><strong>No ecosystem:</strong> Start from scratch for everything</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- TensorFlow Solution -->
+            <section>
+                <h2><span class="emoji">✨</span> The TensorFlow Solution</h2>
+                <div class="comparison-box">
+                    <h3>Same Network: NumPy vs TensorFlow</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>NumPy (70+ lines):</h4>
+                            <pre><code>
+class NeuralNetwork:
+    def __init__(self, layers):
+        self.initialize_weights()
+    
+    def forward(self, X):
+        # Manual matrix math
+        for layer in layers:
+            Z = W @ A + b
+            A = sigmoid(Z)
+    
+    def backward(self, X, Y):
+        # Manual derivatives
+        dW = (1/m) * dZ @ A_prev.T
+        # ... 50+ more lines
+                            </code></pre>
+                        </div>
+                        <div>
+                            <h4>TensorFlow (6 lines):</h4>
+                            <pre><code>
+model = keras.Sequential([
+    layers.Dense(4, activation='sigmoid'),
+    layers.Dense(1, activation='sigmoid')
+])
+
+model.compile(
+    optimizer='adam',
+    loss='binary_crossentropy'
+)
+
+model.fit(X, y, epochs=100)
+                            </code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="success-box">
+                    <strong>Result:</strong> Same performance, 10x less code, automatic GPU acceleration!
+                </div>
+            </section>
+
+            <!-- TensorFlow Benefits -->
+            <section>
+                <h2><span class="emoji">💪</span> TensorFlow Superpowers</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="success-box">
+                            <h3>Automatic Features</h3>
+                            <ul>
+                                <li>✅ Automatic differentiation</li>
+                                <li>✅ GPU acceleration</li>
+                                <li>✅ Batch processing</li>
+                                <li>✅ Memory optimization</li>
+                                <li>✅ Distributed training</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="success-box">
+                            <h3>Built-in Library</h3>
+                            <ul>
+                                <li>✅ 30+ activation functions</li>
+                                <li>✅ 20+ loss functions</li>
+                                <li>✅ 10+ optimizers</li>
+                                <li>✅ Regularization techniques</li>
+                                <li>✅ Visualization tools</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="concept-box">
+                    <h3>The Bottom Line</h3>
+                    <p>TensorFlow lets you focus on <strong>what you want to build</strong> instead of <strong>how to implement the math</strong></p>
+                </div>
+            </section>
+
+            <!-- Lab 4.1 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">🚀</span> Experience the TensorFlow Difference!</h2>
+                    <h3>Lab 4.1: Introduction to TensorFlow - Why Frameworks Matter</h3>
+                    <p><strong>What you'll see:</strong> Direct comparison of NumPy vs TensorFlow implementation</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> TensorFlow basics, model compilation, automatic training</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Build the same network in NumPy (70+ lines) and TensorFlow (6 lines)
+                        <br>• Experience automatic differentiation magic
+                        <br>• Use built-in optimizers and loss functions
+                        <br>• Appreciate the power of frameworks
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">🏗️</span> Section 2</h1>
+                    <h2>Building Deep Networks with TensorFlow</h2>
+                    <p>From simple to sophisticated architectures</p>
+                </div>
+            </section>
+
+            <!-- Sequential vs Functional API -->
+            <section>
+                <h2><span class="emoji">🔧</span> TensorFlow Model Building APIs</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="concept-box">
+                            <h3>Sequential API (Simple)</h3>
+                            <pre><code>
+model = keras.Sequential([
+    layers.Dense(128, activation='relu'),
+    layers.Dense(64, activation='relu'),
+                layers.Dense(10, activation='softmax')
+])
+                            </code></pre>
+                            <p><strong>Best for:</strong> Linear layer stacks</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="concept-box">
+                            <h3>Functional API (Flexible)</h3>
+                            <pre><code>
+inputs = layers.Input(shape=(784,))
+x = layers.Dense(128, activation='relu')(inputs)
+x = layers.Dense(64, activation='relu')(x)
+outputs = layers.Dense(10, activation='softmax')(x)
+
+model = keras.Model(inputs, outputs)
+                            </code></pre>
+                            <p><strong>Best for:</strong> Complex architectures</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modern Deep Network Components - Core -->
+            <section>
+                <h2><span class="emoji">🧱</span> Essential TensorFlow Layers</h2>
+                <div class="concept-box">
+                    <h3>Core Building Blocks</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Core Layers:</h4>
+                            <ul>
+                                <li><strong>Dense:</strong> Fully connected layers</li>
+                                <li><strong>Dropout:</strong> Regularization</li>
+                                <li><strong>BatchNormalization:</strong> Stable training</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Activation Choices:</h4>
+                            <ul>
+                                <li><strong>ReLU:</strong> Most common</li>
+                                <li><strong>Leaky ReLU:</strong> Solves dying ReLU</li>
+                                <li><strong>Swish:</strong> Modern alternative</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Techniques -->
+            <section>
+                <h2><span class="emoji">⚡</span> Advanced Deep Learning Techniques</h2>
+                <div class="concept-box">
+                    <h3>Modern Approaches</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Advanced Techniques:</h4>
+                            <ul>
+                                <li><strong>Residual Connections:</strong> Skip connections</li>
+                                <li><strong>Attention Mechanisms:</strong> Focus on important parts</li>
+                                <li><strong>Custom Layers:</strong> Build your own</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Optimization:</h4>
+                            <ul>
+                                <li><strong>Adam:</strong> Adaptive learning</li>
+                                <li><strong>Learning Rate Scheduling:</strong> Smart decay</li>
+                                <li><strong>Early Stopping:</strong> Prevent overfitting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab 4.2 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">🏗️</span> Build Your First Deep Network!</h2>
+                    <h3>Lab 4.2: Building Deep Networks with TensorFlow</h3>
+                    <p><strong>What you'll build:</strong> Sophisticated deep networks with modern techniques</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> Sequential/Functional APIs, layer types, regularization</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Compare Sequential vs Functional API approaches
+                        <br>• Add Dropout and BatchNormalization layers
+                        <br>• Experiment with different activation functions
+                        <br>• Build residual connections for deeper networks
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">👁️</span> Section 3</h1>
+                    <h2>Convolutional Neural Networks</h2>
+                    <p>Masters of image and spatial data</p>
+                </div>
+            </section>
+
+            <!-- Why CNNs for Images -->
+            <section>
+                <h2><span class="emoji">🖼️</span> Why Regular Networks Fail on Images</h2>
+                <div class="warning-box">
+                    <h3>The Dense Layer Problem</h3>
+                    <ul>
+                        <li><strong>Lose spatial structure:</strong> Flatten 2D image to 1D vector</li>
+                        <li><strong>Too many parameters:</strong> 28×28 image = 784 inputs per neuron</li>
+                        <li><strong>No translation invariance:</strong> Cat in top-left ≠ cat in bottom-right</li>
+                        <li><strong>Ignore local patterns:</strong> Don't understand edges, textures</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>The CNN Solution</h3>
+                    <ul>
+                        <li><strong>Preserve spatial structure:</strong> Work with 2D feature maps</li>
+                        <li><strong>Parameter sharing:</strong> Same filter across entire image</li>
+                        <li><strong>Translation invariant:</strong> Detect patterns anywhere</li>
+                        <li><strong>Hierarchical features:</strong> Edges → shapes → objects</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- CNN Building Blocks -->
+            <section>
+                <h2><span class="emoji">🔍</span> CNN Building Blocks in TensorFlow</h2>
+                <div class="concept-box">
+                    <h3>Essential CNN Layers</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Convolutional Layers:</h4>
+                            <pre><code>
+layers.Conv2D(
+    filters=32,
+    kernel_size=3,
+                    activation='relu'
+)
+                            </code></pre>
+                            <p>Detect features like edges and textures</p>
+                        </div>
+                        <div>
+                            <h4>Pooling Layers:</h4>
+                            <pre><code>
+layers.MaxPooling2D(
+    pool_size=2,
+    strides=2
+)
+                            </code></pre>
+                            <p>Reduce size, add translation invariance</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Typical CNN Architecture</h3>
+                    <pre><code>
+model = keras.Sequential([
+    layers.Conv2D(32, 3, activation='relu', input_shape=(28, 28, 1)),
+    layers.MaxPooling2D(2),
+    layers.Conv2D(64, 3, activation='relu'),
+    layers.MaxPooling2D(2),
+    layers.Flatten(),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(10, activation='softmax')
+])
+                    </code></pre>
+                </div>
+            </section>
+
+            <!-- Lab 4.3 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">👁️</span> Master Computer Vision!</h2>
+                    <h3>Lab 4.3: Introduction to Convolutional Neural Networks</h3>
+                    <p><strong>What you'll build:</strong> CNN for image classification with MNIST</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> Conv2D, MaxPooling, feature visualization</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Compare Dense vs CNN performance on images
+                        <br>• Build CNN with Conv2D and MaxPooling layers
+                        <br>• Visualize learned features and filters
+                        <br>• Understand why CNNs work for spatial data
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">📝</span> Section 4</h1>
+                    <h2>Recurrent Neural Networks</h2>
+                    <p>Masters of sequences and time</p>
+                </div>
+            </section>
+
+            <!-- Why RNNs for Sequences -->
+            <section>
+                <h2><span class="emoji">⏰</span> Understanding Sequential Data</h2>
+                <div class="concept-box">
+                    <h3>Where Order Matters</h3>
+                    <ul>
+                        <li><strong>Text:</strong> "I love deep learning" vs "Deep learning love I"</li>
+                        <li><strong>Time series:</strong> Stock prices, weather, sensor data</li>
+                        <li><strong>Audio:</strong> Music, speech recognition</li>
+                        <li><strong>Video:</strong> Action recognition, temporal patterns</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>Why Dense/CNN Networks Fail</h3>
+                    <ul>
+                        <li><strong>Fixed input size:</strong> Can't handle variable-length sequences</li>
+                        <li><strong>No memory:</strong> Each input processed independently</li>
+                        <li><strong>Position matters:</strong> Same word means different things in different contexts</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- RNN Types in TensorFlow -->
+            <section>
+                <h2><span class="emoji">🧠</span> RNN Types in TensorFlow</h2>
+                <div class="concept-box">
+                    <h3>Simple RNN (Basic Memory)</h3>
+                    <pre><code>
+layers.SimpleRNN(64, return_sequences=True)
+                    </code></pre>
+                    <p><strong>Good for:</strong> Short sequences, simple patterns</p>
+                </div>
+
+                <div class="concept-box">
+                    <h3>LSTM (Long Short-Term Memory)</h3>
+                    <pre><code>
+layers.LSTM(64, return_sequences=True)
+                    </code></pre>
+                    <p><strong>Good for:</strong> Long sequences, complex dependencies</p>
+                </div>
+
+                <div class="concept-box">
+                    <h3>GRU (Gated Recurrent Unit)</h3>
+                    <pre><code>
+layers.GRU(64, return_sequences=True)
+                    </code></pre>
+                    <p><strong>Good for:</strong> Faster than LSTM, similar performance</p>
+                </div>
+            </section>
+
+            <!-- Lab 4.4 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">📝</span> Master Sequential Data!</h2>
+                    <h3>Lab 4.4: Introduction to Recurrent Neural Networks</h3>
+                    <p><strong>What you'll build:</strong> RNN for text classification and sentiment analysis</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> SimpleRNN, LSTM, GRU, text preprocessing</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Process text data and create word embeddings
+                        <br>• Compare SimpleRNN, LSTM, and GRU performance
+                        <br>• Build sentiment classifier for movie reviews
+                        <br>• Understand when to use each RNN type
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">🦾</span> Section 5</h1>
+                    <h2>Transfer Learning</h2>
+                    <p>Standing on the shoulders of giants</p>
+                </div>
+            </section>
+
+            <!-- Transfer Learning Motivation -->
+            <section>
+                <h2><span class="emoji">🤔</span> The Training Challenge</h2>
+                <div class="warning-box">
+                    <h3>Training From Scratch Problems</h3>
+                    <ul>
+                        <li><strong>Time:</strong> Weeks or months of training time</li>
+                        <li><strong>Data:</strong> Need millions of labeled examples</li>
+                        <li><strong>Compute:</strong> Expensive GPUs and clusters</li>
+                        <li><strong>Expertise:</strong> Lots of hyperparameter tuning</li>
+                        <li><strong>Failure:</strong> High risk of poor results</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>Transfer Learning Solution</h3>
+                    <ul>
+                        <li><strong>Speed:</strong> Hours instead of weeks</li>
+                        <li><strong>Data:</strong> Work with hundreds of examples</li>
+                        <li><strong>Cost:</strong> Run on single GPU</li>
+                        <li><strong>Results:</strong> Often better than training from scratch</li>
+                        <li><strong>Reliability:</strong> Proven architectures that work</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Transfer Learning in TensorFlow -->
+            <section>
+                <h2><span class="emoji">🔄</span> Transfer Learning with TensorFlow</h2>
+                <div class="concept-box">
+                    <h3>Two Approaches</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Feature Extraction:</h4>
+                            <pre><code>
+base_model = ResNet50(
+    weights='imagenet',
+    include_top=False
+)
+base_model.trainable = False
+
+model = keras.Sequential([
+    base_model,
+    layers.GlobalAveragePooling2D(),
+    layers.Dense(10)
+])
+                            </code></pre>
+                        </div>
+                        <div>
+                            <h4>Fine-tuning:</h4>
+                            <pre><code>
+base_model = ResNet50(
+    weights='imagenet',
+    include_top=False
+)
+base_model.trainable = True
+
+# Freeze early layers
+for layer in base_model.layers[:-20]:
+    layer.trainable = False
+                            </code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="success-box">
+                    <strong>Popular Pre-trained Models:</strong> ResNet, VGG, MobileNet, EfficientNet, BERT
+                </div>
+            </section>
+
+            <!-- Lab 4.5 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">🦾</span> Leverage Pre-trained Models!</h2>
+                    <h3>Lab 4.5: Transfer Learning - Standing on the Shoulders of Giants</h3>
+                    <p><strong>What you'll build:</strong> Transfer learning system using pre-trained ResNet</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> Feature extraction, fine-tuning, model adaptation</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Compare training from scratch vs transfer learning
+                        <br>• Use pre-trained ResNet50 for feature extraction
+                        <br>• Fine-tune layers for your specific task
+                        <br>• Achieve state-of-the-art results with minimal data
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6 Header -->
+            <section>
+                <div class="section-header">
+                    <h1><span class="emoji">🚀</span> Section 6</h1>
+                    <h2>Model Deployment and Production</h2>
+                    <p>From lab to real world</p>
+                </div>
+            </section>
+
+            <!-- Production Pipeline -->
+            <section>
+                <h2><span class="emoji">🏭</span> The ML Production Pipeline</h2>
+                <div class="concept-box">
+                    <h3>From Training to Production</h3>
+                    <ol>
+                        <li><strong>Model Training</strong> - What we've been doing in labs</li>
+                        <li><strong>Model Validation</strong> - Test on real-world data</li>
+                        <li><strong>Model Optimization</strong> - Make it fast and small</li>
+                        <li><strong>Model Serving</strong> - Create APIs for predictions</li>
+                        <li><strong>Monitoring</strong> - Track performance in production</li>
+                        <li><strong>Updates</strong> - Retrain and redeploy</li>
+                    </ol>
+                </div>
+
+                <div class="warning-box">
+                    <h3>Production Challenges</h3>
+                    <ul>
+                        <li><strong>Latency:</strong> Users expect fast responses</li>
+                        <li><strong>Scale:</strong> Handle thousands of requests</li>
+                        <li><strong>Reliability:</strong> System must always work</li>
+                        <li><strong>Security:</strong> Protect models and data</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- TensorFlow Deployment Options -->
+            <section>
+                <h2><span class="emoji">🌐</span> TensorFlow Deployment Options</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="concept-box">
+                            <h3>Cloud Deployment</h3>
+                            <ul>
+                                <li><strong>TensorFlow Serving:</strong> High-performance REST/gRPC APIs</li>
+                                <li><strong>Cloud Functions:</strong> Serverless inference</li>
+                                <li><strong>Kubernetes:</strong> Scalable container deployment</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="concept-box">
+                            <h3>Edge Deployment</h3>
+                            <ul>
+                                <li><strong>TensorFlow Lite:</strong> Mobile and embedded devices</li>
+                                <li><strong>TensorFlow.js:</strong> Run models in web browsers</li>
+                                <li><strong>Edge TPU:</strong> Ultra-fast edge inference</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>Model Formats</h3>
+                    <ul>
+                        <li><strong>SavedModel:</strong> TensorFlow's production format</li>
+                        <li><strong>TensorFlow Lite:</strong> Optimized for mobile</li>
+                        <li><strong>TensorFlow.js:</strong> JavaScript format for browsers</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Lab 4.6 Callout -->
+            <section>
+                <div class="lab-callout">
+                    <h2><span class="emoji">🚀</span> Deploy to Production!</h2>
+                    <h3>Lab 4.6: Model Deployment and Production</h3>
+                    <p><strong>What you'll deploy:</strong> Complete production system with APIs and monitoring</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                    <p><strong>Key Skills:</strong> Model serving, optimization, monitoring</p>
+                    <div style="margin-top: 20px;">
+                        <strong>🎯 Focus Areas:</strong>
+                        <br>• Save models in production formats (SavedModel)
+                        <br>• Create REST APIs for model predictions
+                        <br>• Optimize models for different deployment targets
+                        <br>• Set up monitoring and logging systems
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day Summary - Accomplishments -->
+            <section>
+                <h2><span class="emoji">🎯</span> Your TensorFlow Journey</h2>
+                <div class="success-box">
+                    <h3>What You've Accomplished Today</h3>
+                    <ul>
+                        <li><strong>Framework Mastery:</strong> Transformed from NumPy to TensorFlow expert</li>
+                        <li><strong>Deep Networks:</strong> Built sophisticated architectures with modern techniques</li>
+                        <li><strong>Computer Vision:</strong> Mastered CNNs for image processing</li>
+                        <li><strong>Sequential Data:</strong> Used RNNs for text and time series</li>
+                        <li><strong>Transfer Learning:</strong> Leveraged pre-trained models for rapid development</li>
+                        <li><strong>Production:</strong> Deployed real systems that users can access</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Skills Summary -->
+            <section>
+                <h2><span class="emoji">💪</span> Skills You've Gained</h2>
+                <div class="concept-box">
+                    <div class="two-column">
+                        <div>
+                            <h4>Technical Skills:</h4>
+                            <ul>
+                                <li>TensorFlow/Keras mastery</li>
+                                <li>CNN and RNN architectures</li>
+                                <li>Transfer learning techniques</li>
+                                <li>Model optimization</li>
+                                <li>Production deployment</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Practical Skills:</h4>
+                            <ul>
+                                <li>Rapid prototyping</li>
+                                <li>Model evaluation</li>
+                                <li>Performance optimization</li>
+                                <li>System integration</li>
+                                <li>Production monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Takeaways -->
+            <section>
+                <h2><span class="emoji">💡</span> Key Takeaways</h2>
+                <div class="concept-box">
+                    <h3>Why TensorFlow Matters</h3>
+                    <ul>
+                        <li><strong>Productivity:</strong> Build in hours what took weeks in NumPy</li>
+                        <li><strong>Performance:</strong> Automatic GPU acceleration and optimization</li>
+                        <li><strong>Ecosystem:</strong> Complete solution from research to production</li>
+                        <li><strong>Community:</strong> Massive support and pre-trained models</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>Best Practices</h3>
+                    <ul>
+                        <li><strong>Start Simple:</strong> Use high-level APIs like Keras</li>
+                        <li><strong>Leverage Pre-trained:</strong> Transfer learning beats training from scratch</li>
+                        <li><strong>Think Production:</strong> Plan for deployment from day one</li>
+                        <li><strong>Monitor Everything:</strong> Track performance and model health</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Next Steps -->
+            <section>
+                <h2><span class="emoji">🚀</span> Your Deep Learning Journey Continues</h2>
+                <div class="concept-box">
+                    <h3>What's Next?</h3>
+                    <ul>
+                        <li><strong>Advanced Architectures:</strong> Transformers, GANs, Reinforcement Learning</li>
+                        <li><strong>Specialized Domains:</strong> NLP, Computer Vision, Robotics</li>
+                        <li><strong>MLOps:</strong> Advanced production pipelines and monitoring</li>
+                        <li><strong>Research:</strong> Implement cutting-edge papers</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>You're Now Ready For</h3>
+                    <ul>
+                        <li>Building production AI systems</li>
+                        <li>Leading ML engineering teams</li>
+                        <li>Contributing to open source ML projects</li>
+                        <li>Implementing state-of-the-art research</li>
+                        <li>Solving real-world problems with AI</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Final Slide -->
+            <section class="title-slide">
+                <div class="section-header">
+                    <h1><span class="emoji">🎉</span> Congratulations!</h1>
+                    <h2>You've Mastered TensorFlow & Deep Learning</h2>
+                    <p>From NumPy fundamentals to production systems</p>
+                </div>
+                
+                <div class="success-box">
+                    <h3>Your Achievement</h3>
+                    <p>You've completed a comprehensive journey from manual NumPy implementations to production-ready TensorFlow systems. You understand both the theory and the practice of modern deep learning.</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Build Amazing AI! 🚀</h3>
+                    <p><em>You're now a deep learning practitioner ready for real-world challenges!</em></p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+            width: 1024,
+            height: 768,
+            margin: 0.02,
+            minScale: 0.1,
+            maxScale: 3.0,
+            autoSlide: 0,
+            embedded: false,
+            plugins: [ RevealHighlight ]
+        });
+    </script>
+</body>
+</html>

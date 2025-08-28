@@ -234,29 +234,41 @@
                 </div>
             </section>
 
-            <!-- The NumPy Challenge -->
+            <!-- What We Built in NumPy -->
             <section>
-                <h2><span class="emoji">😰</span> The NumPy Reality Check</h2>
+                <h2><span class="emoji">📋</span> What We Built in Days 1-3</h2>
                 <div class="warning-box">
-                    <h3>What We Built in Days 1-3</h3>
+                    <h3>Our NumPy Neural Network Implementation</h3>
                     <ul>
-                        <li>70+ lines for basic neural network</li>
-                        <li>Manual forward propagation</li>
-                        <li>Manual backpropagation</li>
-                        <li>Manual activation functions</li>
-                        <li>Manual loss functions</li>
-                        <li>Manual parameter updates</li>
+                        <li><strong>70+ lines</strong> for basic neural network</li>
+                        <li><strong>Manual forward propagation</strong> - matrix multiplication by hand</li>
+                        <li><strong>Manual backpropagation</strong> - computing all derivatives</li>
+                        <li><strong>Manual activation functions</strong> - sigmoid, ReLU from scratch</li>
+                        <li><strong>Manual loss functions</strong> - cost calculation and tracking</li>
+                        <li><strong>Manual parameter updates</strong> - gradient descent step by step</li>
                     </ul>
                 </div>
-                
                 <div class="concept-box">
-                    <h3>The Problems</h3>
+                    <h3>It Was Educational But...</h3>
+                    <p>We learned the fundamentals, but is this the best way to build real systems?</p>
+                </div>
+            </section>
+
+            <!-- The NumPy Problems -->
+            <section>
+                <h2><span class="emoji">😰</span> The Problems with NumPy Approach</h2>
+                <div class="concept-box">
+                    <h3>Why Manual Implementation Doesn't Scale</h3>
                     <ul>
-                        <li><strong>Error-prone:</strong> Easy to make mathematical mistakes</li>
+                        <li><strong>Error-prone:</strong> Easy to make mathematical mistakes in derivatives</li>
                         <li><strong>Time-consuming:</strong> Weeks to implement what should take minutes</li>
                         <li><strong>No GPU support:</strong> Slow training on large datasets</li>
                         <li><strong>No ecosystem:</strong> Start from scratch for everything</li>
                     </ul>
+                </div>
+                <div class="success-box">
+                    <h3>Time for a Better Way</h3>
+                    <p><strong>Enter TensorFlow:</strong> Industry-standard framework used by Google, research teams, and millions of developers worldwide!</p>
                 </div>
             </section>
 
@@ -308,34 +320,37 @@ model.fit(X, y, epochs=100)
                 </div>
             </section>
 
-            <!-- TensorFlow Benefits -->
+            <!-- TensorFlow Automatic Features -->
             <section>
-                <h2><span class="emoji">💪</span> TensorFlow Superpowers</h2>
-                <div class="two-column">
-                    <div>
-                        <div class="success-box">
-                            <h3>Automatic Features</h3>
-                            <ul>
-                                <li>✅ Automatic differentiation</li>
-                                <li>✅ GPU acceleration</li>
-                                <li>✅ Batch processing</li>
-                                <li>✅ Memory optimization</li>
-                                <li>✅ Distributed training</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="success-box">
-                            <h3>Built-in Library</h3>
-                            <ul>
-                                <li>✅ 30+ activation functions</li>
-                                <li>✅ 20+ loss functions</li>
-                                <li>✅ 10+ optimizers</li>
-                                <li>✅ Regularization techniques</li>
-                                <li>✅ Visualization tools</li>
-                            </ul>
-                        </div>
-                    </div>
+                <h2><span class="emoji">🤖</span> TensorFlow Automatic Features</h2>
+                <div class="success-box">
+                    <h3>What TensorFlow Handles Automatically</h3>
+                    <ul>
+                        <li><strong>✅ Automatic differentiation:</strong> No manual derivative calculations</li>
+                        <li><strong>✅ GPU acceleration:</strong> Seamless hardware optimization</li>
+                        <li><strong>✅ Batch processing:</strong> Efficient vectorized operations</li>
+                        <li><strong>✅ Memory optimization:</strong> Smart memory management</li>
+                        <li><strong>✅ Distributed training:</strong> Multi-device computation</li>
+                    </ul>
+                </div>
+                <div class="concept-box">
+                    <h3>Why This Matters</h3>
+                    <p>Each feature saves weeks of manual implementation and debugging. Focus on your model, not the math!</p>
+                </div>
+            </section>
+
+            <!-- TensorFlow Built-in Library -->
+            <section>
+                <h2><span class="emoji">📚</span> TensorFlow Rich Ecosystem</h2>
+                <div class="success-box">
+                    <h3>Ready-to-Use Components</h3>
+                    <ul>
+                        <li><strong>✅ 30+ activation functions:</strong> ReLU, sigmoid, tanh, swish, and more</li>
+                        <li><strong>✅ 20+ loss functions:</strong> Cross-entropy, MSE, Huber, and more</li>
+                        <li><strong>✅ 10+ optimizers:</strong> Adam, SGD, RMSprop, AdaGrad, and more</li>
+                        <li><strong>✅ Regularization techniques:</strong> Dropout, L1/L2, batch normalization</li>
+                        <li><strong>✅ Visualization tools:</strong> TensorBoard for monitoring and debugging</li>
+                    </ul>
                 </div>
                 <div class="concept-box">
                     <h3>The Bottom Line</h3>
@@ -484,10 +499,11 @@ model = keras.Model(inputs, outputs)
             </section>
 
             <!-- Why CNNs for Images -->
+            <!-- Dense Layer Problems -->
             <section>
-                <h2><span class="emoji">🖼️</span> Why Regular Networks Fail on Images</h2>
+                <h2><span class="emoji">❌</span> The Dense Layer Problem</h2>
                 <div class="warning-box">
-                    <h3>The Dense Layer Problem</h3>
+                    <h3>Why Dense Layers Struggle with Images</h3>
                     <ul>
                         <li><strong>Lose spatial structure:</strong> Flatten 2D image to 1D vector</li>
                         <li><strong>Too many parameters:</strong> 28×28 image = 784 inputs per neuron</li>
@@ -495,9 +511,17 @@ model = keras.Model(inputs, outputs)
                         <li><strong>Ignore local patterns:</strong> Don't understand edges, textures</li>
                     </ul>
                 </div>
+                <div class="concept-box">
+                    <h3>Real Example</h3>
+                    <p>A 224×224 color image (150,528 pixels) → Dense layer = <strong>150 million parameters</strong> for just one hidden layer!</p>
+                </div>
+            </section>
 
+            <!-- CNN Solution -->
+            <section>
+                <h2><span class="emoji">✅</span> The CNN Solution</h2>
                 <div class="success-box">
-                    <h3>The CNN Solution</h3>
+                    <h3>How CNNs Fix These Problems</h3>
                     <ul>
                         <li><strong>Preserve spatial structure:</strong> Work with 2D feature maps</li>
                         <li><strong>Parameter sharing:</strong> Same filter across entire image</li>
@@ -505,13 +529,17 @@ model = keras.Model(inputs, outputs)
                         <li><strong>Hierarchical features:</strong> Edges → shapes → objects</li>
                     </ul>
                 </div>
+                <div class="concept-box">
+                    <h3>Parameter Efficiency</h3>
+                    <p>Same 224×224 image → CNN with 32 filters = <strong>only 896 parameters</strong> (99.4% reduction!)</p>
+                </div>
             </section>
 
-            <!-- CNN Building Blocks -->
+            <!-- Essential CNN Layers -->
             <section>
-                <h2><span class="emoji">🔍</span> CNN Building Blocks in TensorFlow</h2>
+                <h2><span class="emoji">🧱</span> Essential CNN Layers</h2>
                 <div class="concept-box">
-                    <h3>Essential CNN Layers</h3>
+                    <h3>Two Key Building Blocks</h3>
                     <div class="two-column">
                         <div>
                             <h4>Convolutional Layers:</h4>
@@ -519,10 +547,10 @@ model = keras.Model(inputs, outputs)
 layers.Conv2D(
     filters=32,
     kernel_size=3,
-                    activation='relu'
+    activation='relu'
 )
                             </code></pre>
-                            <p>Detect features like edges and textures</p>
+                            <p><strong>Purpose:</strong> Detect features like edges and textures</p>
                         </div>
                         <div>
                             <h4>Pooling Layers:</h4>
@@ -532,13 +560,21 @@ layers.MaxPooling2D(
     strides=2
 )
                             </code></pre>
-                            <p>Reduce size, add translation invariance</p>
+                            <p><strong>Purpose:</strong> Reduce size, add translation invariance</p>
                         </div>
                     </div>
                 </div>
+                <div class="success-box">
+                    <h3>The Pattern</h3>
+                    <p><strong>Convolution → Pooling → Repeat → Flatten → Dense</strong></p>
+                </div>
+            </section>
 
+            <!-- CNN Architecture Example -->
+            <section>
+                <h2><span class="emoji">🏗️</span> Typical CNN Architecture</h2>
                 <div class="concept-box">
-                    <h3>Typical CNN Architecture</h3>
+                    <h3>Complete CNN in TensorFlow</h3>
                     <pre><code>
 model = keras.Sequential([
     layers.Conv2D(32, 3, activation='relu', input_shape=(28, 28, 1)),
@@ -550,6 +586,14 @@ model = keras.Sequential([
     layers.Dense(10, activation='softmax')
 ])
                     </code></pre>
+                </div>
+                <div class="success-box">
+                    <h3>What This Architecture Does</h3>
+                    <p>• <strong>32 filters (3×3)</strong> → detect basic features<br>
+                    • <strong>Pool</strong> → reduce size<br>
+                    • <strong>64 filters (3×3)</strong> → detect complex features<br>
+                    • <strong>Pool</strong> → reduce size again<br>
+                    • <strong>Flatten & Dense</strong> → final classification</p>
                 </div>
             </section>
 
@@ -659,10 +703,11 @@ layers.GRU(64, return_sequences=True)
             </section>
 
             <!-- Transfer Learning Motivation -->
+            <!-- Training From Scratch Problems -->
             <section>
-                <h2><span class="emoji">🤔</span> The Training Challenge</h2>
+                <h2><span class="emoji">😰</span> Training From Scratch Problems</h2>
                 <div class="warning-box">
-                    <h3>Training From Scratch Problems</h3>
+                    <h3>Why Starting From Scratch Is Hard</h3>
                     <ul>
                         <li><strong>Time:</strong> Weeks or months of training time</li>
                         <li><strong>Data:</strong> Need millions of labeled examples</li>
@@ -671,9 +716,17 @@ layers.GRU(64, return_sequences=True)
                         <li><strong>Failure:</strong> High risk of poor results</li>
                     </ul>
                 </div>
+                <div class="concept-box">
+                    <h3>Reality Check</h3>
+                    <p>ImageNet classification: <strong>1.2M images, 1000 classes, 100+ GPU hours, $1000s in compute costs</strong></p>
+                </div>
+            </section>
 
+            <!-- Transfer Learning Solution -->
+            <section>
+                <h2><span class="emoji">🚀</span> Transfer Learning Solution</h2>
                 <div class="success-box">
-                    <h3>Transfer Learning Solution</h3>
+                    <h3>Stand on the Shoulders of Giants</h3>
                     <ul>
                         <li><strong>Speed:</strong> Hours instead of weeks</li>
                         <li><strong>Data:</strong> Work with hundreds of examples</li>
@@ -682,48 +735,61 @@ layers.GRU(64, return_sequences=True)
                         <li><strong>Reliability:</strong> Proven architectures that work</li>
                     </ul>
                 </div>
+                <div class="concept-box">
+                    <h3>The Insight</h3>
+                    <p>Pre-trained models already learned to detect <strong>edges, shapes, textures</strong> - reuse this knowledge!</p>
+                </div>
             </section>
 
-            <!-- Transfer Learning in TensorFlow -->
+            <!-- Feature Extraction Approach -->
             <section>
-                <h2><span class="emoji">🔄</span> Transfer Learning with TensorFlow</h2>
+                <h2><span class="emoji">🔒</span> Feature Extraction Approach</h2>
                 <div class="concept-box">
-                    <h3>Two Approaches</h3>
-                    <div class="two-column">
-                        <div>
-                            <h4>Feature Extraction:</h4>
-                            <pre><code>
+                    <h3>Freeze Pre-trained Layers</h3>
+                    <pre><code>
 base_model = ResNet50(
     weights='imagenet',
     include_top=False
 )
-base_model.trainable = False
+base_model.trainable = False  # Freeze all layers
 
 model = keras.Sequential([
     base_model,
     layers.GlobalAveragePooling2D(),
-    layers.Dense(10)
+    layers.Dense(10, activation='softmax')
 ])
-                            </code></pre>
-                        </div>
-                        <div>
-                            <h4>Fine-tuning:</h4>
-                            <pre><code>
+                    </code></pre>
+                </div>
+                <div class="success-box">
+                    <h3>When to Use</h3>
+                    <p>• <strong>Small dataset</strong> (< 1000 images)<br>
+                    • <strong>Similar to ImageNet</strong> (photos of objects)<br>
+                    • <strong>Fast training</strong> - only train final layer</p>
+                </div>
+            </section>
+
+            <!-- Fine-tuning Approach -->
+            <section>
+                <h2><span class="emoji">⚙️</span> Fine-tuning Approach</h2>
+                <div class="concept-box">
+                    <h3>Unfreeze Some Pre-trained Layers</h3>
+                    <pre><code>
 base_model = ResNet50(
     weights='imagenet',
     include_top=False
 )
 base_model.trainable = True
 
-# Freeze early layers
+# Freeze early layers, unfreeze later ones
 for layer in base_model.layers[:-20]:
     layer.trainable = False
-                            </code></pre>
-                        </div>
-                    </div>
+                    </code></pre>
                 </div>
                 <div class="success-box">
-                    <strong>Popular Pre-trained Models:</strong> ResNet, VGG, MobileNet, EfficientNet, BERT
+                    <h3>When to Use</h3>
+                    <p>• <strong>Larger dataset</strong> (> 1000 images)<br>
+                    • <strong>Different from ImageNet</strong> (medical images, etc.)<br>
+                    • <strong>Maximum accuracy</strong> - adapt features to your data</p>
                 </div>
             </section>
 
@@ -755,10 +821,11 @@ for layer in base_model.layers[:-20]:
             </section>
 
             <!-- Production Pipeline -->
+            <!-- ML Production Pipeline -->
             <section>
-                <h2><span class="emoji">🏭</span> The ML Production Pipeline</h2>
+                <h2><span class="emoji">🏭</span> From Training to Production</h2>
                 <div class="concept-box">
-                    <h3>From Training to Production</h3>
+                    <h3>The ML Production Pipeline</h3>
                     <ol>
                         <li><strong>Model Training</strong> - What we've been doing in labs</li>
                         <li><strong>Model Validation</strong> - Test on real-world data</li>
@@ -768,15 +835,27 @@ for layer in base_model.layers[:-20]:
                         <li><strong>Updates</strong> - Retrain and redeploy</li>
                     </ol>
                 </div>
+                <div class="success-box">
+                    <h3>The Reality</h3>
+                    <p>Training is only <strong>10%</strong> of the work. Production deployment is <strong>90%</strong>!</p>
+                </div>
+            </section>
 
+            <!-- Production Challenges -->
+            <section>
+                <h2><span class="emoji">⚠️</span> Production Challenges</h2>
                 <div class="warning-box">
-                    <h3>Production Challenges</h3>
+                    <h3>What Makes Production Hard</h3>
                     <ul>
-                        <li><strong>Latency:</strong> Users expect fast responses</li>
-                        <li><strong>Scale:</strong> Handle thousands of requests</li>
-                        <li><strong>Reliability:</strong> System must always work</li>
-                        <li><strong>Security:</strong> Protect models and data</li>
+                        <li><strong>Latency:</strong> Users expect responses in milliseconds</li>
+                        <li><strong>Scale:</strong> Handle thousands of concurrent requests</li>
+                        <li><strong>Reliability:</strong> 99.9% uptime requirement</li>
+                        <li><strong>Security:</strong> Protect models and data from attacks</li>
                     </ul>
+                </div>
+                <div class="concept-box">
+                    <h3>The Stakes</h3>
+                    <p>In production: <strong>Every second of downtime = lost revenue</strong></p>
                 </div>
             </section>
 

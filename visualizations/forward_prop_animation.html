@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detailed Forward Propagation Animation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f23, #1a1a3e);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5em;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .network-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .network {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+            min-height: 400px;
+            padding: 20px;
+        }
+        
+        .layer {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .layer-label {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            padding: 8px 16px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .neuron {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 3px solid transparent;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .neuron-label {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+        
+        .neuron-value {
+            font-size: 12px;
+            opacity: 0.8;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 8px;
+            min-width: 35px;
+            text-align: center;
+        }
+        
+        .neuron.active {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            border-color: #FFD700;
+            transform: scale(1.3);
+            box-shadow: 0 0 30px rgba(231, 76, 60, 0.7), 0 0 50px rgba(255, 215, 0, 0.3);
+        }
+        
+        .neuron.computing {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            border-color: #fff;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1.1); }
+            50% { transform: scale(1.25); }
+        }
+        
+        .connection {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(90deg, rgba(108, 122, 137, 0.6), rgba(52, 73, 94, 0.6));
+            transition: all 0.8s ease;
+            transform-origin: left center;
+            border-radius: 2px;
+            z-index: 1;
+        }
+        
+        .connection.active {
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60);
+            height: 6px;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.8);
+            animation: flow 1.5s ease-in-out;
+        }
+        
+        @keyframes flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        
+        .weight-label {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: #FFD700;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            z-index: 15;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .weight-label.show {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .calculation-panel {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid #e74c3c;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .step-info {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .detailed-calculation {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .calculation-step {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .calculation-step.highlight {
+            background: rgba(231, 76, 60, 0.2);
+            border-left: 4px solid #e74c3c;
+            transform: translateX(10px);
+        }
+        
+        .matrix-display {
+            display: grid;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .matrix {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .matrix-title {
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .matrix-content {
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+            min-width: 150px;
+        }
+        
+        button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.6);
+        }
+        
+        button:disabled {
+            background: linear-gradient(45deg, #555, #666);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4ecdc4;
+        }
+        
+        .speed-control input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: white;
+            padding: 5px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e74c3c, #f39c12);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Detailed Forward Propagation</h1>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="network-container">
+            <div class="network" id="network">
+                <div class="layer">
+                    <div class="layer-label">Input Layer</div>
+                    <div class="neuron" data-layer="0" data-neuron="0">
+                        <div class="neuron-label">x₁</div>
+                        <div class="neuron-value" id="input-0">2.0</div>
+                    </div>
+                    <div class="neuron" data-layer="0" data-neuron="1">
+                        <div class="neuron-label">x₂</div>
+                        <div class="neuron-value" id="input-1">-1.5</div>
+                    </div>
+                    <div class="neuron" data-layer="0" data-neuron="2">
+                        <div class="neuron-label">x₃</div>
+                        <div class="neuron-value" id="input-2">0.8</div>
+                    </div>
+                </div>
+                
+                <div class="layer">
+                    <div class="layer-label">Hidden Layer (ReLU)</div>
+                    <div class="neuron" data-layer="1" data-neuron="0">
+                        <div class="neuron-label">h₁</div>
+                        <div class="neuron-value" id="hidden-0">0.00</div>
+                    </div>
+                    <div class="neuron" data-layer="1" data-neuron="1">
+                        <div class="neuron-label">h₂</div>
+                        <div class="neuron-value" id="hidden-1">0.00</div>
+                    </div>
+                    <div class="neuron" data-layer="1" data-neuron="2">
+                        <div class="neuron-label">h₃</div>
+                        <div class="neuron-value" id="hidden-2">0.00</div>
+                    </div>
+                </div>
+                
+                <div class="layer">
+                    <div class="layer-label">Output Layer (Softmax)</div>
+                    <div class="neuron" data-layer="2" data-neuron="0">
+                        <div class="neuron-label">y₁</div>
+                        <div class="neuron-value" id="output-0">0.00</div>
+                    </div>
+                    <div class="neuron" data-layer="2" data-neuron="1">
+                        <div class="neuron-label">y₂</div>
+                        <div class="neuron-value" id="output-1">0.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="calculation-panel">
+            <div class="step-info" id="stepInfo">Ready to start forward propagation</div>
+            
+            <div class="matrix-display" id="matrixDisplay">
+                <div class="matrix">
+                    <div class="matrix-title">Input Vector</div>
+                    <div class="matrix-content">
+                        X = [2.0, -1.5, 0.8]ᵀ
+                    </div>
+                </div>
+                <div class="matrix">
+                    <div class="matrix-title">Hidden Layer Weights (W₁)</div>
+                    <div class="matrix-content">
+                        [ 0.5  -0.2   1.1 ]<br>
+                        [-0.8   1.4   0.3 ]<br>
+                        [ 1.2  -0.5  -0.7 ]
+                    </div>
+                </div>
+                <div class="matrix">
+                    <div class="matrix-title">Hidden Biases (b₁)</div>
+                    <div class="matrix-content">
+                        [0.1, -0.3, 0.5]ᵀ
+                    </div>
+                </div>
+                <div class="matrix">
+                    <div class="matrix-title">Output Weights (W₂)</div>
+                    <div class="matrix-content">
+                        [ 1.3  -0.9   0.6 ]<br>
+                        [-0.4   1.1  -0.8 ]
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detailed-calculation" id="detailedCalc">
+                <div class="calculation-step">
+                    Click "Start Animation" to see detailed calculations
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button onclick="startAnimation()" id="startBtn">Start Animation</button>
+            <button onclick="resetAnimation()" id="resetBtn">Reset</button>
+            <button onclick="toggleAutoplay()" id="autoplayBtn">Auto-replay: OFF</button>
+            <div class="speed-control">
+                <label>Speed:</label>
+                <input type="range" id="speedSlider" min="0.5" max="3" step="0.1" value="1">
+                <span id="speedValue">1.0x</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        let animationTimeout;
+        let autoplay = false;
+        let speed = 1.0;
+        
+        // Network data
+        const inputData = [2.0, -1.5, 0.8];
+        const hiddenWeights = [
+            [0.5, -0.2, 1.1],
+            [-0.8, 1.4, 0.3],
+            [1.2, -0.5, -0.7]
+        ];
+        const hiddenBiases = [0.1, -0.3, 0.5];
+        const outputWeights = [
+            [1.3, -0.9, 0.6],
+            [-0.4, 1.1, -0.8]
+        ];
+        const outputBiases = [0.2, -0.1];
+        
+        let hiddenOutputs = [0, 0, 0];
+        let finalOutputs = [0, 0];
+        
+        const steps = [
+            {
+                info: "Step 1: Input data loaded into network",
+                calculation: `Input values:
+x₁ = ${inputData[0]}
+x₂ = ${inputData[1]}  
+x₃ = ${inputData[2]}`,
+                activeNeurons: [[0, 0], [0, 1], [0, 2]],
+                activeConnections: [],
+                progress: 10
+            },
+            {
+                info: "Step 2: Computing Hidden Neuron h₁",
+                calculation: `Computing h₁:
+z₁ = w₁₁×x₁ + w₁₂×x₂ + w₁₃×x₃ + b₁
+z₁ = ${hiddenWeights[0][0]}×${inputData[0]} + ${hiddenWeights[0][1]}×${inputData[1]} + ${hiddenWeights[0][2]}×${inputData[2]} + ${hiddenBiases[0]}
+z₁ = ${hiddenWeights[0][0] * inputData[0]} + ${hiddenWeights[0][1] * inputData[1]} + ${hiddenWeights[0][2] * inputData[2]} + ${hiddenBiases[0]}
+z₁ = ${(hiddenWeights[0][0] * inputData[0] + hiddenWeights[0][1] * inputData[1] + hiddenWeights[0][2] * inputData[2] + hiddenBiases[0]).toFixed(2)}
+h₁ = ReLU(z₁) = max(0, z₁) = ${Math.max(0, hiddenWeights[0][0] * inputData[0] + hiddenWeights[0][1] * inputData[1] + hiddenWeights[0][2] * inputData[2] + hiddenBiases[0]).toFixed(2)}`,
+                activeNeurons: [[0, 0], [0, 1], [0, 2], [1, 0]],
+                activeConnections: ['0-0-1-0', '0-1-1-0', '0-2-1-0'],
+                updateNeuron: [1, 0],
+                progress: 25
+            },
+            {
+                info: "Step 3: Computing Hidden Neuron h₂",
+                calculation: `Computing h₂:
+z₂ = ${hiddenWeights[1][0]}×${inputData[0]} + ${hiddenWeights[1][1]}×${inputData[1]} + ${hiddenWeights[1][2]}×${inputData[2]} + ${hiddenBiases[1]}
+z₂ = ${hiddenWeights[1][0] * inputData[0]} + ${hiddenWeights[1][1] * inputData[1]} + ${hiddenWeights[1][2] * inputData[2]} + ${hiddenBiases[1]}
+z₂ = ${(hiddenWeights[1][0] * inputData[0] + hiddenWeights[1][1] * inputData[1] + hiddenWeights[1][2] * inputData[2] + hiddenBiases[1]).toFixed(2)}
+h₂ = ReLU(z₂) = ${Math.max(0, hiddenWeights[1][0] * inputData[0] + hiddenWeights[1][1] * inputData[1] + hiddenWeights[1][2] * inputData[2] + hiddenBiases[1]).toFixed(2)}`,
+                activeNeurons: [[0, 0], [0, 1], [0, 2], [1, 1]],
+                activeConnections: ['0-0-1-1', '0-1-1-1', '0-2-1-1'],
+                updateNeuron: [1, 1],
+                progress: 40
+            },
+            {
+                info: "Step 4: Computing Hidden Neuron h₃",
+                calculation: `Computing h₃:
+z₃ = ${hiddenWeights[2][0]}×${inputData[0]} + ${hiddenWeights[2][1]}×${inputData[1]} + ${hiddenWeights[2][2]}×${inputData[2]} + ${hiddenBiases[2]}
+z₃ = ${hiddenWeights[2][0] * inputData[0]} + ${hiddenWeights[2][1] * inputData[1]} + ${hiddenWeights[2][2] * inputData[2]} + ${hiddenBiases[2]}
+z₃ = ${(hiddenWeights[2][0] * inputData[0] + hiddenWeights[2][1] * inputData[1] + hiddenWeights[2][2] * inputData[2] + hiddenBiases[2]).toFixed(2)}
+h₃ = ReLU(z₃) = ${Math.max(0, hiddenWeights[2][0] * inputData[0] + hiddenWeights[2][1] * inputData[1] + hiddenWeights[2][2] * inputData[2] + hiddenBiases[2]).toFixed(2)}`,
+                activeNeurons: [[0, 0], [0, 1], [0, 2], [1, 2]],
+                activeConnections: ['0-0-1-2', '0-1-1-2', '0-2-1-2'],
+                updateNeuron: [1, 2],
+                progress: 55
+            },
+            {
+                info: "Step 5: Hidden layer complete - All neurons activated",
+                calculation: `Hidden layer outputs:
+h₁ = ${hiddenOutputs[0].toFixed(2)}
+h₂ = ${hiddenOutputs[1].toFixed(2)}
+h₃ = ${hiddenOutputs[2].toFixed(2)}
+
+Ready to compute output layer...`,
+                activeNeurons: [[1, 0], [1, 1], [1, 2]],
+                activeConnections: [],
+                progress: 65
+            },
+            {
+                info: "Step 6: Computing Output Neuron y₁",
+                calculation: `Computing y₁ (before softmax):
+z₁ = ${outputWeights[0][0]}×${hiddenOutputs[0].toFixed(2)} + ${outputWeights[0][1]}×${hiddenOutputs[1].toFixed(2)} + ${outputWeights[0][2]}×${hiddenOutputs[2].toFixed(2)} + ${outputBiases[0]}
+z₁ = ${(outputWeights[0][0] * hiddenOutputs[0]).toFixed(2)} + ${(outputWeights[0][1] * hiddenOutputs[1]).toFixed(2)} + ${(outputWeights[0][2] * hiddenOutputs[2]).toFixed(2)} + ${outputBiases[0]}
+z₁ = ${(outputWeights[0][0] * hiddenOutputs[0] + outputWeights[0][1] * hiddenOutputs[1] + outputWeights[0][2] * hiddenOutputs[2] + outputBiases[0]).toFixed(2)}`,
+                activeNeurons: [[1, 0], [1, 1], [1, 2], [2, 0]],
+                activeConnections: ['1-0-2-0', '1-1-2-0', '1-2-2-0'],
+                updateNeuron: [2, 0],
+                progress: 75
+            },
+            {
+                info: "Step 7: Computing Output Neuron y₂",
+                calculation: `Computing y₂ (before softmax):
+z₂ = ${outputWeights[1][0]}×${hiddenOutputs[0].toFixed(2)} + ${outputWeights[1][1]}×${hiddenOutputs[1].toFixed(2)} + ${outputWeights[1][2]}×${hiddenOutputs[2].toFixed(2)} + ${outputBiases[1]}
+z₂ = ${(outputWeights[1][0] * hiddenOutputs[0]).toFixed(2)} + ${(outputWeights[1][1] * hiddenOutputs[1]).toFixed(2)} + ${(outputWeights[1][2] * hiddenOutputs[2]).toFixed(2)} + ${outputBiases[1]}
+z₂ = ${(outputWeights[1][0] * hiddenOutputs[0] + outputWeights[1][1] * hiddenOutputs[1] + outputWeights[1][2] * hiddenOutputs[2] + outputBiases[1]).toFixed(2)}`,
+                activeNeurons: [[1, 0], [1, 1], [1, 2], [2, 1]],
+                activeConnections: ['1-0-2-1', '1-1-2-1', '1-2-2-1'],
+                updateNeuron: [2, 1],
+                progress: 85
+            },
+            {
+                info: "Step 8: Applying Softmax Activation",
+                calculation: `Applying Softmax:
+Raw outputs: [${finalOutputs[0].toFixed(2)}, ${finalOutputs[1].toFixed(2)}]
+
+Softmax calculation:
+exp(z₁) = exp(${finalOutputs[0].toFixed(2)}) = ${Math.exp(finalOutputs[0]).toFixed(3)}
+exp(z₂) = exp(${finalOutputs[1].toFixed(2)}) = ${Math.exp(finalOutputs[1]).toFixed(3)}
+Sum = ${(Math.exp(finalOutputs[0]) + Math.exp(finalOutputs[1])).toFixed(3)}
+
+Final probabilities:
+y₁ = ${(Math.exp(finalOutputs[0]) / (Math.exp(finalOutputs[0]) + Math.exp(finalOutputs[1]))).toFixed(3)}
+y₂ = ${(Math.exp(finalOutputs[1]) / (Math.exp(finalOutputs[0]) + Math.exp(finalOutputs[1]))).toFixed(3)}`,
+                activeNeurons: [[2, 0], [2, 1]],
+                activeConnections: [],
+                progress: 100
+            }
+        ];
+        
+        function createConnections() {
+            const network = document.getElementById('network');
+            const layers = network.querySelectorAll('.layer');
+            
+            // Clear existing connections
+            document.querySelectorAll('.connection, .weight-label').forEach(el => el.remove());
+            
+            // Create connections with weight labels
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    createConnectionWithWeight(0, i, 1, j, hiddenWeights[j][i]);
+                }
+            }
+            
+            // Create connections between hidden and output layer
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 2; j++) {
+                    createConnectionWithWeight(1, i, 2, j, outputWeights[j][i]);
+                }
+            }
+        }
+        
+        function createConnectionWithWeight(fromLayer, fromNeuron, toLayer, toNeuron, weight) {
+            const network = document.getElementById('network');
+            const fromEl = document.querySelector(`[data-layer="${fromLayer}"][data-neuron="${fromNeuron}"]`);
+            const toEl = document.querySelector(`[data-layer="${toLayer}"][data-neuron="${toNeuron}"]`);
+            
+            const connection = document.createElement('div');
+            connection.className = 'connection';
+            connection.dataset.connection = `${fromLayer}-${fromNeuron}-${toLayer}-${toNeuron}`;
+            
+            const weightLabel = document.createElement('div');
+            weightLabel.className = 'weight-label';
+            weightLabel.textContent = weight.toFixed(1);
+            weightLabel.dataset.weight = `${fromLayer}-${fromNeuron}-${toLayer}-${toNeuron}`;
+            
+            const fromRect = fromEl.getBoundingClientRect();
+            const toRect = toEl.getBoundingClientRect();
+            const networkRect = network.getBoundingClientRect();
+            
+            const fromX = fromRect.left + fromRect.width/2 - networkRect.left;
+            const fromY = fromRect.top + fromRect.height/2 - networkRect.top;
+            const toX = toRect.left + toRect.width/2 - networkRect.left;
+            const toY = toRect.top + toRect.height/2 - networkRect.top;
+            
+            const length = Math.sqrt((toX - fromX)**2 + (toY - fromY)**2);
+            const angle = Math.atan2(toY - fromY, toX - fromX) * 180 / Math.PI;
+            
+            connection.style.left = fromX + 'px';
+            connection.style.top = fromY + 'px';
+            connection.style.width = length + 'px';
+            connection.style.transform = `rotate(${angle}deg)`;
+            
+            // Position weight label at midpoint
+            const midX = fromX + (toX - fromX) * 0.5;
+            const midY = fromY + (toY - fromY) * 0.5;
+            
+            weightLabel.style.left = (midX - 15) + 'px';
+            weightLabel.style.top = (midY - 10) + 'px';
+            
+            network.appendChild(connection);
+            network.appendChild(weightLabel);
+        }
+        
+        function updateNeuronValue(layer, neuron, value) {
+            const neuronEl = document.getElementById(`${layer === 0 ? 'input' : layer === 1 ? 'hidden' : 'output'}-${neuron}`);
+            if (neuronEl) {
+                neuronEl.textContent = value.toFixed(2);
+                neuronEl.parentElement.classList.add('computing');
+                setTimeout(() => {
+                    neuronEl.parentElement.classList.remove('computing');
+                }, 800);
+            }
+        }
+        
+        function computeHiddenOutputs() {
+            for (let i = 0; i < 3; i++) {
+                let sum = hiddenBiases[i];
+                for (let j = 0; j < 3; j++) {
+                    sum += hiddenWeights[i][j] * inputData[j];
+                }
+                hiddenOutputs[i] = Math.max(0, sum); // ReLU activation
+            }
+        }
+        
+        function computeFinalOutputs() {
+            for (let i = 0; i < 2; i++) {
+                let sum = outputBiases[i];
+                for (let j = 0; j < 3; j++) {
+                    sum += outputWeights[i][j] * hiddenOutputs[j];
+                }
+                finalOutputs[i] = sum;
+            }
+        }
+        
+        function applySoftmax() {
+            const expSum = Math.exp(finalOutputs[0]) + Math.exp(finalOutputs[1]);
+            finalOutputs[0] = Math.exp(finalOutputs[0]) / expSum;
+            finalOutputs[1] = Math.exp(finalOutputs[1]) / expSum;
+        }
+        
+        function resetAnimation() {
+            clearTimeout(animationTimeout);
+            currentStep = 0;
+            
+            // Reset all visual elements
+            document.querySelectorAll('.neuron').forEach(neuron => {
+                neuron.classList.remove('active', 'computing');
+            });
+            
+            document.querySelectorAll('.connection').forEach(conn => {
+                conn.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.weight-label').forEach(label => {
+                label.classList.remove('show');
+            });
+            
+            document.querySelectorAll('.calculation-step').forEach(step => {
+                step.classList.remove('highlight');
+            });
+            
+            // Reset values
+            hiddenOutputs = [0, 0, 0];
+            finalOutputs = [0, 0];
+            
+            for (let i = 0; i < 3; i++) {
+                updateNeuronValue(1, i, 0);
+            }
+            for (let i = 0; i < 2; i++) {
+                updateNeuronValue(2, i, 0);
+            }
+            
+            document.getElementById('stepInfo').textContent = "Ready to start forward propagation";
+            document.getElementById('detailedCalc').innerHTML = "<div class='calculation-step'>Click 'Start Animation' to see detailed calculations</div>";
+            document.getElementById('progressFill').style.width = "0%";
+            document.getElementById('startBtn').disabled = false;
+        }
+        
+        function startAnimation() {
+            resetAnimation();
+            document.getElementById('startBtn').disabled = true;
+            
+            // Pre-compute all values
+            computeHiddenOutputs();
+            computeFinalOutputs();
+            
+            // Store raw outputs before softmax
+            const rawOutputs = [...finalOutputs];
+            applySoftmax();
+            
+            // Update step 6 and 7 with computed values
+            steps[5].calculation = steps[5].calculation.replace(/z₁ = [\d.-]+$/, `z₁ = ${rawOutputs[0].toFixed(2)}`);
+            steps[6].calculation = steps[6].calculation.replace(/z₂ = [\d.-]+$/, `z₂ = ${rawOutputs[1].toFixed(2)}`);
+            
+            animateStep();
+        }
+        
+        function animateStep() {
+            if (currentStep >= steps.length) {
+                document.getElementById('startBtn').disabled = false;
+                if (autoplay) {
+                    animationTimeout = setTimeout(startAnimation, 3000 / speed);
+                }
+                return;
+            }
+            
+            const step = steps[currentStep];
+            
+            // Update progress
+            document.getElementById('progressFill').style.width = step.progress + '%';
+            
+            // Reset all elements
+            document.querySelectorAll('.neuron').forEach(el => el.classList.remove('active', 'computing'));
+            document.querySelectorAll('.connection').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.weight-label').forEach(el => el.classList.remove('show'));
+            
+            // Activate neurons
+            step.activeNeurons.forEach(([layer, neuron]) => {
+                const neuronEl = document.querySelector(`[data-layer="${layer}"][data-neuron="${neuron}"]`);
+                if (neuronEl) neuronEl.classList.add('active');
+            });
+            
+            // Activate connections and show weights
+            step.activeConnections.forEach(connectionId => {
+                const connectionEl = document.querySelector(`[data-connection="${connectionId}"]`);
+                const weightEl = document.querySelector(`[data-weight="${connectionId}"]`);
+                if (connectionEl) connectionEl.classList.add('active');
+                if (weightEl) weightEl.classList.add('show');
+            });
+            
+            // Update neuron values
+            if (step.updateNeuron) {
+                const [layer, neuron] = step.updateNeuron;
+                if (layer === 1) {
+                    updateNeuronValue(1, neuron, hiddenOutputs[neuron]);
+                } else if (layer === 2) {
+                    if (currentStep === 7) { // Final softmax step
+                        updateNeuronValue(2, 0, finalOutputs[0]);
+                        updateNeuronValue(2, 1, finalOutputs[1]);
+                    } else {
+                        // Raw output before softmax
+                        const rawOutput = outputBiases[neuron] + 
+                            outputWeights[neuron][0] * hiddenOutputs[0] + 
+                            outputWeights[neuron][1] * hiddenOutputs[1] + 
+                            outputWeights[neuron][2] * hiddenOutputs[2];
+                        updateNeuronValue(2, neuron, rawOutput);
+                    }
+                }
+            }
+            
+            // Update info and calculation
+            document.getElementById('stepInfo').textContent = step.info;
+            document.getElementById('detailedCalc').innerHTML = 
+                step.calculation.split('\n').map(line => 
+                    `<div class="calculation-step highlight">${line}</div>`
+                ).join('');
+            
+            currentStep++;
+            animationTimeout = setTimeout(animateStep, (2000 / speed));
+        }
+        
+        function toggleAutoplay() {
+            autoplay = !autoplay;
+            const btn = document.getElementById('autoplayBtn');
+            btn.textContent = autoplay ? 'Auto-replay: ON' : 'Auto-replay: OFF';
+            btn.style.background = autoplay ? 
+                'linear-gradient(45deg, #27ae60, #2ecc71)' : 
+                'linear-gradient(45deg, #e74c3c, #c0392b)';
+        }
+        
+        // Speed control
+        document.getElementById('speedSlider').addEventListener('input', function(e) {
+            speed = parseFloat(e.target.value);
+            document.getElementById('speedValue').textContent = speed.toFixed(1) + 'x';
+        });
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            setTimeout(createConnections, 100);
+        });
+        
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('.connection, .weight-label').forEach(el => el.remove());
+            setTimeout(createConnections, 100);
+        });
+    </script>
+</body>
+</html>

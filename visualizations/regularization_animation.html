@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regularization Techniques Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .main-canvas-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .comparison-canvas-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .regularization-canvas-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .canvas-wrapper {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+        }
+        
+        .canvas-wrapper h3 {
+            margin: 0 0 10px 0;
+            text-align: center;
+            color: #4ecdc4;
+            font-size: 1.1em;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 280px;
+            border-radius: 10px;
+            background: white;
+            display: block;
+        }
+        
+        .regularization-canvas-container canvas {
+            height: 220px;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .control-group {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .control-group h3 {
+            margin-top: 0;
+            color: #4ecdc4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .slider-container {
+            margin: 10px 0;
+        }
+        
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            font-size: 0.85em;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        button.active {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+        }
+        
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4ecdc4;
+        }
+        
+        .info {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .metric {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metric-label {
+            font-size: 0.75em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .regularization-explanation {
+            margin-top: 15px;
+            background: rgba(78, 205, 196, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        .technique-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .technique-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid;
+        }
+        
+        .l1-card { border-left-color: #ff6b6b; }
+        .l2-card { border-left-color: #4ecdc4; }
+        .dropout-card { border-left-color: #a55eea; }
+        .early-card { border-left-color: #26de81; }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ Regularization Techniques Deep Dive</h1>
+        
+        <div class="main-canvas-container">
+            <div class="canvas-wrapper">
+                <h3>🎯 Loss Landscape & Optimization Paths</h3>
+                <canvas id="landscapeCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>📈 Training vs Validation Loss</h3>
+                <canvas id="lossCanvas"></canvas>
+            </div>
+        </div>
+        
+        <div class="comparison-canvas-container">
+            <div class="canvas-wrapper">
+                <h3>🏋️ Weight Distribution Evolution</h3>
+                <canvas id="weightsCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>🎲 Model Complexity Over Time</h3>
+                <canvas id="complexityCanvas"></canvas>
+            </div>
+        </div>
+        
+        <div class="regularization-canvas-container">
+            <div class="canvas-wrapper">
+                <h3>📊 L1 vs L2 Penalty Comparison</h3>
+                <canvas id="penaltyCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>🎭 Dropout Effect Visualization</h3>
+                <canvas id="dropoutCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>⏰ Early Stopping Monitor</h3>
+                <canvas id="earlyStopCanvas"></canvas>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <h3>🔧 Regularization Parameters</h3>
+                <div class="slider-container">
+                    <label>Learning Rate: <span id="lrValue">0.01</span></label>
+                    <input type="range" id="learningRate" min="0.001" max="0.1" step="0.001" value="0.01">
+                </div>
+                <div class="slider-container">
+                    <label>L1 Lambda (λ₁): <span id="l1Value">0.01</span></label>
+                    <input type="range" id="l1Lambda" min="0" max="0.1" step="0.001" value="0.01">
+                </div>
+                <div class="slider-container">
+                    <label>L2 Lambda (λ₂): <span id="l2Value">0.01</span></label>
+                    <input type="range" id="l2Lambda" min="0" max="0.1" step="0.001" value="0.01">
+                </div>
+                <div class="slider-container">
+                    <label>Dropout Rate: <span id="dropoutValue">0.2</span></label>
+                    <input type="range" id="dropoutRate" min="0" max="0.8" step="0.05" value="0.2">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>🎮 Animation Controls</h3>
+                <div class="slider-container">
+                    <label>Speed: <span id="speedValue">50ms</span></label>
+                    <input type="range" id="speed" min="10" max="200" step="10" value="50">
+                </div>
+                <div class="slider-container">
+                    <label>Data Noise: <span id="noiseValue">0.1</span></label>
+                    <input type="range" id="dataNoiseLevel" min="0" max="0.5" step="0.01" value="0.1">
+                </div>
+                <div class="buttons">
+                    <button id="startBtn">▶️ Start</button>
+                    <button id="pauseBtn">⏸️ Pause</button>
+                    <button id="resetBtn">🔄 Reset</button>
+                    <button id="stepBtn">👆 Step</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>🛡️ Regularization Techniques</h3>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="enableL1" checked>
+                    <label for="enableL1">Enable L1 Regularization (Lasso)</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="enableL2" checked>
+                    <label for="enableL2">Enable L2 Regularization (Ridge)</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="enableDropout" checked>
+                    <label for="enableDropout">Enable Dropout</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="enableEarlyStopping" checked>
+                    <label for="enableEarlyStopping">Enable Early Stopping</label>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>📊 Dataset & Model</h3>
+                <div class="slider-container">
+                    <label>Model Complexity: <span id="complexityValue">10</span></label>
+                    <input type="range" id="modelComplexity" min="5" max="50" step="1" value="10">
+                </div>
+                <div class="slider-container">
+                    <label>Training Data Size: <span id="dataSizeValue">100</span></label>
+                    <input type="range" id="trainingDataSize" min="20" max="500" step="10" value="100">
+                </div>
+                <div class="buttons">
+                    <button id="showNoRegBtn">No Regularization</button>
+                    <button id="showAllRegBtn" class="active">All Techniques</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info">
+            <h3>📊 Real-time Training Metrics</h3>
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-label">Epoch</div>
+                    <div class="metric-value" id="epoch">0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Training Loss</div>
+                    <div class="metric-value" id="trainLoss">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Validation Loss</div>
+                    <div class="metric-value" id="valLoss">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">L1 Penalty</div>
+                    <div class="metric-value" id="l1Penalty">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">L2 Penalty</div>
+                    <div class="metric-value" id="l2Penalty">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Weight Sparsity</div>
+                    <div class="metric-value" id="sparsity">0%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Overfitting Gap</div>
+                    <div class="metric-value" id="overfitGap">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Early Stop Patience</div>
+                    <div class="metric-value" id="patience">0/10</div>
+                </div>
+            </div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #4ecdc4;"></div>
+                    <span>With Regularization</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ff6b6b;"></div>
+                    <span>Without Regularization</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #a55eea;"></div>
+                    <span>Validation Loss</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #26de81;"></div>
+                    <span>Early Stop Point</span>
+                </div>
+            </div>
+            
+            <div class="regularization-explanation">
+                <h4>🛡️ Regularization Techniques Explained:</h4>
+                <div class="technique-cards">
+                    <div class="technique-card l1-card">
+                        <h5>L1 Regularization (Lasso)</h5>
+                        <p>Adds penalty: λ₁ × Σ|wᵢ|</p>
+                        <ul style="font-size: 0.9em; margin: 10px 0; padding-left: 20px;">
+                            <li>Promotes sparsity</li>
+                            <li>Sets some weights to exactly zero</li>
+                            <li>Automatic feature selection</li>
+                        </ul>
+                    </div>
+                    <div class="technique-card l2-card">
+                        <h5>L2 Regularization (Ridge)</h5>
+                        <p>Adds penalty: λ₂ × Σwᵢ²</p>
+                        <ul style="font-size: 0.9em; margin: 10px 0; padding-left: 20px;">
+                            <li>Shrinks weights toward zero</li>
+                            <li>Keeps all features</li>
+                            <li>Reduces model complexity</li>
+                        </ul>
+                    </div>
+                    <div class="technique-card dropout-card">
+                        <h5>Dropout</h5>
+                        <p>Randomly sets neurons to zero during training</p>
+                        <ul style="font-size: 0.9em; margin: 10px 0; padding-left: 20px;">
+                            <li>Prevents co-adaptation</li>
+                            <li>Acts as ensemble method</li>
+                            <li>Reduces overfitting</li>
+                        </ul>
+                    </div>
+                    <div class="technique-card early-card">
+                        <h5>Early Stopping</h5>
+                        <p>Stops training when validation loss stops improving</p>
+                        <ul style="font-size: 0.9em; margin: 10px 0; padding-left: 20px;">
+                            <li>Prevents overtraining</li>
+                            <li>Finds optimal stopping point</li>
+                            <li>Implicit regularization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Canvas setup
+        const canvases = {
+            landscape: document.getElementById('landscapeCanvas'),
+            loss: document.getElementById('lossCanvas'),
+            weights: document.getElementById('weightsCanvas'),
+            complexity: document.getElementById('complexityCanvas'),
+            penalty: document.getElementById('penaltyCanvas'),
+            dropout: document.getElementById('dropoutCanvas'),
+            earlyStop: document.getElementById('earlyStopCanvas')
+        };
+        
+        const contexts = {};
+        Object.keys(canvases).forEach(key => {
+            const canvas = canvases[key];
+            canvas.width = canvas.offsetWidth * 1.5;
+            canvas.height = canvas.offsetHeight * 1.5;
+            canvas.style.width = canvas.offsetWidth / 1.5 + 'px';
+            canvas.style.height = canvas.offsetHeight / 1.5 + 'px';
+            contexts[key] = canvas.getContext('2d');
+            contexts[key].scale(1.5, 1.5);
+        });
+        
+        // Animation state
+        let animationRunning = false;
+        let animationId = null;
+        let epoch = 0;
+        
+        // Model states
+        let models = {
+            regularized: {
+                weights: [],
+                position: { x: 2, y: 2 },
+                path: [],
+                trainLoss: [],
+                valLoss: [],
+                l1Penalty: [],
+                l2Penalty: []
+            },
+            unregularized: {
+                weights: [],
+                position: { x: 2, y: 2 },
+                path: [],
+                trainLoss: [],
+                valLoss: []
+            }
+        };
+        
+        // Early stopping state
+        let earlyStopState = {
+            bestValLoss: Infinity,
+            patience: 0,
+            maxPatience: 10,
+            stopped: false,
+            bestEpoch: 0
+        };
+        
+        // Generate synthetic training data
+        function generateTrainingData() {
+            const size = parseInt(document.getElementById('trainingDataSize').value);
+            const noise = parseFloat(document.getElementById('dataNoiseLevel').value);
+            const data = [];
+            
+            for (let i = 0; i < size; i++) {
+                const x = (Math.random() - 0.5) * 4;
+                const y = (Math.random() - 0.5) * 4;
+                // True function with noise
+                const target = Math.sin(x) + 0.5 * Math.cos(y) + (Math.random() - 0.5) * noise;
+                data.push([x, y, target]);
+            }
+            return data;
+        }
+        
+        let trainingData = generateTrainingData();
+        let validationData = generateTrainingData(); // Different dataset for validation
+        
+        // Initialize model weights
+        function initializeWeights(complexity) {
+            const weights = [];
+            for (let i = 0; i < complexity; i++) {
+                weights.push((Math.random() - 0.5) * 2);
+            }
+            return weights;
+        }
+        
+        // Model prediction function (simplified polynomial)
+        function predict(x, y, weights) {
+            let prediction = 0;
+            for (let i = 0; i < weights.length; i++) {
+                const feature = Math.pow(x, i % 3) * Math.pow(y, Math.floor(i / 3) % 3);
+                prediction += weights[i] * feature;
+            }
+            return prediction;
+        }
+        
+        // Calculate loss with regularization
+        function calculateLoss(data, weights, l1Lambda, l2Lambda, useDropout = false) {
+            let mse = 0;
+            let l1Penalty = 0;
+            let l2Penalty = 0;
+            
+            // Apply dropout during training
+            const activeWeights = useDropout ? 
+                weights.map(w => Math.random() > parseFloat(document.getElementById('dropoutRate').value) ? w : 0) : 
+                weights;
+            
+            data.forEach(([x, y, target]) => {
+                const pred = predict(x, y, activeWeights);
+                mse += Math.pow(pred - target, 2);
+            });
+            mse /= data.length;
+            
+            // Calculate penalties
+            activeWeights.forEach(w => {
+                l1Penalty += Math.abs(w);
+                l2Penalty += w * w;
+            });
+            
+            const totalLoss = mse + l1Lambda * l1Penalty + l2Lambda * l2Penalty;
+            
+            return {
+                mse,
+                l1Penalty,
+                l2Penalty,
+                totalLoss
+            };
+        }
+        
+        // Calculate gradients with regularization
+        function calculateGradients(data, weights, l1Lambda, l2Lambda) {
+            const gradients = new Array(weights.length).fill(0);
+            
+            data.forEach(([x, y, target]) => {
+                const pred = predict(x, y, weights);
+                const error = pred - target;
+                
+                for (let i = 0; i < weights.length; i++) {
+                    const feature = Math.pow(x, i % 3) * Math.pow(y, Math.floor(i / 3) % 3);
+                    gradients[i] += (2 * error * feature) / data.length;
+                    
+                    // Add regularization gradients
+                    if (l1Lambda > 0) {
+                        gradients[i] += l1Lambda * Math.sign(weights[i]);
+                    }
+                    if (l2Lambda > 0) {
+                        gradients[i] += 2 * l2Lambda * weights[i];
+                    }
+                }
+            });
+            
+            return gradients;
+        }
+        
+        // Perform one training step
+        function trainStep() {
+            const lr = parseFloat(document.getElementById('learningRate').value);
+            const l1Lambda = document.getElementById('enableL1').checked ? 
+                parseFloat(document.getElementById('l1Lambda').value) : 0;
+            const l2Lambda = document.getElementById('enableL2').checked ? 
+                parseFloat(document.getElementById('l2Lambda').value) : 0;
+            const useDropout = document.getElementById('enableDropout').checked;
+            
+            // Train regularized model
+            const regGrads = calculateGradients(trainingData, models.regularized.weights, l1Lambda, l2Lambda);
+            for (let i = 0; i < models.regularized.weights.length; i++) {
+                models.regularized.weights[i] -= lr * regGrads[i];
+            }
+            
+            // Train unregularized model
+            const unregGrads = calculateGradients(trainingData, models.unregularized.weights, 0, 0);
+            for (let i = 0; i < models.unregularized.weights.length; i++) {
+                models.unregularized.weights[i] -= lr * unregGrads[i];
+            }
+            
+            // Calculate losses
+            const regTrainLoss = calculateLoss(trainingData, models.regularized.weights, l1Lambda, l2Lambda, useDropout);
+            const regValLoss = calculateLoss(validationData, models.regularized.weights, 0, 0, false);
+            const unregTrainLoss = calculateLoss(trainingData, models.unregularized.weights, 0, 0, false);
+            const unregValLoss = calculateLoss(validationData, models.unregularized.weights, 0, 0, false);
+            
+            // Update history
+            models.regularized.trainLoss.push(regTrainLoss.mse);
+            models.regularized.valLoss.push(regValLoss.mse);
+            models.regularized.l1Penalty.push(regTrainLoss.l1Penalty);
+            models.regularized.l2Penalty.push(regTrainLoss.l2Penalty);
+            
+            models.unregularized.trainLoss.push(unregTrainLoss.mse);
+            models.unregularized.valLoss.push(unregValLoss.mse);
+            
+            // Keep history manageable
+            const maxHistory = 200;
+            [models.regularized, models.unregularized].forEach(model => {
+                if (model.trainLoss.length > maxHistory) {
+                    model.trainLoss.shift();
+                    model.valLoss.shift();
+                }
+            });
+            
+            if (models.regularized.l1Penalty.length > maxHistory) {
+                models.regularized.l1Penalty.shift();
+                models.regularized.l2Penalty.shift();
+            }
+            
+            // Early stopping check
+            if (document.getElementById('enableEarlyStopping').checked) {
+                if (regValLoss.mse < earlyStopState.bestValLoss) {
+                    earlyStopState.bestValLoss = regValLoss.mse;
+                    earlyStopState.patience = 0;
+                    earlyStopState.bestEpoch = epoch;
+                } else {
+                    earlyStopState.patience++;
+                    if (earlyStopState.patience >= earlyStopState.maxPatience && !earlyStopState.stopped) {
+                        earlyStopState.stopped = true;
+                        console.log(`Early stopping at epoch ${epoch}`);
+                    }
+                }
+            }
+            
+            epoch++;
+        }
+        
+        // Draw loss landscape (simplified 2D visualization)
+        function drawLossLandscape() {
+            const ctx = contexts.landscape;
+            const canvas = canvases.landscape;
+            ctx.clearRect(0, 0, canvas.width / 1.5, canvas.height / 1.5);
+            
+            // Draw a simple loss surface representation
+            const gradient = ctx.createRadialGradient(
+                canvas.width / 3, canvas.height / 3, 20,
+                canvas.width / 3, canvas.height / 3, 150
+            );
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+            gradient.addColorStop(0.5, 'rgba(78, 205, 196, 0.5)');
+            gradient.addColorStop(1, 'rgba(255, 107, 107, 0.3)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width / 1.5, canvas.height / 1.5);
+            
+            // Draw contour lines
+            ctx.strokeStyle = 'rgba(100, 100, 100, 0.3)';
+            ctx.lineWidth = 1;
+            for (let i = 1; i <= 5; i++) {
+                ctx.beginPath();
+                ctx.arc(canvas.width / 3, canvas.height / 3, i * 30, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+            
+            // Show regularization effect as constraint regions
+            if (document.getElementById('enableL1').checked) {
+                ctx.strokeStyle = 'rgba(255, 107, 107, 0.8)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeRect(canvas.width / 3 - 80, canvas.height / 3 - 80, 160, 160);
+                ctx.setLineDash([]);
+            }
+            
+            if (document.getElementById('enableL2').checked) {
+                ctx.strokeStyle = 'rgba(78, 205, 196, 0.8)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.arc(canvas.width / 3, canvas.height / 3, 80, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            
+            // Labels
+            ctx.fillStyle = 'black';
+            ctx.font = '12px Arial';
+            ctx.fillText('Loss Surface with Regularization Constraints', 10, 20);
+        }
+        
+        // Draw training vs validation loss
+        function drawLossChart() {
+            const ctx = contexts.loss;
+            const canvas = canvases.loss;
+            ctx.clearRect(0, 0, canvas.width / 1.5, canvas.height / 1.5);
+            
+            if (models.regularized.trainLoss.length === 0) return;
+            
+            const width = canvas.width / 1.5 - 40;
+            const height = canvas.height / 1.5 - 40;
+            
+            // Find min/max for scaling
+            const allLosses = [
+                ...models.regularized.trainLoss,
+                ...models.regularized.valLoss,
+                ...models.unregularized.trainLoss,
+                ...models.unregularized.valLoss
+            ];
+            const minLoss = Math.min(...allLosses);
+            const maxLoss = Math.max(...allLosses);
+            const lossRange = maxLoss - minLoss || 1;
+            
+            // Draw grid
+            ctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = 20 + i * height / 5;
+                ctx.beginPath();
+                ctx.moveTo(20, y);
+                ctx.lineTo(20 + width, y);
+                ctx.stroke();
+            }
+            
+            // Draw lines
+            const drawLine = (data, color, lineWidth = 2, dash = []) => {
+                if (data.length < 2) return;
+                
+                ctx.strokeStyle = color;
+                ctx.lineWidth = lineWidth;
+                ctx.setLineDash(dash);
+                ctx.beginPath();
+                
+                for (let i = 0; i < data.length; i++) {
+                    const x = 20 + (i / Math.max(1, data.length - 1)) * width;
+                    const y = 20 + height - ((data[i] - minLoss) / lossRange) * height;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+            };
+            
+            // Draw all curves
+            drawLine(models.unregularized.trainLoss, '#ff6b6b', 2, [5, 5]);
+            drawLine(models.unregularized.valLoss, '#ff6b6b', 3);
+            drawLine(models.regularized.trainLoss, '#4ecdc4', 2, [5, 5]);
+            drawLine(models.regularized.valLoss, '#4ecdc4', 3);
+            
+            // Mark early stopping point
+            if (earlyStopState.stopped) {
+                const stopX = 20 + (earlyStopState.bestEpoch / Math.max(1, models.regularized.trainLoss.length - 1)) * width;
+                ctx.strokeStyle = '#26de81';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(stopX, 20);
+                ctx.lineTo(stopX, 20 + height);
+                ctx.stroke();
+            }
+            
+            // Labels
+            ctx.fillStyle = 'black';
+            ctx.font = '12px Arial';
+            ctx.fillText('Training vs Validation Loss', 10, 15);
+        }
+        
+        // Draw weight distribution
+        function drawWeightDistribution() {
+            const ctx = contexts.weights;
+            const canvas = canvases.weights;
+            ctx.clearRect(0, 0, canvas.width / 1.5, canvas.height / 1.5);
+            
+            const width = canvas.width / 1.5 - 40;
+            const height = canvas.height / 1.5 - 40;
+            
+            // Draw histograms for both models
+            const drawHistogram = (weights, color, offset = 0) => {
+                const bins = 20;
+                const binCounts = new Array(bins).fill(0);
+                const minWeight = Math.min(...weights);
+                const maxWeight = Math.max(...weights);
+                const range = maxWeight - minWeight || 1;
+                
+                weights.forEach(w => {
+                    const binIndex = Math.min(bins - 1, Math.floor((w - minWeight) / range * bins));
+                    binCounts[binIndex]++;
+                });
+                
+                const maxCount = Math.max(...binCounts) || 1;
+                
+                ctx.fillStyle = color;
+                binCounts.forEach((count, i) => {
+                    const x = 20 + (i / bins) * width;
+                    const barHeight = (count / maxCount) * (height / 2 - 20);
+                    const y = 20 + height / 2 - barHeight + offset;
+                    ctx.fillRect(x, y, width / bins - 1, barHeight);
+                });
+            };
+            
+            if (models.regularized.weights.length > 0) {
+                drawHistogram(models.regularized.weights, 'rgba(78, 205, 196, 0.7)', 0);
+                drawHistogram(models.unregularized.weights, 'rgba(255, 107, 107, 0.7)', height / 2);
+            }
+            
+            // Labels
+            ctx.fillStyle = 'black';
+            ctx.font = '12px Arial';
+            ctx.fillText('Weight Distributions', 10, 15);
+            ctx.fillText('Regularized', 10, height / 2 - 5);
+            ctx.fillText('Unregularized', 10, height - 5);
+        }
+        
+        // Draw model complexity over time
+        function drawComplexityChart() {
+            const ctx = contexts.complexity;
+            const canvas = canvases.complexity;
+            ctx.clearRect(0, 0, canvas.width / 1.5, canvas.height / 1.5);
+            
+            if (models.regularized.weights.length === 0) return;
+            
+            const width = canvas.width / 1.5 - 40;
+            const height = canvas.height / 1.5 - 40;
+            
+            // Calculate effective complexity (non-zero weights) over time
+            const regComplexity = models.regularized.weights.filter(w => Math.abs(w) > 0.01).length;
+            const unregComplexity = models.unregularized.weights.filter(w => Math.abs(w) > 0.01).length;
+            
+            // Simple visualization showing current complexity
+            const drawComplexityBar = (complexity, maxComplexity, color, y) => {
+                const barWidth = (complexity / maxComplexity) * width;
+                ctx.fillStyle = color;
+                ctx.fillRect(20, y, barWidth, 30);
+                
+                ctx.fillStyle = 'black';
+                ctx.font = '14px Arial';
+                ctx.fillText(`${complexity}`, 25 + barWidth, y + 20);
+            };
+            
+            const maxComplexity = Math.max(regComplexity, unregComplexity, 1);
+            
+            drawComplexityBar(regComplexity, maxComplexity, 'rgba(78, 205, 196, 0.8)', 40);
+            drawComplexityBar(unregComplexity, maxComplexity, 'rgba(255, 107, 107, 0.8)', 100);
+            
+            // Labels
+            ctx.fillStyle = 'black';
+            ctx.font = '12px Arial';
+            ctx.fillText('Model Complexity (Active Weights)', 10, 15);
+            ctx.fillText('Regularized', 10, 35);
+            ctx.fillText('Unregularized', 10, 95);
+        }
+        
+        // Draw L1 vs L2 penalty comparison
+        function drawPenaltyComparison() {
+            const ctx = contexts.penalty;
+            const canvas = canvases.penalty;
+            ctx.clearRect(0, 0, canvas.width / 1.5, canvas.height / 1.5);
+            
+            if (models.regularized.l1Penalty.length === 0) return;
+            
+            const width = canvas.width / 1.5 - 40;
+            const height = canvas.height / 1.5 - 40;
+            
+            const maxPenalty = Math.max(
+                ...models.regularized.l1Penalty,
+                ...models.regularized.l2Penalty
+            ) || 1;
+            
+            // Draw penalty curves
+            const drawPenaltyCurve = (penalties, color) => {
+                if (penalties.length < 2) return;
+                
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                
+                for (let i = 0; i < penalties.length; i++) {
+                    const x = 20 + (i / Math.max(1, penalties.length - 1)) * width;
+                    const y = 20 + height - (penalties[i] / maxPenalty) * height;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            };
+            
+            drawPenaltyCurve(models.regularized.l1Penalty, '#ff6b6b');
+            drawPenaltyCurve(models.regularized.l2Penalty, '#4ecdc4');
+            
+            // Labels
+            ctx.fillStyle = 'black';
+            ctx.font = '12px Arial';
+            ctx.fillText('Regularization Penalties', 10, 15);
+            ctx.fillStyle = '#ff6b6b';
+            ctx.fillText('L1', 10, height - 5);
+            ctx.fillStyle = '#4ecdc4';
+            ctx.fillText('L2', 40, height - 5);
+        }
+        
+        // Draw dropout effect visualization
+        function drawDropoutVisualization() {
+            const ctx = contexts.dropout;
+            const canvas = canvases.dropout;
+            ctx.clearRect(0, 0, canvas.width / 1.5, canvas.height / 1.5);
+            
+            const dropoutRate = parseFloat(document.getElementById('dropoutRate').value);
+            const enabled = document.getElementById('enableDropout').checked;
+            
+            // Draw network representation
+            const neurons = 20;
+            const cols = 4;
+            const rows = 5;
+            
+            for (let i = 0; i < neurons; i++) {
+                const x = 30 + (i % cols) * 40;
+                const y = 30 + Math.floor(i / cols) * 30;
+                
+                const isDropped = enabled && Math.random() < dropoutRate;
+                
+                ctx.fillStyle = isDropped ? 'rgba(255, 107, 107, 0.3)' : 'rgba(78, 205, 196, 0.8)';
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.strokeStyle = isDropped ? 'rgba(255, 107, 107, 0.8)' : 'rgba(78, 205, 196, 1)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            
+            // Labels
+            ctx.fillStyle = 'black';
+            ctx.font = '12px Arial';
+            ctx.fillText(`Dropout (${(dropoutRate * 100).toFixed(0)}%)`, 10, 15);
+            ctx.fillText(enabled ? 'Active' : 'Disabled', 10, canvas.height / 1.5 - 10);
+        }
+        
+        // Draw early stopping monitor
+        function drawEarlyStoppingMonitor() {
+            const ctx = contexts.earlyStop;
+            const canvas = canvases.earlyStop;
+            ctx.clearRect(0, 0, canvas.width / 1.5, canvas.height / 1.5);
+            
+            const width = canvas.width / 1.5 - 40;
+            const height = canvas.height / 1.5 - 40;
+            
+            // Draw patience indicator
+            const patienceRatio = earlyStopState.patience / earlyStopState.maxPatience;
+            const barHeight = 20;
+            
+            // Background
+            ctx.fillStyle = 'rgba(200, 200, 200, 0.3)';
+            ctx.fillRect(20, 40, width, barHeight);
+            
+            // Patience bar
+            const color = patienceRatio > 0.8 ? '#ff6b6b' : patienceRatio > 0.5 ? '#ff9f43' : '#26de81';
+            ctx.fillStyle = color;
+            ctx.fillRect(20, 40, width * patienceRatio, barHeight);
+            
+            // Status text
+            ctx.fillStyle = 'black';
+            ctx.font = '14px Arial';
+            const status = earlyStopState.stopped ? 'STOPPED' : 
+                          document.getElementById('enableEarlyStopping').checked ? 'MONITORING' : 'DISABLED';
+            ctx.fillText(`Early Stopping: ${status}`, 20, 30);
+            ctx.fillText(`Patience: ${earlyStopState.patience}/${earlyStopState.maxPatience}`, 20, 90);
+            
+            if (earlyStopState.bestEpoch > 0) {
+                ctx.fillText(`Best Epoch: ${earlyStopState.bestEpoch}`, 20, 110);
+                ctx.fillText(`Best Val Loss: ${earlyStopState.bestValLoss.toFixed(4)}`, 20, 130);
+            }
+        }
+        
+        // Update metrics display
+        function updateMetrics() {
+            const regLoss = models.regularized.trainLoss.length > 0 ? 
+                models.regularized.trainLoss[models.regularized.trainLoss.length - 1] : 0;
+            const valLoss = models.regularized.valLoss.length > 0 ? 
+                models.regularized.valLoss[models.regularized.valLoss.length - 1] : 0;
+            const l1Pen = models.regularized.l1Penalty.length > 0 ? 
+                models.regularized.l1Penalty[models.regularized.l1Penalty.length - 1] : 0;
+            const l2Pen = models.regularized.l2Penalty.length > 0 ? 
+                models.regularized.l2Penalty[models.regularized.l2Penalty.length - 1] : 0;
+            
+            // Calculate sparsity (percentage of weights close to zero)
+            const sparsity = models.regularized.weights.length > 0 ? 
+                (models.regularized.weights.filter(w => Math.abs(w) < 0.01).length / 
+                 models.regularized.weights.length * 100) : 0;
+            
+            const overfitGap = Math.abs(regLoss - valLoss);
+            
+            document.getElementById('epoch').textContent = epoch;
+            document.getElementById('trainLoss').textContent = regLoss.toFixed(4);
+            document.getElementById('valLoss').textContent = valLoss.toFixed(4);
+            document.getElementById('l1Penalty').textContent = l1Pen.toFixed(4);
+            document.getElementById('l2Penalty').textContent = l2Pen.toFixed(4);
+            document.getElementById('sparsity').textContent = `${sparsity.toFixed(1)}%`;
+            document.getElementById('overfitGap').textContent = overfitGap.toFixed(4);
+            document.getElementById('patience').textContent = 
+                `${earlyStopState.patience}/${earlyStopState.maxPatience}`;
+        }
+        
+        // Control elements and event handlers
+        const controls = {
+            learningRate: document.getElementById('learningRate'),
+            l1Lambda: document.getElementById('l1Lambda'),
+            l2Lambda: document.getElementById('l2Lambda'),
+            dropoutRate: document.getElementById('dropoutRate'),
+            speed: document.getElementById('speed'),
+            dataNoiseLevel: document.getElementById('dataNoiseLevel'),
+            modelComplexity: document.getElementById('modelComplexity'),
+            trainingDataSize: document.getElementById('trainingDataSize')
+        };
+        
+        // Update display values
+        function updateDisplays() {
+            document.getElementById('lrValue').textContent = controls.learningRate.value;
+            document.getElementById('l1Value').textContent = controls.l1Lambda.value;
+            document.getElementById('l2Value').textContent = controls.l2Lambda.value;
+            document.getElementById('dropoutValue').textContent = controls.dropoutRate.value;
+            document.getElementById('speedValue').textContent = controls.speed.value + 'ms';
+            document.getElementById('noiseValue').textContent = controls.dataNoiseLevel.value;
+            document.getElementById('complexityValue').textContent = controls.modelComplexity.value;
+            document.getElementById('dataSizeValue').textContent = controls.trainingDataSize.value;
+        }
+        
+        // Add event listeners
+        Object.keys(controls).forEach(key => {
+            controls[key].addEventListener('input', updateDisplays);
+        });
+        
+        // Animation functions
+        function animate() {
+            if (!animationRunning || earlyStopState.stopped) {
+                if (earlyStopState.stopped) {
+                    animationRunning = false;
+                }
+                return;
+            }
+            
+            trainStep();
+            redrawAll();
+            updateMetrics();
+            
+            const speed = parseInt(controls.speed.value);
+            animationId = setTimeout(() => requestAnimationFrame(animate), speed);
+        }
+        
+        function redrawAll() {
+            drawLossLandscape();
+            drawLossChart();
+            drawWeightDistribution();
+            drawComplexityChart();
+            drawPenaltyComparison();
+            drawDropoutVisualization();
+            drawEarlyStoppingMonitor();
+        }
+        
+        function reset() {
+            animationRunning = false;
+            if (animationId) {
+                clearTimeout(animationId);
+                animationId = null;
+            }
+            
+            epoch = 0;
+            
+            // Reset models
+            const complexity = parseInt(controls.modelComplexity.value);
+            models.regularized = {
+                weights: initializeWeights(complexity),
+                position: { x: 2, y: 2 },
+                path: [],
+                trainLoss: [],
+                valLoss: [],
+                l1Penalty: [],
+                l2Penalty: []
+            };
+            
+            models.unregularized = {
+                weights: initializeWeights(complexity),
+                position: { x: 2, y: 2 },
+                path: [],
+                trainLoss: [],
+                valLoss: []
+            };
+            
+            // Reset early stopping
+            earlyStopState = {
+                bestValLoss: Infinity,
+                patience: 0,
+                maxPatience: 10,
+                stopped: false,
+                bestEpoch: 0
+            };
+            
+            // Generate new data
+            trainingData = generateTrainingData();
+            validationData = generateTrainingData();
+            
+            redrawAll();
+            updateMetrics();
+        }
+        
+        // Button event listeners
+        document.getElementById('startBtn').addEventListener('click', () => {
+            if (!earlyStopState.stopped) {
+                animationRunning = true;
+                animate();
+            }
+        });
+        
+        document.getElementById('pauseBtn').addEventListener('click', () => {
+            animationRunning = false;
+            if (animationId) {
+                clearTimeout(animationId);
+                animationId = null;
+            }
+        });
+        
+        document.getElementById('resetBtn').addEventListener('click', reset);
+        
+        document.getElementById('stepBtn').addEventListener('click', () => {
+            if (!animationRunning && !earlyStopState.stopped) {
+                trainStep();
+                redrawAll();
+                updateMetrics();
+            }
+        });
+        
+        document.getElementById('showNoRegBtn').addEventListener('click', (e) => {
+            document.getElementById('enableL1').checked = false;
+            document.getElementById('enableL2').checked = false;
+            document.getElementById('enableDropout').checked = false;
+            document.getElementById('enableEarlyStopping').checked = false;
+            e.target.classList.add('active');
+            document.getElementById('showAllRegBtn').classList.remove('active');
+            reset();
+        });
+        
+        document.getElementById('showAllRegBtn').addEventListener('click', (e) => {
+            document.getElementById('enableL1').checked = true;
+            document.getElementById('enableL2').checked = true;
+            document.getElementById('enableDropout').checked = true;
+            document.getElementById('enableEarlyStopping').checked = true;
+            e.target.classList.add('active');
+            document.getElementById('showNoRegBtn').classList.remove('active');
+            reset();
+        });
+        
+        // Initialize
+        updateDisplays();
+        reset();
+    </script>
+</body>
+</html>

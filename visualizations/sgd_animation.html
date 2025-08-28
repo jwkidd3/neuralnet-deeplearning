@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stochastic Gradient Descent Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .canvas-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .canvas-wrapper {
+            flex: 1;
+            min-width: 350px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            background: white;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .control-group {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .control-group h3 {
+            margin-top: 0;
+            color: #4ecdc4;
+        }
+        
+        .slider-container {
+            margin: 10px 0;
+        }
+        
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .info {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .metric {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metric-label {
+            font-size: 0.8em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Stochastic Gradient Descent Visualization</h1>
+        
+        <div class="canvas-container">
+            <div class="canvas-wrapper">
+                <h3>2D Function Surface & SGD Path</h3>
+                <canvas id="functionCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>Loss Over Time</h3>
+                <canvas id="lossCanvas"></canvas>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <h3>🔧 Algorithm Parameters</h3>
+                <div class="slider-container">
+                    <label>Learning Rate: <span id="lrValue">0.1</span></label>
+                    <input type="range" id="learningRate" min="0.01" max="0.5" step="0.01" value="0.1">
+                </div>
+                <div class="slider-container">
+                    <label>Batch Size: <span id="batchValue">1</span></label>
+                    <input type="range" id="batchSize" min="1" max="20" step="1" value="1">
+                </div>
+                <div class="slider-container">
+                    <label>Noise Level: <span id="noiseValue">0.1</span></label>
+                    <input type="range" id="noiseLevel" min="0" max="0.5" step="0.01" value="0.1">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>🎮 Animation Controls</h3>
+                <div class="slider-container">
+                    <label>Speed: <span id="speedValue">50ms</span></label>
+                    <input type="range" id="speed" min="10" max="200" step="10" value="50">
+                </div>
+                <div class="buttons">
+                    <button id="startBtn">▶️ Start</button>
+                    <button id="pauseBtn">⏸️ Pause</button>
+                    <button id="resetBtn">🔄 Reset</button>
+                    <button id="stepBtn">👆 Step</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>🎯 Function Type</h3>
+                <div class="buttons">
+                    <button id="quadraticBtn">Quadratic</button>
+                    <button id="rosenbrockBtn">Rosenbrock</button>
+                    <button id="bealeBtn">Beale</button>
+                    <button id="himmelblauBtn">Himmelblau</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info">
+            <h3>📊 Real-time Metrics</h3>
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-label">Iteration</div>
+                    <div class="metric-value" id="iteration">0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Current Loss</div>
+                    <div class="metric-value" id="currentLoss">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Position X</div>
+                    <div class="metric-value" id="positionX">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Position Y</div>
+                    <div class="metric-value" id="positionY">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Gradient Magnitude</div>
+                    <div class="metric-value" id="gradMagnitude">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distance to Minimum</div>
+                    <div class="metric-value" id="distanceToMin">0.000</div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 0.9em; line-height: 1.6;">
+                <strong>How it works:</strong> SGD approximates the true gradient using small batches of data points, 
+                introducing noise that helps escape local minima. The algorithm updates parameters in the direction 
+                of steepest descent, gradually converging to the global minimum. Watch how different learning rates, 
+                batch sizes, and noise levels affect convergence behavior!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Canvas setup
+        const functionCanvas = document.getElementById('functionCanvas');
+        const lossCanvas = document.getElementById('lossCanvas');
+        const fctx = functionCanvas.getContext('2d');
+        const lctx = lossCanvas.getContext('2d');
+        
+        // Set canvas size
+        const canvasSize = 350;
+        functionCanvas.width = canvasSize;
+        functionCanvas.height = canvasSize;
+        lossCanvas.width = canvasSize;
+        lossCanvas.height = canvasSize;
+        
+        // Animation state
+        let animationRunning = false;
+        let animationId = null;
+        let currentPosition = { x: 2, y: 2 };
+        let path = [];
+        let lossHistory = [];
+        let iteration = 0;
+        let currentFunction = 'quadratic';
+        
+        // Function definitions
+        const functions = {
+            quadratic: {
+                f: (x, y) => (x - 1)**2 + (y - 1)**2,
+                grad: (x, y) => [2*(x - 1), 2*(y - 1)],
+                minimum: [1, 1],
+                range: [-3, 4],
+                name: "Quadratic Bowl"
+            },
+            rosenbrock: {
+                f: (x, y) => (1 - x)**2 + 100*(y - x**2)**2,
+                grad: (x, y) => [-2*(1 - x) - 400*x*(y - x**2), 200*(y - x**2)],
+                minimum: [1, 1],
+                range: [-2, 3],
+                name: "Rosenbrock Function"
+            },
+            beale: {
+                f: (x, y) => (1.5 - x + x*y)**2 + (2.25 - x + x*y**2)**2 + (2.625 - x + x*y**3)**2,
+                grad: (x, y) => {
+                    const t1 = 1.5 - x + x*y;
+                    const t2 = 2.25 - x + x*y**2;
+                    const t3 = 2.625 - x + x*y**3;
+                    return [
+                        2*t1*(-1 + y) + 2*t2*(-1 + y**2) + 2*t3*(-1 + y**3),
+                        2*t1*x + 2*t2*x*2*y + 2*t3*x*3*y**2
+                    ];
+                },
+                minimum: [3, 0.5],
+                range: [-2, 4],
+                name: "Beale Function"
+            },
+            himmelblau: {
+                f: (x, y) => (x**2 + y - 11)**2 + (x + y**2 - 7)**2,
+                grad: (x, y) => [
+                    4*x*(x**2 + y - 11) + 2*(x + y**2 - 7),
+                    2*(x**2 + y - 11) + 4*y*(x + y**2 - 7)
+                ],
+                minimum: [3, 2], // One of four global minima
+                range: [-4, 4],
+                name: "Himmelblau Function"
+            }
+        };
+        
+        // Control elements
+        const controls = {
+            learningRate: document.getElementById('learningRate'),
+            batchSize: document.getElementById('batchSize'),
+            noiseLevel: document.getElementById('noiseLevel'),
+            speed: document.getElementById('speed'),
+            startBtn: document.getElementById('startBtn'),
+            pauseBtn: document.getElementById('pauseBtn'),
+            resetBtn: document.getElementById('resetBtn'),
+            stepBtn: document.getElementById('stepBtn')
+        };
+        
+        // Value display elements
+        const displays = {
+            lr: document.getElementById('lrValue'),
+            batch: document.getElementById('batchValue'),
+            noise: document.getElementById('noiseValue'),
+            speed: document.getElementById('speedValue')
+        };
+        
+        // Metric elements
+        const metrics = {
+            iteration: document.getElementById('iteration'),
+            currentLoss: document.getElementById('currentLoss'),
+            positionX: document.getElementById('positionX'),
+            positionY: document.getElementById('positionY'),
+            gradMagnitude: document.getElementById('gradMagnitude'),
+            distanceToMin: document.getElementById('distanceToMin')
+        };
+        
+        // Update display values
+        function updateDisplays() {
+            displays.lr.textContent = controls.learningRate.value;
+            displays.batch.textContent = controls.batchSize.value;
+            displays.noise.textContent = controls.noiseLevel.value;
+            displays.speed.textContent = controls.speed.value + 'ms';
+        }
+        
+        // Add event listeners for sliders
+        Object.keys(controls).forEach(key => {
+            if (controls[key].type === 'range') {
+                controls[key].addEventListener('input', updateDisplays);
+            }
+        });
+        
+        // Generate synthetic data points for stochastic sampling
+        function generateDataPoints(func, numPoints = 100) {
+            const points = [];
+            const range = functions[func].range;
+            for (let i = 0; i < numPoints; i++) {
+                const x = range[0] + Math.random() * (range[1] - range[0]);
+                const y = range[0] + Math.random() * (range[1] - range[0]);
+                points.push([x, y]);
+            }
+            return points;
+        }
+        
+        let dataPoints = generateDataPoints(currentFunction);
+        
+        // Calculate stochastic gradient
+        function calculateStochasticGradient(position, func, batchSize, noiseLevel) {
+            const batch = [];
+            for (let i = 0; i < batchSize; i++) {
+                batch.push(dataPoints[Math.floor(Math.random() * dataPoints.length)]);
+            }
+            
+            let gradX = 0, gradY = 0;
+            batch.forEach(point => {
+                const [px, py] = point;
+                const [gx, gy] = functions[func].grad(position.x + (px - position.x) * 0.1, 
+                                                      position.y + (py - position.y) * 0.1);
+                gradX += gx;
+                gradY += gy;
+            });
+            
+            gradX /= batchSize;
+            gradY /= batchSize;
+            
+            // Add noise
+            gradX += (Math.random() - 0.5) * noiseLevel * 2;
+            gradY += (Math.random() - 0.5) * noiseLevel * 2;
+            
+            return [gradX, gradY];
+        }
+        
+        // Draw function contour
+        function drawFunctionContour() {
+            fctx.clearRect(0, 0, canvasSize, canvasSize);
+            
+            const func = functions[currentFunction];
+            const range = func.range;
+            const step = (range[1] - range[0]) / canvasSize;
+            
+            // Create contour plot
+            const imageData = fctx.createImageData(canvasSize, canvasSize);
+            let maxVal = -Infinity, minVal = Infinity;
+            const values = [];
+            
+            // First pass: calculate all values and find min/max
+            for (let i = 0; i < canvasSize; i++) {
+                values[i] = [];
+                for (let j = 0; j < canvasSize; j++) {
+                    const x = range[0] + i * step;
+                    const y = range[0] + j * step;
+                    const val = func.f(x, y);
+                    values[i][j] = val;
+                    maxVal = Math.max(maxVal, val);
+                    minVal = Math.min(minVal, val);
+                }
+            }
+            
+            // Second pass: create colored contour
+            for (let i = 0; i < canvasSize; i++) {
+                for (let j = 0; j < canvasSize; j++) {
+                    const normalized = Math.log(1 + (values[i][j] - minVal) / (maxVal - minVal));
+                    const intensity = Math.max(0, Math.min(1, normalized));
+                    
+                    const pixelIndex = (j * canvasSize + i) * 4;
+                    imageData.data[pixelIndex] = 255 * (1 - intensity * 0.8);     // R
+                    imageData.data[pixelIndex + 1] = 255 * (1 - intensity * 0.6); // G
+                    imageData.data[pixelIndex + 2] = 255;                          // B
+                    imageData.data[pixelIndex + 3] = 255;                          // A
+                }
+            }
+            
+            fctx.putImageData(imageData, 0, 0);
+            
+            // Draw contour lines
+            fctx.strokeStyle = 'rgba(100, 100, 100, 0.3)';
+            fctx.lineWidth = 1;
+            const numContours = 10;
+            for (let c = 0; c < numContours; c++) {
+                const level = minVal + (maxVal - minVal) * (c + 1) / numContours;
+                drawContourLine(level, func, range, step);
+            }
+        }
+        
+        function drawContourLine(level, func, range, step) {
+            fctx.beginPath();
+            for (let i = 0; i < canvasSize - 1; i++) {
+                for (let j = 0; j < canvasSize - 1; j++) {
+                    const x = range[0] + i * step;
+                    const y = range[0] + j * step;
+                    const val = func.f(x, y);
+                    if (Math.abs(val - level) < (level * 0.1)) {
+                        const pixelX = (x - range[0]) / (range[1] - range[0]) * canvasSize;
+                        const pixelY = canvasSize - (y - range[0]) / (range[1] - range[0]) * canvasSize;
+                        fctx.lineTo(pixelX, pixelY);
+                    }
+                }
+            }
+            fctx.stroke();
+        }
+        
+        // Convert world coordinates to canvas coordinates
+        function worldToCanvas(x, y) {
+            const range = functions[currentFunction].range;
+            const canvasX = (x - range[0]) / (range[1] - range[0]) * canvasSize;
+            const canvasY = canvasSize - (y - range[0]) / (range[1] - range[0]) * canvasSize;
+            return [canvasX, canvasY];
+        }
+        
+        // Draw path and current position
+        function drawPath() {
+            if (path.length === 0) return;
+            
+            // Draw path
+            fctx.strokeStyle = '#ff6b6b';
+            fctx.lineWidth = 2;
+            fctx.beginPath();
+            for (let i = 0; i < path.length; i++) {
+                const [x, y] = worldToCanvas(path[i].x, path[i].y);
+                if (i === 0) fctx.moveTo(x, y);
+                else fctx.lineTo(x, y);
+            }
+            fctx.stroke();
+            
+            // Draw path points
+            path.forEach((point, i) => {
+                const [x, y] = worldToCanvas(point.x, point.y);
+                const alpha = Math.max(0.2, (i + 1) / path.length);
+                fctx.fillStyle = `rgba(255, 107, 107, ${alpha})`;
+                fctx.beginPath();
+                fctx.arc(x, y, 3, 0, 2 * Math.PI);
+                fctx.fill();
+            });
+            
+            // Draw current position
+            const [currX, currY] = worldToCanvas(currentPosition.x, currentPosition.y);
+            fctx.fillStyle = '#4ecdc4';
+            fctx.strokeStyle = 'white';
+            fctx.lineWidth = 2;
+            fctx.beginPath();
+            fctx.arc(currX, currY, 8, 0, 2 * Math.PI);
+            fctx.fill();
+            fctx.stroke();
+            
+            // Draw minimum
+            const minimum = functions[currentFunction].minimum;
+            const [minX, minY] = worldToCanvas(minimum[0], minimum[1]);
+            fctx.fillStyle = 'gold';
+            fctx.strokeStyle = 'orange';
+            fctx.lineWidth = 2;
+            fctx.beginPath();
+            fctx.arc(minX, minY, 6, 0, 2 * Math.PI);
+            fctx.fill();
+            fctx.stroke();
+        }
+        
+        // Draw loss chart
+        function drawLossChart() {
+            lctx.clearRect(0, 0, canvasSize, canvasSize);
+            
+            if (lossHistory.length === 0) return;
+            
+            // Find min and max loss for scaling
+            const minLoss = Math.min(...lossHistory);
+            const maxLoss = Math.max(...lossHistory);
+            const lossRange = maxLoss - minLoss || 1;
+            
+            // Draw grid
+            lctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+            lctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = i * canvasSize / 5;
+                lctx.beginPath();
+                lctx.moveTo(0, y);
+                lctx.lineTo(canvasSize, y);
+                lctx.stroke();
+            }
+            
+            // Draw axes labels
+            lctx.fillStyle = 'black';
+            lctx.font = '12px Arial';
+            lctx.fillText('Iteration →', canvasSize - 80, canvasSize - 10);
+            lctx.save();
+            lctx.translate(10, canvasSize / 2);
+            lctx.rotate(-Math.PI / 2);
+            lctx.fillText('Loss ↑', -30, 0);
+            lctx.restore();
+            
+            // Draw loss curve
+            lctx.strokeStyle = '#4ecdc4';
+            lctx.lineWidth = 3;
+            lctx.beginPath();
+            for (let i = 0; i < lossHistory.length; i++) {
+                const x = i / Math.max(1, lossHistory.length - 1) * (canvasSize - 40) + 20;
+                const y = canvasSize - 40 - ((lossHistory[i] - minLoss) / lossRange) * (canvasSize - 60);
+                if (i === 0) lctx.moveTo(x, y);
+                else lctx.lineTo(x, y);
+            }
+            lctx.stroke();
+            
+            // Draw current point
+            if (lossHistory.length > 0) {
+                const lastIndex = lossHistory.length - 1;
+                const x = lastIndex / Math.max(1, lossHistory.length - 1) * (canvasSize - 40) + 20;
+                const y = canvasSize - 40 - ((lossHistory[lastIndex] - minLoss) / lossRange) * (canvasSize - 60);
+                lctx.fillStyle = '#ff6b6b';
+                lctx.beginPath();
+                lctx.arc(x, y, 5, 0, 2 * Math.PI);
+                lctx.fill();
+            }
+        }
+        
+        // Update metrics display
+        function updateMetrics() {
+            const func = functions[currentFunction];
+            const currentLoss = func.f(currentPosition.x, currentPosition.y);
+            const [gradX, gradY] = func.grad(currentPosition.x, currentPosition.y);
+            const gradMagnitude = Math.sqrt(gradX * gradX + gradY * gradY);
+            const minimum = func.minimum;
+            const distanceToMin = Math.sqrt(
+                (currentPosition.x - minimum[0])**2 + 
+                (currentPosition.y - minimum[1])**2
+            );
+            
+            metrics.iteration.textContent = iteration;
+            metrics.currentLoss.textContent = currentLoss.toFixed(3);
+            metrics.positionX.textContent = currentPosition.x.toFixed(3);
+            metrics.positionY.textContent = currentPosition.y.toFixed(3);
+            metrics.gradMagnitude.textContent = gradMagnitude.toFixed(3);
+            metrics.distanceToMin.textContent = distanceToMin.toFixed(3);
+        }
+        
+        // Perform one SGD step
+        function sgdStep() {
+            const learningRate = parseFloat(controls.learningRate.value);
+            const batchSize = parseInt(controls.batchSize.value);
+            const noiseLevel = parseFloat(controls.noiseLevel.value);
+            
+            const [gradX, gradY] = calculateStochasticGradient(
+                currentPosition, currentFunction, batchSize, noiseLevel
+            );
+            
+            currentPosition.x -= learningRate * gradX;
+            currentPosition.y -= learningRate * gradY;
+            
+            path.push({...currentPosition});
+            if (path.length > 200) path.shift(); // Keep path length manageable
+            
+            const currentLoss = functions[currentFunction].f(currentPosition.x, currentPosition.y);
+            lossHistory.push(currentLoss);
+            if (lossHistory.length > 500) lossHistory.shift();
+            
+            iteration++;
+        }
+        
+        // Animation loop
+        function animate() {
+            if (!animationRunning) return;
+            
+            sgdStep();
+            redraw();
+            updateMetrics();
+            
+            const speed = parseInt(controls.speed.value);
+            animationId = setTimeout(() => requestAnimationFrame(animate), speed);
+        }
+        
+        // Redraw everything
+        function redraw() {
+            drawFunctionContour();
+            drawPath();
+            drawLossChart();
+        }
+        
+        // Reset animation
+        function reset() {
+            animationRunning = false;
+            if (animationId) {
+                clearTimeout(animationId);
+                animationId = null;
+            }
+            
+            const range = functions[currentFunction].range;
+            currentPosition = { 
+                x: range[0] + Math.random() * (range[1] - range[0]),
+                y: range[0] + Math.random() * (range[1] - range[0])
+            };
+            path = [{ ...currentPosition }];
+            lossHistory = [];
+            iteration = 0;
+            
+            dataPoints = generateDataPoints(currentFunction);
+            
+            redraw();
+            updateMetrics();
+        }
+        
+        // Event listeners
+        controls.startBtn.addEventListener('click', () => {
+            animationRunning = true;
+            animate();
+        });
+        
+        controls.pauseBtn.addEventListener('click', () => {
+            animationRunning = false;
+            if (animationId) {
+                clearTimeout(animationId);
+                animationId = null;
+            }
+        });
+        
+        controls.resetBtn.addEventListener('click', reset);
+        
+        controls.stepBtn.addEventListener('click', () => {
+            if (!animationRunning) {
+                sgdStep();
+                redraw();
+                updateMetrics();
+            }
+        });
+        
+        // Function selection buttons
+        document.getElementById('quadraticBtn').addEventListener('click', () => {
+            currentFunction = 'quadratic';
+            reset();
+        });
+        
+        document.getElementById('rosenbrockBtn').addEventListener('click', () => {
+            currentFunction = 'rosenbrock';
+            reset();
+        });
+        
+        document.getElementById('bealeBtn').addEventListener('click', () => {
+            currentFunction = 'beale';
+            reset();
+        });
+        
+        document.getElementById('himmelblauBtn').addEventListener('click', () => {
+            currentFunction = 'himmelblau';
+            reset();
+        });
+        
+        // Initialize
+        updateDisplays();
+        reset();
+    </script>
+</body>
+</html>

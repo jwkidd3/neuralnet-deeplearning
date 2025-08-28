@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam Optimizer Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .canvas-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .canvas-wrapper {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            min-height: 350px;
+        }
+        
+        .canvas-wrapper h3 {
+            margin: 0 0 10px 0;
+            text-align: center;
+            color: #4ecdc4;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 320px;
+            border-radius: 10px;
+            background: white;
+            display: block;
+        }
+        
+        .triple-canvas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .triple-canvas .canvas-wrapper {
+            min-height: 250px;
+        }
+        
+        .triple-canvas canvas {
+            height: 200px;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .control-group {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .control-group h3 {
+            margin-top: 0;
+            color: #4ecdc4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .slider-container {
+            margin: 10px 0;
+        }
+        
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            font-size: 0.9em;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        button.active {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+        
+        .info {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .metric {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metric-label {
+            font-size: 0.75em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .comparison-section {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .optimizer-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .optimizer-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .adam-explanation {
+            margin-top: 15px;
+            background: rgba(78, 205, 196, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4ecdc4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Adam Optimizer Deep Dive</h1>
+        
+        <div class="canvas-container">
+            <div class="canvas-wrapper">
+                <h3>🎯 Optimization Landscape & Path</h3>
+                <canvas id="functionCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>📈 Loss Convergence</h3>
+                <canvas id="lossCanvas"></canvas>
+            </div>
+        </div>
+        
+        <div class="triple-canvas">
+            <div class="canvas-wrapper">
+                <h3>📊 Momentum (m_t)</h3>
+                <canvas id="momentumCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>⚡ Velocity (v_t)</h3>
+                <canvas id="velocityCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>🎯 Learning Rate Adaptation</h3>
+                <canvas id="lrCanvas"></canvas>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <h3>🔧 Adam Hyperparameters</h3>
+                <div class="slider-container">
+                    <label>Learning Rate (α): <span id="lrValue">0.001</span></label>
+                    <input type="range" id="learningRate" min="0.0001" max="0.01" step="0.0001" value="0.001">
+                </div>
+                <div class="slider-container">
+                    <label>β₁ (Momentum): <span id="beta1Value">0.9</span></label>
+                    <input type="range" id="beta1" min="0.8" max="0.99" step="0.01" value="0.9">
+                </div>
+                <div class="slider-container">
+                    <label>β₂ (Velocity): <span id="beta2Value">0.999</span></label>
+                    <input type="range" id="beta2" min="0.9" max="0.9999" step="0.0001" value="0.999">
+                </div>
+                <div class="slider-container">
+                    <label>ε (Epsilon): <span id="epsilonValue">1e-08</span></label>
+                    <input type="range" id="epsilon" min="1e-10" max="1e-06" step="1e-10" value="1e-08">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>🎮 Animation Controls</h3>
+                <div class="slider-container">
+                    <label>Speed: <span id="speedValue">30ms</span></label>
+                    <input type="range" id="speed" min="10" max="200" step="10" value="30">
+                </div>
+                <div class="slider-container">
+                    <label>Noise Level: <span id="noiseValue">0.05</span></label>
+                    <input type="range" id="noiseLevel" min="0" max="0.3" step="0.01" value="0.05">
+                </div>
+                <div class="buttons">
+                    <button id="startBtn">▶️ Start</button>
+                    <button id="pauseBtn">⏸️ Pause</button>
+                    <button id="resetBtn">🔄 Reset</button>
+                    <button id="stepBtn">👆 Step</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>🎯 Test Functions</h3>
+                <div class="buttons">
+                    <button id="quadraticBtn" class="active">Quadratic</button>
+                    <button id="rosenbrockBtn">Rosenbrock</button>
+                    <button id="bealeBtn">Beale</button>
+                    <button id="ackleyBtn">Ackley</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>⚔️ Optimizer Comparison</h3>
+                <div class="buttons">
+                    <button id="compareBtn">🆚 Compare with SGD</button>
+                    <button id="showAdamOnlyBtn" class="active">Adam Only</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info">
+            <h3>📊 Real-time Adam Metrics</h3>
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-label">Iteration (t)</div>
+                    <div class="metric-value" id="iteration">0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Current Loss</div>
+                    <div class="metric-value" id="currentLoss">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Position X</div>
+                    <div class="metric-value" id="positionX">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Position Y</div>
+                    <div class="metric-value" id="positionY">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">|m_t| Magnitude</div>
+                    <div class="metric-value" id="momentumMag">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">|v_t| Magnitude</div>
+                    <div class="metric-value" id="velocityMag">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Effective LR</div>
+                    <div class="metric-value" id="effectiveLR">0.000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distance to Min</div>
+                    <div class="metric-value" id="distanceToMin">0.000</div>
+                </div>
+            </div>
+            
+            <div class="adam-explanation">
+                <h4>🧠 How Adam Works:</h4>
+                <p><strong>Adam = Adaptive Moment Estimation</strong></p>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li><strong>m_t</strong>: Exponential moving average of gradients (momentum)</li>
+                    <li><strong>v_t</strong>: Exponential moving average of squared gradients (velocity)</li>
+                    <li><strong>Bias Correction</strong>: Adjusts for initialization bias early in training</li>
+                    <li><strong>Adaptive Learning Rate</strong>: Different effective rates per parameter</li>
+                </ul>
+                <p style="margin-top: 15px;">
+                    <strong>Update Rule:</strong><br>
+                    m_t = β₁ × m_{t-1} + (1-β₁) × ∇f<br>
+                    v_t = β₂ × v_{t-1} + (1-β₂) × (∇f)²<br>
+                    m̂_t = m_t / (1 - β₁^t)<br>
+                    v̂_t = v_t / (1 - β₂^t)<br>
+                    θ_{t+1} = θ_t - α × m̂_t / (√v̂_t + ε)
+                </p>
+            </div>
+        </div>
+        
+        <div class="comparison-section">
+            <h3>⚔️ Adam vs SGD Performance</h3>
+            <div class="optimizer-comparison">
+                <div class="optimizer-card">
+                    <h4 style="color: #4ecdc4;">Adam Advantages</h4>
+                    <ul style="text-align: left; font-size: 0.9em;">
+                        <li>Adaptive per-parameter learning rates</li>
+                        <li>Built-in momentum for faster convergence</li>
+                        <li>Robust to hyperparameter choices</li>
+                        <li>Works well with sparse gradients</li>
+                        <li>Bias correction for better early steps</li>
+                    </ul>
+                </div>
+                <div class="optimizer-card">
+                    <h4 style="color: #ff6b6b;">SGD Characteristics</h4>
+                    <ul style="text-align: left; font-size: 0.9em;">
+                        <li>Simple, well-understood algorithm</li>
+                        <li>Better generalization in some cases</li>
+                        <li>Requires careful learning rate tuning</li>
+                        <li>Can get stuck in narrow valleys</li>
+                        <li>Sensitive to gradient scaling</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Canvas setup
+        const functionCanvas = document.getElementById('functionCanvas');
+        const lossCanvas = document.getElementById('lossCanvas');
+        const momentumCanvas = document.getElementById('momentumCanvas');
+        const velocityCanvas = document.getElementById('velocityCanvas');
+        const lrCanvas = document.getElementById('lrCanvas');
+        
+        const fctx = functionCanvas.getContext('2d');
+        const lctx = lossCanvas.getContext('2d');
+        const mctx = momentumCanvas.getContext('2d');
+        const vctx = velocityCanvas.getContext('2d');
+        const lrctx = lrCanvas.getContext('2d');
+        
+        // Set canvas size
+        const canvasSize = 320;
+        [functionCanvas, lossCanvas, momentumCanvas, velocityCanvas, lrCanvas].forEach(canvas => {
+            canvas.width = canvasSize;
+            canvas.height = canvasSize;
+        });
+        
+        // Animation state
+        let animationRunning = false;
+        let animationId = null;
+        let currentPosition = { x: 2, y: 2 };
+        let adamState = {
+            m: { x: 0, y: 0 },  // momentum
+            v: { x: 0, y: 0 },  // velocity
+            t: 0                // time step
+        };
+        let path = [];
+        let lossHistory = [];
+        let momentumHistory = [];
+        let velocityHistory = [];
+        let effectiveLRHistory = [];
+        let currentFunction = 'quadratic';
+        let showComparison = false;
+        
+        // SGD state for comparison
+        let sgdPosition = { x: 2, y: 2 };
+        let sgdPath = [];
+        let sgdLossHistory = [];
+        
+        // Function definitions
+        const functions = {
+            quadratic: {
+                f: (x, y) => (x - 1)**2 + (y - 1)**2,
+                grad: (x, y) => [2*(x - 1), 2*(y - 1)],
+                minimum: [1, 1],
+                range: [-3, 4],
+                name: "Quadratic Bowl"
+            },
+            rosenbrock: {
+                f: (x, y) => (1 - x)**2 + 100*(y - x**2)**2,
+                grad: (x, y) => [-2*(1 - x) - 400*x*(y - x**2), 200*(y - x**2)],
+                minimum: [1, 1],
+                range: [-2, 3],
+                name: "Rosenbrock Function"
+            },
+            beale: {
+                f: (x, y) => (1.5 - x + x*y)**2 + (2.25 - x + x*y**2)**2 + (2.625 - x + x*y**3)**2,
+                grad: (x, y) => {
+                    const t1 = 1.5 - x + x*y;
+                    const t2 = 2.25 - x + x*y**2;
+                    const t3 = 2.625 - x + x*y**3;
+                    return [
+                        2*t1*(-1 + y) + 2*t2*(-1 + y**2) + 2*t3*(-1 + y**3),
+                        2*t1*x + 2*t2*x*2*y + 2*t3*x*3*y**2
+                    ];
+                },
+                minimum: [3, 0.5],
+                range: [-2, 4],
+                name: "Beale Function"
+            },
+            ackley: {
+                f: (x, y) => -20 * Math.exp(-0.2 * Math.sqrt(0.5 * (x**2 + y**2))) - 
+                           Math.exp(0.5 * (Math.cos(2*Math.PI*x) + Math.cos(2*Math.PI*y))) + Math.E + 20,
+                grad: (x, y) => {
+                    const r = Math.sqrt(0.5 * (x**2 + y**2));
+                    const exp1 = Math.exp(-0.2 * r);
+                    const exp2 = Math.exp(0.5 * (Math.cos(2*Math.PI*x) + Math.cos(2*Math.PI*y)));
+                    const dx = 4 * exp1 * x / r - Math.PI * exp2 * Math.sin(2*Math.PI*x);
+                    const dy = 4 * exp1 * y / r - Math.PI * exp2 * Math.sin(2*Math.PI*y);
+                    return [dx, dy];
+                },
+                minimum: [0, 0],
+                range: [-3, 3],
+                name: "Ackley Function"
+            }
+        };
+        
+        // Control elements
+        const controls = {
+            learningRate: document.getElementById('learningRate'),
+            beta1: document.getElementById('beta1'),
+            beta2: document.getElementById('beta2'),
+            epsilon: document.getElementById('epsilon'),
+            speed: document.getElementById('speed'),
+            noiseLevel: document.getElementById('noiseLevel'),
+            startBtn: document.getElementById('startBtn'),
+            pauseBtn: document.getElementById('pauseBtn'),
+            resetBtn: document.getElementById('resetBtn'),
+            stepBtn: document.getElementById('stepBtn')
+        };
+        
+        // Value display elements
+        const displays = {
+            lr: document.getElementById('lrValue'),
+            beta1: document.getElementById('beta1Value'),
+            beta2: document.getElementById('beta2Value'),
+            epsilon: document.getElementById('epsilonValue'),
+            speed: document.getElementById('speedValue'),
+            noise: document.getElementById('noiseValue')
+        };
+        
+        // Metric elements
+        const metrics = {
+            iteration: document.getElementById('iteration'),
+            currentLoss: document.getElementById('currentLoss'),
+            positionX: document.getElementById('positionX'),
+            positionY: document.getElementById('positionY'),
+            momentumMag: document.getElementById('momentumMag'),
+            velocityMag: document.getElementById('velocityMag'),
+            effectiveLR: document.getElementById('effectiveLR'),
+            distanceToMin: document.getElementById('distanceToMin')
+        };
+        
+        // Update display values
+        function updateDisplays() {
+            displays.lr.textContent = parseFloat(controls.learningRate.value).toFixed(4);
+            displays.beta1.textContent = controls.beta1.value;
+            displays.beta2.textContent = controls.beta2.value;
+            displays.epsilon.textContent = parseFloat(controls.epsilon.value).toExponential(0);
+            displays.speed.textContent = controls.speed.value + 'ms';
+            displays.noise.textContent = controls.noiseLevel.value;
+        }
+        
+        // Add event listeners for sliders
+        Object.keys(controls).forEach(key => {
+            if (controls[key].type === 'range') {
+                controls[key].addEventListener('input', updateDisplays);
+            }
+        });
+        
+        // Add noise to gradient
+        function addNoise(grad, noiseLevel) {
+            const noise = parseFloat(controls.noiseLevel.value);
+            return [
+                grad[0] + (Math.random() - 0.5) * noise * 2,
+                grad[1] + (Math.random() - 0.5) * noise * 2
+            ];
+        }
+        
+        // Adam optimizer step
+        function adamStep() {
+            const alpha = parseFloat(controls.learningRate.value);
+            const beta1 = parseFloat(controls.beta1.value);
+            const beta2 = parseFloat(controls.beta2.value);
+            const eps = parseFloat(controls.epsilon.value);
+            
+            // Get gradient with noise
+            const func = functions[currentFunction];
+            let [gradX, gradY] = func.grad(currentPosition.x, currentPosition.y);
+            [gradX, gradY] = addNoise([gradX, gradY]);
+            
+            // Update time step
+            adamState.t++;
+            
+            // Update biased first moment estimate (momentum)
+            adamState.m.x = beta1 * adamState.m.x + (1 - beta1) * gradX;
+            adamState.m.y = beta1 * adamState.m.y + (1 - beta1) * gradY;
+            
+            // Update biased second raw moment estimate (velocity)
+            adamState.v.x = beta2 * adamState.v.x + (1 - beta2) * gradX * gradX;
+            adamState.v.y = beta2 * adamState.v.y + (1 - beta2) * gradY * gradY;
+            
+            // Compute bias-corrected first moment estimate
+            const mHatX = adamState.m.x / (1 - Math.pow(beta1, adamState.t));
+            const mHatY = adamState.m.y / (1 - Math.pow(beta1, adamState.t));
+            
+            // Compute bias-corrected second raw moment estimate
+            const vHatX = adamState.v.x / (1 - Math.pow(beta2, adamState.t));
+            const vHatY = adamState.v.y / (1 - Math.pow(beta2, adamState.t));
+            
+            // Calculate effective learning rates
+            const effectiveLRX = alpha / (Math.sqrt(vHatX) + eps);
+            const effectiveLRY = alpha / (Math.sqrt(vHatY) + eps);
+            
+            // Update parameters
+            currentPosition.x -= effectiveLRX * mHatX;
+            currentPosition.y -= effectiveLRY * mHatY;
+            
+            // Record history
+            path.push({...currentPosition});
+            if (path.length > 300) path.shift();
+            
+            const currentLoss = func.f(currentPosition.x, currentPosition.y);
+            lossHistory.push(currentLoss);
+            if (lossHistory.length > 500) lossHistory.shift();
+            
+            const momentumMag = Math.sqrt(mHatX*mHatX + mHatY*mHatY);
+            const velocityMag = Math.sqrt(vHatX*vHatX + vHatY*vHatY);
+            const avgEffectiveLR = (effectiveLRX + effectiveLRY) / 2;
+            
+            momentumHistory.push(momentumMag);
+            if (momentumHistory.length > 200) momentumHistory.shift();
+            
+            velocityHistory.push(velocityMag);
+            if (velocityHistory.length > 200) velocityHistory.shift();
+            
+            effectiveLRHistory.push(avgEffectiveLR);
+            if (effectiveLRHistory.length > 200) effectiveLRHistory.shift();
+        }
+        
+        // SGD step for comparison
+        function sgdStep() {
+            const func = functions[currentFunction];
+            let [gradX, gradY] = func.grad(sgdPosition.x, sgdPosition.y);
+            [gradX, gradY] = addNoise([gradX, gradY]);
+            
+            const lr = parseFloat(controls.learningRate.value) * 10; // Scale SGD LR for fair comparison
+            
+            sgdPosition.x -= lr * gradX;
+            sgdPosition.y -= lr * gradY;
+            
+            sgdPath.push({...sgdPosition});
+            if (sgdPath.length > 300) sgdPath.shift();
+            
+            const loss = func.f(sgdPosition.x, sgdPosition.y);
+            sgdLossHistory.push(loss);
+            if (sgdLossHistory.length > 500) sgdLossHistory.shift();
+        }
+        
+        // Draw function contour
+        function drawFunctionContour() {
+            fctx.clearRect(0, 0, canvasSize, canvasSize);
+            
+            const func = functions[currentFunction];
+            const range = func.range;
+            const step = (range[1] - range[0]) / canvasSize;
+            
+            // Create contour plot
+            const imageData = fctx.createImageData(canvasSize, canvasSize);
+            let maxVal = -Infinity, minVal = Infinity;
+            const values = [];
+            
+            // Calculate all values and find min/max
+            for (let i = 0; i < canvasSize; i++) {
+                values[i] = [];
+                for (let j = 0; j < canvasSize; j++) {
+                    const x = range[0] + i * step;
+                    const y = range[0] + j * step;
+                    const val = func.f(x, y);
+                    values[i][j] = val;
+                    maxVal = Math.max(maxVal, val);
+                    minVal = Math.min(minVal, val);
+                }
+            }
+            
+            // Create colored contour
+            for (let i = 0; i < canvasSize; i++) {
+                for (let j = 0; j < canvasSize; j++) {
+                    const normalized = Math.log(1 + (values[i][j] - minVal) / (maxVal - minVal + 1e-10));
+                    const intensity = Math.max(0, Math.min(1, normalized));
+                    
+                    const pixelIndex = (j * canvasSize + i) * 4;
+                    imageData.data[pixelIndex] = 255 * (1 - intensity * 0.8);     // R
+                    imageData.data[pixelIndex + 1] = 255 * (1 - intensity * 0.6); // G
+                    imageData.data[pixelIndex + 2] = 255;                          // B
+                    imageData.data[pixelIndex + 3] = 255;                          // A
+                }
+            }
+            
+            fctx.putImageData(imageData, 0, 0);
+        }
+        
+        // Convert world coordinates to canvas coordinates
+        function worldToCanvas(x, y) {
+            const range = functions[currentFunction].range;
+            const canvasX = (x - range[0]) / (range[1] - range[0]) * canvasSize;
+            const canvasY = canvasSize - (y - range[0]) / (range[1] - range[0]) * canvasSize;
+            return [canvasX, canvasY];
+        }
+        
+        // Draw optimization paths
+        function drawPaths() {
+            // Draw SGD path if comparing
+            if (showComparison && sgdPath.length > 0) {
+                fctx.strokeStyle = '#ff6b6b';
+                fctx.lineWidth = 2;
+                fctx.setLineDash([5, 5]);
+                fctx.beginPath();
+                for (let i = 0; i < sgdPath.length; i++) {
+                    const [x, y] = worldToCanvas(sgdPath[i].x, sgdPath[i].y);
+                    if (i === 0) fctx.moveTo(x, y);
+                    else fctx.lineTo(x, y);
+                }
+                fctx.stroke();
+                fctx.setLineDash([]);
+                
+                // Current SGD position
+                const [sgdX, sgdY] = worldToCanvas(sgdPosition.x, sgdPosition.y);
+                fctx.fillStyle = '#ff6b6b';
+                fctx.strokeStyle = 'white';
+                fctx.lineWidth = 2;
+                fctx.beginPath();
+                fctx.arc(sgdX, sgdY, 6, 0, 2 * Math.PI);
+                fctx.fill();
+                fctx.stroke();
+            }
+            
+            // Draw Adam path
+            if (path.length > 0) {
+                fctx.strokeStyle = '#4ecdc4';
+                fctx.lineWidth = 3;
+                fctx.beginPath();
+                for (let i = 0; i < path.length; i++) {
+                    const [x, y] = worldToCanvas(path[i].x, path[i].y);
+                    if (i === 0) fctx.moveTo(x, y);
+                    else fctx.lineTo(x, y);
+                }
+                fctx.stroke();
+                
+                // Path points with fading
+                path.forEach((point, i) => {
+                    const [x, y] = worldToCanvas(point.x, point.y);
+                    const alpha = Math.max(0.2, (i + 1) / path.length);
+                    fctx.fillStyle = `rgba(78, 205, 196, ${alpha})`;
+                    fctx.beginPath();
+                    fctx.arc(x, y, 2, 0, 2 * Math.PI);
+                    fctx.fill();
+                });
+            }
+            
+            // Current Adam position
+            const [currX, currY] = worldToCanvas(currentPosition.x, currentPosition.y);
+            fctx.fillStyle = '#4ecdc4';
+            fctx.strokeStyle = 'white';
+            fctx.lineWidth = 3;
+            fctx.beginPath();
+            fctx.arc(currX, currY, 8, 0, 2 * Math.PI);
+            fctx.fill();
+            fctx.stroke();
+            
+            // Draw minimum
+            const minimum = functions[currentFunction].minimum;
+            const [minX, minY] = worldToCanvas(minimum[0], minimum[1]);
+            fctx.fillStyle = 'gold';
+            fctx.strokeStyle = 'orange';
+            fctx.lineWidth = 2;
+            fctx.beginPath();
+            fctx.arc(minX, minY, 6, 0, 2 * Math.PI);
+            fctx.fill();
+            fctx.stroke();
+        }
+        
+        // Draw loss chart
+        function drawLossChart() {
+            lctx.clearRect(0, 0, canvasSize, canvasSize);
+            
+            const histories = showComparison ? [lossHistory, sgdLossHistory] : [lossHistory];
+            const colors = ['#4ecdc4', '#ff6b6b'];
+            const labels = ['Adam', 'SGD'];
+            
+            if (histories[0].length === 0) return;
+            
+            // Find global min/max for scaling
+            let minLoss = Infinity, maxLoss = -Infinity;
+            histories.forEach(history => {
+                if (history.length > 0) {
+                    minLoss = Math.min(minLoss, ...history);
+                    maxLoss = Math.max(maxLoss, ...history);
+                }
+            });
+            
+            const lossRange = maxLoss - minLoss || 1;
+            
+            // Draw grid
+            lctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+            lctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = i * canvasSize / 5;
+                lctx.beginPath();
+                lctx.moveTo(0, y);
+                lctx.lineTo(canvasSize, y);
+                lctx.stroke();
+            }
+            
+            // Draw loss curves
+            histories.forEach((history, idx) => {
+                if (history.length === 0) return;
+                
+                lctx.strokeStyle = colors[idx];
+                lctx.lineWidth = 3;
+                lctx.beginPath();
+                for (let i = 0; i < history.length; i++) {
+                    const x = i / Math.max(1, history.length - 1) * (canvasSize - 40) + 20;
+                    const y = canvasSize - 40 - ((history[i] - minLoss) / lossRange) * (canvasSize - 60);
+                    if (i === 0) lctx.moveTo(x, y);
+                    else lctx.lineTo(x, y);
+                }
+                lctx.stroke();
+                
+                // Current point
+                if (history.length > 0) {
+                    const lastIndex = history.length - 1;
+                    const x = lastIndex / Math.max(1, history.length - 1) * (canvasSize - 40) + 20;
+                    const y = canvasSize - 40 - ((history[lastIndex] - minLoss) / lossRange) * (canvasSize - 60);
+                    lctx.fillStyle = colors[idx];
+                    lctx.beginPath();
+                    lctx.arc(x, y, 5, 0, 2 * Math.PI);
+                    lctx.fill();
+                }
+            });
+            
+            // Legend
+            if (showComparison) {
+                histories.forEach((history, idx) => {
+                    lctx.fillStyle = colors[idx];
+                    lctx.font = '14px Arial';
+                    lctx.fillText(labels[idx], 10, 20 + idx * 20);
+                });
+            }
+        }
+        
+        // Draw momentum chart
+        function drawMomentumChart() {
+            mctx.clearRect(0, 0, canvasSize, canvasSize);
+            
+            if (momentumHistory.length === 0) return;
+            
+            const maxMom = Math.max(...momentumHistory) || 1;
+            
+            // Draw grid
+            mctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+            mctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = i * canvasSize / 5;
+                mctx.beginPath();
+                mctx.moveTo(0, y);
+                mctx.lineTo(canvasSize, y);
+                mctx.stroke();
+            }
+            
+            // Draw momentum curve
+            mctx.strokeStyle = '#ff9f43';
+            mctx.lineWidth = 3;
+            mctx.beginPath();
+            for (let i = 0; i < momentumHistory.length; i++) {
+                const x = i / Math.max(1, momentumHistory.length - 1) * (canvasSize - 40) + 20;
+                const y = canvasSize - 40 - (momentumHistory[i] / maxMom) * (canvasSize - 60);
+                if (i === 0) mctx.moveTo(x, y);
+                else mctx.lineTo(x, y);
+            }
+            mctx.stroke();
+            
+            // Current point
+            if (momentumHistory.length > 0) {
+                const lastIndex = momentumHistory.length - 1;
+                const x = lastIndex / Math.max(1, momentumHistory.length - 1) * (canvasSize - 40) + 20;
+                const y = canvasSize - 40 - (momentumHistory[lastIndex] / maxMom) * (canvasSize - 60);
+                mctx.fillStyle = '#ff9f43';
+                mctx.beginPath();
+                mctx.arc(x, y, 5, 0, 2 * Math.PI);
+                mctx.fill();
+            }
+        }
+        
+        // Draw velocity chart
+        function drawVelocityChart() {
+            vctx.clearRect(0, 0, canvasSize, canvasSize);
+            
+            if (velocityHistory.length === 0) return;
+            
+            const maxVel = Math.max(...velocityHistory) || 1;
+            
+            // Draw grid
+            vctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+            vctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = i * canvasSize / 5;
+                vctx.beginPath();
+                vctx.moveTo(0, y);
+                vctx.lineTo(canvasSize, y);
+                vctx.stroke();
+            }
+            
+            // Draw velocity curve
+            vctx.strokeStyle = '#a55eea';
+            vctx.lineWidth = 3;
+            vctx.beginPath();
+            for (let i = 0; i < velocityHistory.length; i++) {
+                const x = i / Math.max(1, velocityHistory.length - 1) * (canvasSize - 40) + 20;
+                const y = canvasSize - 40 - (velocityHistory[i] / maxVel) * (canvasSize - 60);
+                if (i === 0) vctx.moveTo(x, y);
+                else vctx.lineTo(x, y);
+            }
+            vctx.stroke();
+            
+            // Current point
+            if (velocityHistory.length > 0) {
+                const lastIndex = velocityHistory.length - 1;
+                const x = lastIndex / Math.max(1, velocityHistory.length - 1) * (canvasSize - 40) + 20;
+                const y = canvasSize - 40 - (velocityHistory[lastIndex] / maxVel) * (canvasSize - 60);
+                vctx.fillStyle = '#a55eea';
+                vctx.beginPath();
+                vctx.arc(x, y, 5, 0, 2 * Math.PI);
+                vctx.fill();
+            }
+        }
+        
+        // Draw learning rate adaptation chart
+        function drawLRChart() {
+            lrctx.clearRect(0, 0, canvasSize, canvasSize);
+            
+            if (effectiveLRHistory.length === 0) return;
+            
+            const maxLR = Math.max(...effectiveLRHistory) || 1;
+            const minLR = Math.min(...effectiveLRHistory) || 0;
+            const lrRange = maxLR - minLR || 1;
+            
+            // Draw grid
+            lrctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+            lrctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = i * canvasSize / 5;
+                lrctx.beginPath();
+                lrctx.moveTo(0, y);
+                lrctx.lineTo(canvasSize, y);
+                lrctx.stroke();
+            }
+            
+            // Draw effective LR curve
+            lrctx.strokeStyle = '#26de81';
+            lrctx.lineWidth = 3;
+            lrctx.beginPath();
+            for (let i = 0; i < effectiveLRHistory.length; i++) {
+                const x = i / Math.max(1, effectiveLRHistory.length - 1) * (canvasSize - 40) + 20;
+                const y = canvasSize - 40 - ((effectiveLRHistory[i] - minLR) / lrRange) * (canvasSize - 60);
+                if (i === 0) lrctx.moveTo(x, y);
+                else lrctx.lineTo(x, y);
+            }
+            lrctx.stroke();
+            
+            // Current point
+            if (effectiveLRHistory.length > 0) {
+                const lastIndex = effectiveLRHistory.length - 1;
+                const x = lastIndex / Math.max(1, effectiveLRHistory.length - 1) * (canvasSize - 40) + 20;
+                const y = canvasSize - 40 - ((effectiveLRHistory[lastIndex] - minLR) / lrRange) * (canvasSize - 60);
+                lrctx.fillStyle = '#26de81';
+                lrctx.beginPath();
+                lrctx.arc(x, y, 5, 0, 2 * Math.PI);
+                lrctx.fill();
+            }
+        }
+        
+        // Update metrics display
+        function updateMetrics() {
+            const func = functions[currentFunction];
+            const currentLoss = func.f(currentPosition.x, currentPosition.y);
+            const momentumMag = Math.sqrt(adamState.m.x**2 + adamState.m.y**2);
+            const velocityMag = Math.sqrt(adamState.v.x**2 + adamState.v.y**2);
+            const minimum = func.minimum;
+            const distanceToMin = Math.sqrt(
+                (currentPosition.x - minimum[0])**2 + 
+                (currentPosition.y - minimum[1])**2
+            );
+            const effectiveLR = effectiveLRHistory.length > 0 ? 
+                effectiveLRHistory[effectiveLRHistory.length - 1] : 0;
+            
+            metrics.iteration.textContent = adamState.t;
+            metrics.currentLoss.textContent = currentLoss.toFixed(3);
+            metrics.positionX.textContent = currentPosition.x.toFixed(3);
+            metrics.positionY.textContent = currentPosition.y.toFixed(3);
+            metrics.momentumMag.textContent = momentumMag.toFixed(3);
+            metrics.velocityMag.textContent = velocityMag.toFixed(3);
+            metrics.effectiveLR.textContent = effectiveLR.toFixed(6);
+            metrics.distanceToMin.textContent = distanceToMin.toFixed(3);
+        }
+        
+        // Animation loop
+        function animate() {
+            if (!animationRunning) return;
+            
+            adamStep();
+            if (showComparison) sgdStep();
+            
+            redraw();
+            updateMetrics();
+            
+            const speed = parseInt(controls.speed.value);
+            animationId = setTimeout(() => requestAnimationFrame(animate), speed);
+        }
+        
+        // Redraw everything
+        function redraw() {
+            drawFunctionContour();
+            drawPaths();
+            drawLossChart();
+            drawMomentumChart();
+            drawVelocityChart();
+            drawLRChart();
+        }
+        
+        // Reset animation
+        function reset() {
+            animationRunning = false;
+            if (animationId) {
+                clearTimeout(animationId);
+                animationId = null;
+            }
+            
+            const range = functions[currentFunction].range;
+            const startX = range[0] + Math.random() * (range[1] - range[0]);
+            const startY = range[0] + Math.random() * (range[1] - range[0]);
+            
+            currentPosition = { x: startX, y: startY };
+            sgdPosition = { x: startX, y: startY };
+            
+            adamState = {
+                m: { x: 0, y: 0 },
+                v: { x: 0, y: 0 },
+                t: 0
+            };
+            
+            path = [{ ...currentPosition }];
+            sgdPath = [{ ...sgdPosition }];
+            lossHistory = [];
+            sgdLossHistory = [];
+            momentumHistory = [];
+            velocityHistory = [];
+            effectiveLRHistory = [];
+            
+            redraw();
+            updateMetrics();
+        }
+        
+        // Event listeners
+        controls.startBtn.addEventListener('click', () => {
+            animationRunning = true;
+            animate();
+        });
+        
+        controls.pauseBtn.addEventListener('click', () => {
+            animationRunning = false;
+            if (animationId) {
+                clearTimeout(animationId);
+                animationId = null;
+            }
+        });
+        
+        controls.resetBtn.addEventListener('click', reset);
+        
+        controls.stepBtn.addEventListener('click', () => {
+            if (!animationRunning) {
+                adamStep();
+                if (showComparison) sgdStep();
+                redraw();
+                updateMetrics();
+            }
+        });
+        
+        // Function selection buttons
+        document.getElementById('quadraticBtn').addEventListener('click', (e) => {
+            currentFunction = 'quadratic';
+            updateActiveButton(e.target, 'function');
+            reset();
+        });
+        
+        document.getElementById('rosenbrockBtn').addEventListener('click', (e) => {
+            currentFunction = 'rosenbrock';
+            updateActiveButton(e.target, 'function');
+            reset();
+        });
+        
+        document.getElementById('bealeBtn').addEventListener('click', (e) => {
+            currentFunction = 'beale';
+            updateActiveButton(e.target, 'function');
+            reset();
+        });
+        
+        document.getElementById('ackleyBtn').addEventListener('click', (e) => {
+            currentFunction = 'ackley';
+            updateActiveButton(e.target, 'function');
+            reset();
+        });
+        
+        // Comparison buttons
+        document.getElementById('compareBtn').addEventListener('click', (e) => {
+            showComparison = true;
+            updateActiveButton(e.target, 'comparison');
+            reset();
+        });
+        
+        document.getElementById('showAdamOnlyBtn').addEventListener('click', (e) => {
+            showComparison = false;
+            updateActiveButton(e.target, 'comparison');
+            reset();
+        });
+        
+        function updateActiveButton(activeButton, group) {
+            const buttons = activeButton.parentNode.querySelectorAll('button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            activeButton.classList.add('active');
+        }
+        
+        // Initialize
+        updateDisplays();
+        reset();
+    </script>
+</body>
+</html>
